@@ -1,0 +1,18 @@
+.featured-box {
+    background-color: #f6fafb;
+    padding-top: 100px;
+    padding-bottom: 70px;
+
+}
+
+.shape-curse {
+    position: absolute;
+    top: -50px;
+    left: 150px;
+}
+
+@media only screen and (min-width: 768px) {
+    .featured-box {
+        margin-top: 130px;
+    }
+}

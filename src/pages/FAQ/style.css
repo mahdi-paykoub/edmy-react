@@ -1,0 +1,17 @@
+.faq-accordion .accordion-button:after {
+    margin-right: auto !important;
+    margin-left: 0 !important;
+
+}
+
+.faq-accordion .accordion-button {
+    padding: 25px;
+    background: #f4f4f4;
+}
+
+.faq-accordion .accordion-button:focus,
+.faq-accordion .accordion-button:hover,
+.faq-accordion .accordion-button:not(.collapsed) {
+    background: #dddddd !important;
+    box-shadow: none !important;
+}

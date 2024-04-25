@@ -1,0 +1,38 @@
+.serch-course-btn {
+    left: 12px;
+    color: var(--purple-text-color2);
+    background-color: inherit;
+}
+
+@media only screen and (max-width: 768px) {
+    .serch-course-btn {
+        left: 12px;
+        top: 26px;
+    }
+    .w60-100{
+        width: 100% !important;
+    }
+    .w85-100{
+        width: 100% !important;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .serch-course-btn {
+        top: 11px;
+    }
+    .w60-100{
+        width: 100% !important;
+    }
+    .w85-100{
+        width: 100% !important;
+    }
+}
+@media only screen and (min-width: 992px) {
+    .w60-100{
+        width: 50% !important;
+    }
+    .w85-100{
+        width: 80% !important;
+    }
+}

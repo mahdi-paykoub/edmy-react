@@ -1,0 +1,9 @@
+.article-card-5 img {
+    width: 93%;
+    margin-bottom: -7rem;
+}
+
+.card-content {
+    padding: 8rem 15px 15px 15px;
+    box-shadow: 1px 1px 10px #d8d8d8;
+}

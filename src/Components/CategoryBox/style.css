@@ -1,0 +1,41 @@
+.box-cat-main:hover {
+    color: white !important;
+}
+
+.box-cat-main:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(315deg, #057fa8, #098b99) !important;
+    border-radius: 5px;
+    transition: all .5s ease;
+}
+
+.box-cat-main:hover:before {
+    left: auto;
+    right: 0;
+    width: 100%;
+}
+
+.box-cat-main {
+    border: 1px solid #f1f1f1;
+    margin-top: 30px;
+}
+
+.box-cat-main:hover svg {
+    color: white !important;
+    animation: rotating 2s linear infinite;
+}
+
+@keyframes rotating {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

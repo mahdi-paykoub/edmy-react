@@ -1,0 +1,31 @@
+.contact-box {
+    border-radius: 20px 20px 0 0;
+    padding: 40px;
+}
+
+.bg1 {
+    background-color: #b5d3f0;
+}
+
+.bg2 {
+    background-color: #f3dfc1;
+}
+
+.bg3 {
+    background-color: #a8e3da;
+}
+
+.contact-us-btn {
+    background: #017ea3 !important;
+    padding: 18px 58px !important;
+}
+.book-c-sh{
+    bottom: -10px;
+    left: 315px;
+    z-index: -10;
+}
+.book-c-sh2{
+    top: -57px;
+    right: 136px;
+    z-index: -10;
+}

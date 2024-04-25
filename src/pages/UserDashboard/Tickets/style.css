@@ -1,0 +1,8 @@
+.tickets-show-box {
+    border: 1px solid var(--custom-green);
+    transition: all .5s ease;
+}
+
+.tickets-show-box:hover{
+    background: #e0e0e0;
+}

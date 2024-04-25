@@ -1,0 +1,28 @@
+.panel-tab-box ul li {
+    display: inline-block;
+}
+
+.panel-tab-box ul {
+    padding-bottom: 20px;
+}
+
+.panel-tab-box ul li:not(:first-child) {
+    display: inline-block;
+    margin-right: 25px;
+}
+
+.panel-tab-box ul li a {
+    font-weight: 600;
+    color: #6f6f6f;
+    transition: all .1s ease;
+    padding-bottom: 20px;
+}
+
+.panel-tab-box ul li a:hover {
+    border-bottom: 2px solid #1cab94;
+    color: #1cab94;
+}
+.active-panel-tab{
+    border-bottom: 2px solid #1cab94;
+    color: #1cab94 !important;
+}

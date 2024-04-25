@@ -1,0 +1,15 @@
+@media only screen and (max-width: 767px) {
+    .blog-card-img{
+        width: 100%;
+        height: 250px;
+    }
+}
+@media only screen and (min-width: 768px) {
+    .blog-card-img{
+        width: 35%;
+        height: 225px;
+    }
+}
+.blog-card-img{
+    object-fit: cover;
+}

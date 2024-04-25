@@ -1,0 +1,25 @@
+.box-transaction-tr th {
+    background: #1cab94 !important;
+    color: white !important;
+    padding: 20px 5px !important;
+    text-align: center;
+}
+
+@media only screen and (max-width: 768px) {
+    .d-small-none {
+        display: none !important;
+    }
+}
+
+.box-transaction-tr-rows th {
+    padding: 20px 0 !important;
+    text-align: center;
+}
+
+.box-transaction-tr-rows td {
+    text-align: center;
+}
+
+.custom-show-detail-pay {
+    background: #1cab94 !important;
+}

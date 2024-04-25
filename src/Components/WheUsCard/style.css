@@ -1,0 +1,10 @@
+.why-card-box{
+    background-color: #fff;
+    padding: 38px;
+    border-radius: 20px;
+    text-align: center;
+    transition: all .5s ease;
+}
+.why-card-box:hover{
+    transform: translateY(-5px);
+}

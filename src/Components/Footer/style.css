@@ -1,0 +1,87 @@
+@media only screen and (max-width: 767px) {
+    .main-footer {
+        padding-top: 50px;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .main-footer {
+        padding-top: 100px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .w-80 {
+        width: 80%;
+    }
+}
+
+.main-footer {
+    background-color: #f6fafb;
+}
+
+.f-shp-1 {
+    top: -50px;
+    right: 200px;
+}
+
+.f-shp-2 {
+    bottom: 20px;
+    left: 260px
+}
+
+.footer-links ul li {
+    list-style: none;
+    margin-top: 20px;
+    font-size: 14px;
+    transition: all .3s ease;
+}
+
+.footer-links ul li:hover {
+    margin-right: 3px;
+}
+
+.footer-links ul li a {
+    color: #646464;
+    transition: all .3s ease;
+}
+
+.footer-links ul li a:hover {
+    color: var(--purple-text-color2);
+    font-weight: 600;
+}
+
+.color-brown {
+    color: #b57f59;
+}
+
+.newspaper-email {
+    height: 45px;
+    color: #0d0c0c;
+    border: 1px solid #f2f0ef;
+    background-color: #f2f0ef;
+    font-size: 16px;
+    padding: 10px 20px;
+    transition: all .5s ease;
+    border-radius: 6px;
+}
+
+.newspaper-email:focus {
+    outline: none;
+    background-color: #fff;
+    border: 1px solid var(--purple-text-color2);
+}
+
+.newspaper-email::placeholder {
+    font-size: 13px;
+}
+
+.news-btn {
+    left: 0;
+    border-radius: 6px;
+    height: 45px;
+    padding: 0 25px;
+    border: none;
+    background: orange;
+    color: white;
+}

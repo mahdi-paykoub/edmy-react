@@ -1,0 +1,33 @@
+.total-price-box {
+    box-shadow: 0 0 20px 3px rgba(0, 0, 0, .05);
+    padding: 30px;
+}
+
+.box-course-cart img {
+    width: 150px;
+}
+
+.hover-red:hover {
+    color: red !important;
+}
+
+.empty-text-style {
+    text-align: center;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.12);
+    font-size: 93px;
+}
+
+@media only screen and (max-width: 767px) {
+    .w-50100 {
+        width: 85%;
+    }
+
+}
+
+@media only screen and (min-width: 768px) {
+    .w-50100 {
+        width: 50%;
+    }
+}
+

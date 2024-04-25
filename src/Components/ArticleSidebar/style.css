@@ -1,0 +1,39 @@
+.popular-course-img-sidebar{
+    object-fit: cover;
+}
+.side-img-overly{
+    top: 0;
+    left: 0;
+    background: rgb(38 38 38 / 58%);
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+}
+.popular-course-sidebar .swiper-button-next:after,
+.popular-course-sidebar .swiper-button-prev:after{
+    font-size: 30px !important;
+}
+
+@media only screen and (max-width: 991px) {
+    .popular-course-img-sidebar{
+        height: 270px;
+        object-fit: cover;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .popular-course-img-sidebar{
+        height: 200px;
+        object-fit: cover;
+    }
+}
+.bb-dash{
+    border-bottom: 1px dashed #2196f3;
+}
+.side-cat-icon{
+    /*background: #59b793;*/
+    background: var(--purple-text-color2);
+    border-radius: 50%;
+    padding: 2px 4px;
+    color: white;
+}

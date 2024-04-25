@@ -1,0 +1,132 @@
+.single-main-img {
+    opacity: .7;
+}
+
+.discount-course {
+    border-radius: 3px;
+    padding: 2px 6px;
+}
+
+.border-padd-b {
+    border-bottom: 1px solid #f5f5f5;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
+.discount-inp {
+    display: block;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+    transition: all .5s ease;
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 1px 0 0 15px;
+    height: 48px;
+}
+
+.discount-inp:focus {
+    outline: none;
+    border: 1px solid #1cab94;
+}
+
+.applay-off-btn {
+    left: 24px;
+    top: 0;
+    height: 48px;
+    background-color: #1cab94 !important;
+}
+
+.buy-btn-single-course {
+    width: 100%;
+    background: transparent;
+    border: 1px solid #098b99;
+    color: #098b99;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    padding: 13px 0;
+    transition: all .5s ease;
+}
+
+
+.buy-btn-single-course:hover {
+    background-color: #0681a6;
+    color: white;
+}
+
+.course-info-top > div:first-child {
+    background-color: #d4eef1;
+    color: #098b99;
+    padding: 7px 18px;
+    border-radius: 5px;
+}
+
+.course-info-top > div:not(:first-child)::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    right: -18px;
+    width: 8px;
+    height: 8px;
+    background-color: #098b99;
+    border-radius: 50%;
+}
+
+.creator-img-course {
+    width: 45px;
+    height: 45px;
+}
+
+.box-shadow-course-infos {
+    box-shadow: 0 0 20px 3px rgba(0, 0, 0, .05);
+}
+
+.bg-f2f0ef {
+    background-color: #f2f0ef;
+}
+
+.menu-of-courses > div {
+    padding: 28px;
+
+}
+
+.active-menu-course {
+    border-bottom: 2px solid var(--purple-text-color2);
+}
+
+.desc-box-course {
+    background: rgba(246, 246, 246, 0.29);
+}
+.custom-bl{
+    border-left: 1px solid #dbdbdb;
+}
+.rotate-left{
+    transform: rotate(90deg);
+}
+.commenter-img{
+    width: 50px;
+    height:50px;
+}
+.comments-box{
+    border: 1px solid #ededed;
+    border-bottom: 2px solid #5bb681 !important;
+}
+.comment-area{
+    height: 150px !important;
+    padding: 25px 20px !important;
+}
+.commenter-user-img{
+    border: 4px solid #00ff6b;
+    width: 60px;
+    height: 60px;
+}
+.send-comment-btn{
+    background-color: #1cab94 !important;
+    padding: 11px 24px !important;
+}
+.share-icons-hover:hover{
+    color: var(--purple-text-color2) !important;
+}

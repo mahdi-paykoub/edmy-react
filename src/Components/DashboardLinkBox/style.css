@@ -1,0 +1,13 @@
+.dashboard-link-box a {
+    width: 100%;
+    color: #535353;
+    display: block;
+    padding: 28px;
+    border-radius: 10px;
+    border: 2px solid #55b682;
+}
+.dashboard-link-box a:hover {
+    background: linear-gradient(133.65deg, #6cc17e 2.24%, #098b99);
+    color: white;
+    box-shadow: 1px 1px 10px #c7c7c7;
+}

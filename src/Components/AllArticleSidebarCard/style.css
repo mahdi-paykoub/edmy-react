@@ -1,0 +1,9 @@
+.right-line-sidebar{
+    width: 5px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    background: var(--purple-text-color2);
+    top: 0;
+    border-radius: 10px 0 0 10px;
+}

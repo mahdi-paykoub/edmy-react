@@ -1,0 +1,26 @@
+@media only screen and (max-width: 767px) {
+    .member-img-box::before {
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
+
+.box-bg-member-color {
+    background-color: #f2f0ef;
+    padding: 50px 30px;
+    border-radius: 6px;
+}
+
+.member-img-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 400px;
+    height: 400px;
+    background-color: #fff;
+    border-radius: 50%;
+    z-index: 0;
+    margin: auto;
+}

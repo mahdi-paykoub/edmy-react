@@ -1,0 +1,19 @@
+.link-box-dashboard ul li a {
+    color: #4a4a4a;
+}
+
+@media only screen and (max-width: 992px) {
+    .link-box-dashboard ul li {
+
+        margin-bottom: 40px;
+    }
+}
+@media only screen and (min-width: 992px) {
+    .link-box-dashboard {
+        border-left: 2px solid var(--purple-text-color2);
+    }
+    .link-box-dashboard ul li {
+        margin-top: 10px;
+        margin-bottom: 60px;
+    }
+}

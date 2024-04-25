@@ -1,0 +1,9 @@
+.r-chat-box{
+    border-radius: 20px 20px 0 20px;
+    background: #ebedef;
+}
+.l-chat-box{
+    border-radius: 20px 20px 20px 0;
+    background: var(--btn-gradiant);
+    color: white;
+}

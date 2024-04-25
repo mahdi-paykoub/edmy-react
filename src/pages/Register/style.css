@@ -1,0 +1,30 @@
+.br-50 {
+    border-radius: 50px;
+}
+
+.r-l-btn {
+    border: none;
+    display: block;
+    padding: 10px 70px;
+    border-radius: 5px;
+    color: #0d0c0c;
+    font-weight: 600;
+    font-size: 18px;
+    border-radius: 50px;
+    background-color: inherit;
+    transition: all .5s ease-in-out;
+}
+
+.r-l-btn:hover {
+    transform: scale(1.2);
+}
+
+.dynamic-btn-cl {
+    color: #fff;
+    background: linear-gradient(133.65deg, #6cc17e 2.24%, #098b99);
+}
+
+.mb-30 {
+    margin-bottom: 30px;
+}
+

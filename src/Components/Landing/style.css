@@ -1,0 +1,161 @@
+@media only screen and (max-width: 992px) {
+    .banner-img::before {
+        margin: auto;
+        right: 0;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .search-input {
+        height: 50px;
+    }
+
+    .search-btn {
+        height: 50px;
+        padding: 0 15px;
+    }
+
+    .banner-area {
+        padding-top: 100px;
+        padding-bottom: 60px;
+    }
+}
+
+@media only screen and (min-width: 960px) {
+    .banner-img::before {
+        top: -60px;
+        left: -45px;
+        width: 719px;
+        height: 719px;
+    }
+
+    .banner-img {
+        margin-left: 50px;
+    }
+
+    .search-input {
+        height: 55px;
+    }
+
+    .search-btn {
+        height: 55px;
+        padding: 0 30px;
+    }
+
+    .banner-area {
+        padding-top: 166px;
+        padding-bottom: 225px;
+    }
+}
+
+.banner-img::before {
+    content: "";
+    position: absolute;
+    background: linear-gradient(147.92deg, hsla(0, 0%, 100%, .4) 11.41%, hsla(0, 0%, 100%, 0) 90.25%);
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.header-img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+}
+
+
+.banner-area.bg1 {
+    background-image: url(../../../public/images/banner-bg.jpg);
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.banner-area {
+    position: relative;
+    z-index: 1;
+
+}
+
+.banner-img {
+    position: relative;
+    text-align: center;
+    z-index: 1;
+}
+
+.search-input {
+    background: hsla(0, 0%, 100%, .3);
+    -webkit-backdrop-filter: blur(60px);
+    border-radius: 6px;
+    backdrop-filter: blur(60px);
+    border-color: transparent;
+    color: #fff;
+    width: 100%;
+    transition: all .3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border: 1px solid #fff;
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.582);
+
+    word-spacing: 2.5px;
+    font-size: 14px;
+}
+
+.search-btn {
+    background-image: linear-gradient(#f0bf79, #f0bf79);
+    position: absolute;
+    top: 0;
+    left: 0;
+    line-height: 56px;
+    color: #272727;
+    border-radius: 6px;
+    z-index: 100;
+}
+
+.teacher-img ul {
+    text-align: center;
+}
+
+.teacher-img ul li {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+
+.teacher-img ul li img {
+    width: 46px;
+    height: 46px;
+}
+
+.teacher-img ul li img:not(:first-child) {
+    margin-right: -20px;
+    position: relative;
+    z-index: 10;
+}
+
+.underline-yellow {
+    border-bottom: 1px solid #fec400;
+}
+
+.shape-1 {
+    top: 112px;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.shape-2 {
+    bottom: -80px;
+    left: 200px;
+}
+
+.shape-3 {
+    bottom: 100px;
+    right: 100px;
+}

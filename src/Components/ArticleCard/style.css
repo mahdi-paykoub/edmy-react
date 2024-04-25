@@ -1,0 +1,5 @@
+.article-img{
+    height: 200px;
+    border-radius: 43px 0 45px;
+    object-fit: cover;
+}

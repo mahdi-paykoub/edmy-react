@@ -1,0 +1,19 @@
+.topbar {
+  background-color: #0f6c76;
+}
+
+.topbar ul li {
+  list-style: none;
+  display: inline-block;
+  font-size: 13px;
+
+}
+
+.topbar ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+.topbar ul li:not(:first-child) {
+  margin-right: 15px;
+}

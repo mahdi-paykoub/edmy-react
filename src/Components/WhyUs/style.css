@@ -1,0 +1,19 @@
+@media only screen and (max-width: 768px) {
+    .why-us-box {
+        padding-bottom: 50px !important;
+        margin-top: 50px !important;
+    }
+}
+
+.why-us-box {
+    background-color: #f1efee;
+    padding-bottom: 100px;
+    transition: all .3s ease;
+    margin-top: 100px;
+}
+
+.why-shape {
+    top: 70px;
+    left: 200px;
+    z-index: 0;
+}

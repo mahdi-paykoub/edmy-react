@@ -1,0 +1,17 @@
+@font-face {
+    font-family: Lalezar;
+    font-style: normal;
+    font-weight: normal;
+    src: url(../../fonts/lalezar/Lalezar-Regular.ttf)
+}
+.admin-panel{
+    font-family: Lalezar !important;
+    font-size: 18px;
+}
+.swal-footer {
+    text-align: center;
+}
+
+.swal-text {
+    text-align: right;
+}
