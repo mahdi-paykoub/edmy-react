@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import './style.css'
 import DataBox from "../../../Components/AdminPanel/DataBox/DataBox";
 import ErrorBox from "../../../Components/AdminPanel/ErrorBox/ErrorBox";
 import Table from "react-bootstrap/Table";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { formValidation } from "../../../utils/Validations";
-import { useForm } from "react-hook-form";
+import {formValidation} from "../../../utils/Validations";
+import {useForm} from "react-hook-form";
 import swal from "sweetalert";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
+import {CKEditor} from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import FormBox from "../../../Components/AdminPanel/FormBox/FormBox";
 
 export default function PanelArticles() {
     // const [articles, setArticles] = useState([])
-    // const [allCategories, setAllCategories] = useState([])
-    const [editorArticleBody, setEditorArticleBody] = useState(null)
+    const [allCategories, setAllCategories] = useState(null)
+    const [editorArticleBody, setEditorArticleBody] = useState('')
     const [articleCover, setArticleCover] = useState(null)
     // const userTokenLS = JSON.parse(localStorage.getItem('user'))
     const baseUrl = process.env.REACT_APP_BASE_URL
 
     const form = useForm()
-    const { register, control, handleSubmit, formState, reset } = form
-    const { errors } = formState
+    const {register, control, handleSubmit, formState, reset} = form
+    const {errors} = formState
 
     // function getArticles() {
     //     fetch(`${baseUrl}/articles`)
@@ -37,17 +37,17 @@ export default function PanelArticles() {
     //     getArticles()
     // }, [])
 
-    // function getCategories() {
-    //     fetch(`${baseUrl}/category`)
-    //         .then(res => res.json())
-    //         .then(res => {
-    //             setAllCategories(res)
-    //         })
-    // }
+    function getCategories() {
+        fetch(`${baseUrl}/admin/category`)
+            .then(res => res.json())
+            .then(res => {
+                setAllCategories(res)
+            })
+    }
 
-    // useEffect(() => {
-    //     getCategories()
-    // }, [])
+    useEffect(() => {
+        getCategories()
+    }, [])
 
 
     const onSubmit = (data) => {
@@ -55,10 +55,10 @@ export default function PanelArticles() {
         let formData = new FormData()
         formData.append('title', data.title)
         formData.append('description', data.description)
-        // formData.append('body', editorArticleBody)
+        formData.append('body', editorArticleBody)
         formData.append('short_name', data.shortName)
-        // formData.append('categoryID', data.categoryID)
-        // formData.append('cover', articleCover)
+        formData.append('category_id', data.categoryID)
+        formData.append('image', data.image[0])
 
         fetch(`${baseUrl}/admin/article`,
             {
@@ -83,6 +83,7 @@ export default function PanelArticles() {
                 }).then(response => {
                     // getArticles();
                     reset();
+                    setEditorArticleBody('');
                     // setEditorArticleBody('')
                 })
             })
@@ -151,7 +152,7 @@ export default function PanelArticles() {
                     <Row className='mt-4'>
                         <Col lg={6} className='mt-3'>
                             <input type="text" className='form-control' placeholder='عنوان مقاله'
-                                {...register('title', formValidation('عنوان مقاله', false))}
+                                   {...register('title', formValidation('عنوان مقاله'))}
                             />
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.title?.message}
@@ -159,7 +160,7 @@ export default function PanelArticles() {
                         </Col>
                         <Col lg={6} className='mt-3'>
                             <input type="text" className='form-control' placeholder='نامک'
-                                {...register('shortName', formValidation('نامک'))}
+                                   {...register('shortName', formValidation('نامک'))}
                             />
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.shortName?.message}
@@ -167,34 +168,42 @@ export default function PanelArticles() {
                         </Col>
                         <Col lg={6} className='mt-3'>
                             <input type="text" className='form-control' placeholder='توضیحات'
-                                {...register('description', formValidation('توضیحات'))}
+                                   {...register('description', formValidation('توضیحات'))}
                             />
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.description?.message}
                             </p>
                         </Col>
-                        {/* <Col lg={6} className='mt-3'>
+                        <Col lg={6} className='mt-3'>
                             <select name="" id="" className='form-control'
-                                {...register('categoryID', formValidation('دسته بندی'))}
+                                    {...register('categoryID', formValidation('دسته بندی'))}
                             >
                                 <option value="">
                                     دسته بندی را انتخاب نمایید
                                 </option>
-                                {allCategories.map(category =>
-                                    <option key={category._id} value={category._id}>{category.title}</option>
+
+                                {allCategories != null && allCategories.data.map(category =>
+                                    <option key={category.id} value={category.id}>{category.title}</option>
                                 )}
                             </select>
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.categoryID?.message}
                             </p>
-                        </Col> */}
-                        {/* <Col lg={6} className='mt-3'>
+                        </Col>
+                        <Col lg={6} className='mt-3'>
                             <label htmlFor="" className='mb-2'>تصویر مقاله</label>
                             <input type="file" className='form-control' placeholder='jj'
-                                onChange={(e) => setArticleCover(e.target.files[0])}
+
+                                   {...register('image', formValidation('تصویر'))}
                             />
-                        </Col> */}
-                        {/* <Col lg={12} className='mt-4'>
+                            <p className='mt-3 digi-red-color px-2'>
+                                {errors.image?.message}
+                            </p>
+                            {/*
+                            onChange={(e) => setArticleCover(e.target.files[0])}
+                            */}
+                        </Col>
+                        <Col lg={12} className='mt-4'>
                             <CKEditor
                                 editor={ClassicEditor}
                                 data={editorArticleBody}
@@ -203,7 +212,10 @@ export default function PanelArticles() {
                                     setEditorArticleBody(data)
                                 }}
                             />
-                        </Col> */}
+                            <p className='mt-3 digi-red-color px-2'>
+                                {errors.body?.message}
+                            </p>
+                        </Col>
                         <div className='mt-4'>
                             <button className='btn btn-primary' type='submit'>
                                 ثبت مقاله
