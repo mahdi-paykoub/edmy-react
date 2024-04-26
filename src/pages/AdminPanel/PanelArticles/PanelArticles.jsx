@@ -13,7 +13,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import FormBox from "../../../Components/AdminPanel/FormBox/FormBox";
 
 export default function PanelArticles() {
-    // const [articles, setArticles] = useState([])
+    const [articles, setArticles] = useState(null)
     const [allCategories, setAllCategories] = useState(null)
     const [editorArticleBody, setEditorArticleBody] = useState('')
     const [articleCover, setArticleCover] = useState(null)
@@ -24,18 +24,13 @@ export default function PanelArticles() {
     const {register, control, handleSubmit, formState, reset} = form
     const {errors} = formState
 
-    // function getArticles() {
-    //     fetch(`${baseUrl}/articles`)
-    //         .then(res => res.json())
-    //         .then(res => {
-    //             console.log(res)
-    //             setArticles(res)
-    //         })
-    // }
-
-    // useEffect(() => {
-    //     getArticles()
-    // }, [])
+    function getArticles() {
+        fetch(`${baseUrl}/admin/article`)
+            .then(res => res.json())
+            .then(res => {
+                setArticles(res)
+            })
+    }
 
     function getCategories() {
         fetch(`${baseUrl}/admin/category`)
@@ -46,6 +41,7 @@ export default function PanelArticles() {
     }
 
     useEffect(() => {
+        getArticles()
         getCategories()
     }, [])
 
@@ -81,10 +77,10 @@ export default function PanelArticles() {
                     icon: "success",
                     buttons: 'باشه'
                 }).then(response => {
-                    // getArticles();
+                    getArticles();
                     reset();
                     setEditorArticleBody('');
-                    // setEditorArticleBody('')
+                    setEditorArticleBody('')
                 })
             })
             .catch(err => {
@@ -101,49 +97,56 @@ export default function PanelArticles() {
     }
 
 
-    // const handleDeleteArticle = (id) => {
-    //     swal({
-    //         title: 'آیا از حذف اطمینان دارید؟',
-    //         icon: "warning",
-    //         buttons: ['خیر', 'بله']
-    //     }).then(response => {
-    //         if (response) {
-    //             fetch(`${baseUrl}/articles/${id}`, {
-    //                 method: 'DELETE',
-    //                 headers: {
-    //                     'Content-Type': 'application/json',
-    //                     'Authorization': `Bearer ${userTokenLS.token}`
-    //                 }
-    //             })
-    //                 .then(response => {
-    //                     if (!response.ok) {
-    //                         return response.text().then(text => {
-    //                             throw new Error('خطایی در حذف بوجود آمد')
-    //                         })
-    //                     }
-    //                 })
-    //                 .then(res => {
-    //                     swal({
-    //                         title: "مقاله با موفقیت حذف شد",
-    //                         icon: "success",
-    //                         buttons: 'باشه'
-    //                     }).then(response => {
-    //                         reset();
-    //                         getArticles();
-    //                     })
-    //                 })
-    //                 .catch(err => {
-    //                     swal({
-    //                         title: err.message,
-    //                         icon: "error",
-    //                         buttons: 'باشه'
-    //                     }).then(response => {
-    //                         reset();
-    //                     })
-    //                 })
-    //         }
-    //     })
-    // }
+    const handleDeleteArticle = (id) => {
+        swal({
+            title: 'آیا از حذف اطمینان دارید؟',
+            icon: "warning",
+            buttons: ['خیر', 'بله']
+        }).then(response => {
+            if (response) {
+                fetch(`${baseUrl}/admin/article/${id}`, {
+                    method: 'DELETE',
+                    // headers: {
+                    //     'Content-Type': 'application/json',
+                    //     'Authorization': `Bearer ${userTokenLS.token}`
+                    // }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(error => {
+                                throw new Error(error.message[0]);
+                            })
+                        } else return response.json();
+                    })
+                    .then(res => {
+                        swal({
+                            title: "مقاله با موفقیت حذف شد",
+                            icon: "success",
+                            buttons: 'باشه'
+                        }).then(response => {
+                            getArticles();
+                        })
+                    })
+                    .catch(err => {
+                        swal({
+                            title: err.message,
+                            icon: "error",
+                            buttons: 'باشه'
+                        })
+                    })
+            }
+        })
+    }
+
+    const handleArticleDescription = (id) => {
+        var article = articles.data.find(function (article) {
+            return article.id === id
+        })
+        swal({
+            title: article.description,
+            buttons: 'باشه'
+        })
+    }
 
     return (
         <>
@@ -225,43 +228,51 @@ export default function PanelArticles() {
                 </form>
             </FormBox>
 
-            {/* <div className='my-5 pb-5'>
-                <DataBox title='مقالات'>
-                    {articles.length === 0 ?
-                        <ErrorBox text='مقاله ای یافت نشد' />
-                        :
-                        <Table className='box-child-table' hover>
-                            <thead>
-                                <tr>
-                                    <th>شناسه</th>
-                                    <th>نام دسته بندی</th>
-                                    <th>نامک</th>
-                                    <th>حذف</th>
-                                    <th>نمایش</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {articles.map((article, index) =>
-                                    <tr key={article._id}>
-                                        <td>{index + 1}</td>
-                                        <td>{article.title}</td>
-                                        <td>{article.shortName}</td>
-                                        <td>
-                                            <button className='btn btn-danger'
-                                                onClick={() => handleDeleteArticle(article._id)}>
-                                                حذف
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button className='btn btn-primary'>نمایش</button>
-                                        </td>
+
+            {/*articles*/}
+            <div className='my-5 pb-5'>
+                {articles !== null &&
+                    <DataBox title='مقالات'>
+                        {
+                            articles.data.length === 0 ?
+                                <ErrorBox text='مقاله ای یافت نشد'/>
+                                :
+                                <Table className='box-child-table' hover>
+                                    <thead>
+                                    <tr>
+                                        <th>شناسه</th>
+                                        <th>عنوان مقاله</th>
+                                        <th>نامک</th>
+                                        <th>حذف</th>
+                                        <th>نمایش</th>
                                     </tr>
-                                )}
-                            </tbody>
-                        </Table>
-                    }
-                </DataBox>
-            </div> */}
+                                    </thead>
+                                    <tbody>
+                                    {articles.data.map((article, index) =>
+                                        <tr key={article.id}>
+                                            <td>{index + 1}</td>
+                                            <td>{article.title}</td>
+                                            <td>{article.short_name}</td>
+                                            <td>
+                                                <button className='btn btn-danger'
+                                                        onClick={() => handleDeleteArticle(article.id)}>
+                                                    حذف
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button className='btn btn-primary'
+                                                        onClick={() => handleArticleDescription(article.id)}>توضیحات
+                                                    کوتاه
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    )}
+                                    </tbody>
+                                </Table>
+                        }
+                    </DataBox>
+                }
+            </div>
         </>
     )
 }
