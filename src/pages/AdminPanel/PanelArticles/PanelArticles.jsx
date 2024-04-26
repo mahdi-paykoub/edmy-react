@@ -71,7 +71,7 @@ export default function PanelArticles() {
             .then(response => {
                 if (!response.ok) {
                     return response.json().then(error => {
-                        throw new Error(error);
+                        throw new Error(error.message[0]);
                     })
                 } else return response.json();
             })
@@ -88,12 +88,12 @@ export default function PanelArticles() {
             })
             .catch(err => {
                 swal({
-                    title: err.message.title,
+                    title: err.message,
                     icon: "error",
                     buttons: 'باشه'
                 }).then(response => {
                     reset();
-                    setEditorArticleBody('')
+                    // setEditorArticleBody('')
                 })
             })
 

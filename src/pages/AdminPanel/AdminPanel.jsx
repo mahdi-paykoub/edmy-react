@@ -9,7 +9,6 @@ import { Outlet } from "react-router-dom";
 
 
 export default function AdminPanel() {
-
     return (
         <>
             <Container className='admin-panel mw-100 pe-0'>
