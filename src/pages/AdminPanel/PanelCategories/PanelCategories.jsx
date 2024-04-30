@@ -20,7 +20,7 @@ export default function PanelCategories() {
     const userTokenLS = JSON.parse(localStorage.getItem('user'))
 
     function getCategories() {
-        fetch(`${baseUrl}/admin/category`)
+        fetch(`${baseUrl}admin/category`)
             .then(res => res.json())
             .then(res => {
                 setAllCategories(res)
@@ -38,7 +38,7 @@ export default function PanelCategories() {
         formData.append('slug', data.slug)
         formData.append('parent', data.parent)
 
-        fetch(`${baseUrl}/admin/category`,
+        fetch(`${baseUrl}admin/category`,
             {
                 method: 'POST',
                 // headers: {
@@ -80,7 +80,7 @@ export default function PanelCategories() {
             buttons: ['خیر', 'بله']
         }).then(response => {
             if (response) {
-                fetch(`${baseUrl}/admin/category/${id}`, {
+                fetch(`${baseUrl}admin/category/${id}`, {
                     method: 'DELETE',
                     // headers: {
                     //     'Content-Type': 'application/json',

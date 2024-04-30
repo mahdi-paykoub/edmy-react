@@ -25,7 +25,7 @@ export default function PanelArticles() {
     const {errors} = formState
 
     function getArticles() {
-        fetch(`${baseUrl}/admin/article`)
+        fetch(`${baseUrl}admin/article`)
             .then(res => res.json())
             .then(res => {
                 setArticles(res)
@@ -33,7 +33,7 @@ export default function PanelArticles() {
     }
 
     function getCategories() {
-        fetch(`${baseUrl}/admin/category`)
+        fetch(`${baseUrl}admin/category`)
             .then(res => res.json())
             .then(res => {
                 setAllCategories(res)
@@ -56,7 +56,7 @@ export default function PanelArticles() {
         formData.append('category_id', data.categoryID)
         formData.append('image', data.image[0])
 
-        fetch(`${baseUrl}/admin/article`,
+        fetch(`${baseUrl}admin/article`,
             {
                 method: 'POST',
                 // headers: {
@@ -101,7 +101,7 @@ export default function PanelArticles() {
             buttons: ['خیر', 'بله']
         }).then(response => {
             if (response) {
-                fetch(`${baseUrl}/admin/article/${id}`, {
+                fetch(`${baseUrl}admin/article/${id}`, {
                     method: 'DELETE',
                     // headers: {
                     //     'Content-Type': 'application/json',

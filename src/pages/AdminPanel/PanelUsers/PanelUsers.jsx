@@ -31,7 +31,7 @@ export default function PanelUsers() {
         formData.append('email', data.email)
         formData.append('password',  data.password)
         formData.append('password_confirmation', data.password_confirmation)
-        fetch(`${baseUrl}/admin/user`,
+        fetch(`${baseUrl}admin/user`,
             {
                 method: 'POST',
                 // headers: {
@@ -68,7 +68,7 @@ export default function PanelUsers() {
 
 
     const getUsers = () => {
-        fetch(`${baseUrl}/admin/user`, {
+        fetch(`${baseUrl}admin/user`, {
             // headers: {
             //     'Authorization': `Bearer ${userTokenLS.token}`
             // },
@@ -90,7 +90,7 @@ export default function PanelUsers() {
             buttons: ['خیر', 'بله']
         }).then(response => {
             if (response) {
-                fetch(`${baseUrl}/admin/user/${id}`, {
+                fetch(`${baseUrl}admin/user/${id}`, {
                     method: 'DELETE',
                     // headers: {
                     //     'Content-Type': 'application/json',
@@ -130,7 +130,7 @@ export default function PanelUsers() {
             buttons: ['خیر', 'بله']
         }).then(response => {
             if (response) {
-                fetch(`${baseUrl}/users/ban/${id}`, {
+                fetch(`${baseUrl}users/ban/${id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',

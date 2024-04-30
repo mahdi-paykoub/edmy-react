@@ -22,14 +22,14 @@ export default function PanelCourses() {
     const {errors} = formState
 
     const getCourses = () => {
-        fetch(`${baseUrl}/admin/course`)
+        fetch(`${baseUrl}admin/course`)
             .then(res => res.json())
             .then(res => {
                 setCourses(res)
             })
     }
     const getCategories = () => {
-        fetch(`${baseUrl}/admin/category`)
+        fetch(`${baseUrl}admin/category`)
             .then(res => res.json())
             .then(res => setCategories(res))
     }
@@ -50,7 +50,7 @@ export default function PanelCourses() {
         formData.append('status', data.status)
         formData.append('image', data.image[0])
 
-        fetch(`${baseUrl}/admin/course`,
+        fetch(`${baseUrl}admin/course`,
             {
                 method: 'POST',
                 // headers: {
@@ -90,7 +90,7 @@ export default function PanelCourses() {
             buttons: ['خیر', 'بله']
         }).then(response => {
             if (response) {
-                fetch(`${baseUrl}/admin/course/${id}`, {
+                fetch(`${baseUrl}admin/course/${id}`, {
                     method: 'DELETE',
                     // headers: {
                     //     'Content-Type': 'application/json',
@@ -221,7 +221,7 @@ export default function PanelCourses() {
                             <Table className='box-child-table' hover>
                                 <thead>
                                 <tr>
-                                    <th>شناسه</th>
+                                    <th>تصویر شاخص</th>
                                     <th>نام دوره</th>
                                     <th>قیمت</th>
                                     <th>وضعیت</th>
@@ -236,7 +236,10 @@ export default function PanelCourses() {
 
                                 {courses.data.map((course, index) =>
                                     <tr key={course.id}>
-                                        <td>{index + 1}</td>
+                                        <td>
+                                            <img width={120} className="br10 object-cover" src={baseUrl + course.image}
+                                                 alt=""/>
+                                        </td>
                                         <td>{course.name}</td>
                                         <td>{course.price === 0 ? 'رایگان' : course.price.toLocaleString()}</td>
                                         <td>{
