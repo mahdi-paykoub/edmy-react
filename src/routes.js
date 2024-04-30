@@ -7,9 +7,12 @@ import PanelUsers from "./pages/AdminPanel/PanelUsers/PanelUsers";
 import PanelCourses from "./pages/AdminPanel/PanelCourses/PanelCourses";
 import PanelSession from "./pages/AdminPanel/PanelSession/PanelSession";
 import PanelIndex from "./pages/AdminPanel/PanelIndex/PanelIndex";
+import ContactUs from "./pages/ContactUs/ContactUs";
+
 
 const routes = [
     {path: '/', element: <Index/>},
+    {path: '/contact-us', element: <ContactUs/>},
     {
         path: '/admin-panel/*', element: <AdminPanel/>,
         children: [

@@ -1,7 +1,7 @@
 import React from 'react'
 import './style.css'
 import Topbar from '../../Components/Topbar/Topbar'
-import MyNavbar from '../../Components/MyNavbar/MyNavbar'
+// import MyNavbar from '../../Components/MyNavbar/MyNavbar'
 import SecondLanding from '../../Components/SecondLanding/SecondLanding'
 import Footer from '../../Components/Footer/Footer'
 import Container from 'react-bootstrap/Container';
@@ -20,16 +20,22 @@ export default function ContactUs() {
     const {errors} = formState
 
     const onSubmit = (data) => {
-        fetch(`${baseUrl}/contact-us`,
+        let formData = new FormData()
+        formData.append('name', data.name)
+        formData.append('email', data.email)
+        formData.append('phone_number', data.phone_number)
+        formData.append('body', data.body)
+
+        fetch(`${baseUrl}contact-us`,
             {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
+                // headers: {'Content-Type': 'application/json'},
+                body: formData
             })
             .then(response => {
                 if (!response.ok) {
-                    return response.text().then(text => {
-                        throw new Error('خطایی در ثبت بوجود آمد')
+                    return response.json().then(error => {
+                        throw new Error(error.message[0]);
                     })
                 }
             })
@@ -37,7 +43,7 @@ export default function ContactUs() {
                 swal({
                     title: "پیام شما با موفقیت به مدیریت ارسال شد",
                     icon: "success",
-                    buttons: 'پنل کاربری'
+                    buttons: 'باشـه'
                 }).then(response => {
                     reset();
                 })
@@ -47,15 +53,13 @@ export default function ContactUs() {
                     title: err.message,
                     icon: "error",
                     buttons: 'باشه'
-                }).then(response => {
-                    reset();
                 })
             })
     }
     return (
         <>
             <Topbar/>
-            <MyNavbar/>
+            {/*<MyNavbar/>*/}
             <SecondLanding title="ارتباط با ما"/>
 
             <Container className='mt-5'>
