@@ -11,7 +11,8 @@ import swal from "sweetalert";
 import FormBox from "../../../Components/AdminPanel/FormBox/FormBox";
 
 export default function PanelSession() {
-    const [sessions, setSessions] = useState([])
+    const [sessions, setSessions] = useState(null)
+    const [courseID, setCourseID] = useState(null)
     const [courses, setCourses] = useState(null)
     const userTokenLS = JSON.parse(localStorage.getItem('user'))
     const form = useForm()
@@ -30,16 +31,17 @@ export default function PanelSession() {
         getCourses()
     }, [])
 
-    // const getSessions = () => {
-    //     fetch(`${baseUrl}admin/session`)
-    //         .then(res => res.json())
-    //         .then(res => {
-    //             setSessions(res)
-    //         })
-    // }
-    // useEffect(() => {
-    //     getSessions()
-    // }, [])
+    const getSessions = () => {
+        courseID !== null &&
+        fetch(`${baseUrl}admin/session/${courseID}}`)
+            .then(res => res.json())
+            .then(res => {
+                setSessions(res)
+            })
+    }
+    useEffect(() => {
+        getSessions()
+    }, [courseID])
 
 
     const onSubmit = (data) => {
@@ -66,6 +68,7 @@ export default function PanelSession() {
                 } else return response.json();
             })
             .then(response => {
+                setCourseID(response.data.course_id)
                 swal({
                     title: "جلسه با موفقیت افزوده شد",
                     icon: "success",
@@ -111,7 +114,7 @@ export default function PanelSession() {
                             icon: "success",
                             buttons: 'باشه'
                         }).then(response => {
-                            reset();
+                            getSessions()
                         })
                     })
                     .catch(err => {
@@ -188,43 +191,66 @@ export default function PanelSession() {
                     </Row>
                 </form>
             </FormBox>
-            {/*<div className='mt-5 mb-5 pb-5'>*/}
-            {/*    <DataBox title='جلسات دوره ها'>*/}
-            {/*        {sessions.length === 0 ?*/}
-            {/*            <ErrorBox text='دسته بندی یافت نشد'/> :*/}
-            {/*            <Table className='box-child-table' hover>*/}
-            {/*                <thead>*/}
-            {/*                <tr>*/}
-            {/*                    <th>شناسه</th>*/}
-            {/*                    <th>عنوان جلسه</th>*/}
-            {/*                    <th>وضعیت</th>*/}
-            {/*                    <th>دوره</th>*/}
-            {/*                    <th>حذف</th>*/}
-            {/*                </tr>*/}
-            {/*                </thead>*/}
-            {/*                <tbody>*/}
 
-            {/*                {sessions.map((session, index) =>*/}
-            {/*                    <tr key={session._id}>*/}
-            {/*                        <td>{index + 1}</td>*/}
-            {/*                        <td>{session.title}</td>*/}
-            {/*                        <td>{*/}
-            {/*                            session.free === 1 ? 'رایگان' : 'پولی'*/}
-            {/*                        }</td>*/}
-            {/*                        <td>{session.course.name}</td>*/}
-            {/*                        <td>*/}
-            {/*                            <button className='btn btn-danger'*/}
-            {/*                                    onClick={() => handleDeleteSession(session._id)}>*/}
-            {/*                                حذف*/}
-            {/*                            </button>*/}
-            {/*                        </td>*/}
-            {/*                    </tr>)*/}
-            {/*                }*/}
-            {/*                </tbody>*/}
-            {/*            </Table>*/}
-            {/*        }*/}
-            {/*    </DataBox>*/}
-            {/*</div>*/}
+
+            <div className='mt-5 mb-5 pb-5'>
+                <DataBox title='جلسات دوره'>
+                    <div className="px-3">
+                        <select className="form-control" name="" id=""
+                                onChange={(event) => {
+                                    setCourseID(event.target.value)
+                                }}
+                        >
+                            <option value="">دوره مورد نظر را انتخاب نمایید</option>
+                            {courses !== null && courses.data.map(course =>
+                                <option key={course.id}
+                                        selected={course.id == courseID ? true : false}
+                                        value={course.id}>{course.name}</option>)}
+                        </select>
+                    </div>
+                    {
+                        sessions !== null &&
+                        <div className='mt-4'>
+                            {
+                                sessions.data.length === 0 ?
+                                    <ErrorBox text='جلسه ای یافت نشد'/> :
+                                    <Table className='box-child-table' hover>
+                                        <thead>
+                                        <tr>
+                                            <th>شناسه</th>
+                                            <th>عنوان جلسه</th>
+                                            <th>وضعیت</th>
+                                            {/*<th>دوره</th>*/}
+                                            <th>حذف</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        {sessions.data.map((session, index) =>
+                                            <tr key={session.id}>
+                                                <td>{index + 1}</td>
+                                                <td>{session.title}</td>
+                                                <td>{
+                                                    session.free === 'free' ? 'رایگان' : 'پولی'
+                                                }</td>
+                                                {/*<td>{session.course.name}</td>*/}
+                                                <td>
+                                                    <button className='btn btn-danger'
+                                                            onClick={() => handleDeleteSession(session.id)}>
+                                                        حذف
+                                                    </button>
+                                                </td>
+                                            </tr>)
+                                        }
+                                        </tbody>
+                                    </Table>
+                            }
+                        </div>
+                    }
+                </DataBox>
+            </div>
+
+
         </>
     )
 }
