@@ -189,16 +189,12 @@ export default function PanelArticles() {
                         </Col>
                         <Col lg={6} className='mt-3'>
                             <label htmlFor="" className='mb-2'>تصویر مقاله</label>
-                            <input type="file" className='form-control' placeholder='jj'
-
+                            <input type="file" className='form-control' placeholder='تصویر شاخص'
                                    {...register('image', formValidation('تصویر'))}
                             />
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.image?.message}
                             </p>
-                            {/*
-                            onChange={(e) => setArticleCover(e.target.files[0])}
-                            */}
                         </Col>
                         <Col lg={12} className='mt-4'>
                             <CKEditor
