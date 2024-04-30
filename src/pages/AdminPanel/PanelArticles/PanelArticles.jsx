@@ -113,7 +113,7 @@ export default function PanelArticles() {
                             return response.json().then(error => {
                                 throw new Error(error.message[0]);
                             })
-                        } else return response.json();
+                        }
                     })
                     .then(res => {
                         swal({

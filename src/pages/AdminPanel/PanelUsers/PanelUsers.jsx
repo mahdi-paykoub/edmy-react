@@ -8,21 +8,20 @@ import swal from "sweetalert";
 
 export default function PanelUsers() {
 
-    const [users, setUsers] = useState([])
+    const [users, setUsers] = useState(null)
     const [isBan, setIsBan] = useState([])
     const userTokenLS = JSON.parse(localStorage.getItem('user'))
     const baseUrl = process.env.REACT_APP_BASE_URL
 
 
     const getUsers = () => {
-        fetch(`${baseUrl}/users`, {
-            headers: {
-                'Authorization': `Bearer ${userTokenLS.token}`
-            },
+        fetch(`${baseUrl}/admin/user`, {
+            // headers: {
+            //     'Authorization': `Bearer ${userTokenLS.token}`
+            // },
         })
             .then(res => res.json())
             .then(res => {
-                console.log(res)
                 setUsers(res)
             })
     }
@@ -38,17 +37,17 @@ export default function PanelUsers() {
             buttons: ['خیر', 'بله']
         }).then(response => {
             if (response) {
-                fetch(`${baseUrl}/users/${id}`, {
+                fetch(`${baseUrl}/admin/user/${id}`, {
                     method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${userTokenLS.token}`
-                    }
+                    // headers: {
+                    //     'Content-Type': 'application/json',
+                    //     'Authorization': `Bearer ${userTokenLS.token}`
+                    // }
                 })
                     .then(response => {
                         if (!response.ok) {
-                            return response.text().then(text => {
-                                throw new Error('خطایی در حذف بوجود آمد')
+                            return response.json().then(error => {
+                                throw new Error(error.message[0]);
                             })
                         }
                     })
@@ -112,58 +111,58 @@ export default function PanelUsers() {
     return (
         <>
             <div className='mt-5'>
-                <DataBox title='کاربران'>
-                    {users.length === 0 ?
-                        <ErrorBox text='دسته بندی یافت نشد'/> :
-                        <Table className='box-child-table' hover>
-                            <thead>
-                            <tr>
-                                <th>شناسه</th>
-                                <th>نام کاربری</th>
-                                <th>ایمیل</th>
-                                <th>تلفن</th>
-                                <th>تغییر نقش</th>
-                                <th>ویرایش</th>
-                                <th>بن</th>
-                                <th>حذف</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {users.map((user, index) =>
-                                <tr key={user._id}>
-                                    <td>{index + 1}</td>
-                                    <td>{user.username}</td>
-                                    <td>{user.email}</td>
-                                    <td>{user.phone}</td>
-                                    <td>
-                                        <button className='btn btn-secondary btn-sm'>
-                                            {user.role}
-                                        </button>
-                                    </td>
+                {users !== null &&
+                    <DataBox title='کاربران'>
+                        {users.data.length === 0 ?
+                            <ErrorBox text='دسته بندی یافت نشد'/> :
+                            <Table className='box-child-table' hover>
+                                <thead>
+                                <tr>
+                                    <th>شناسه</th>
+                                    <th>نام کاربری</th>
+                                    <th>ایمیل</th>
+                                    <th>تغییر نقش</th>
+                                    <th>ویرایش</th>
+                                    <th>بن</th>
+                                    <th>حذف</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {users.data.map((user, index) =>
+                                    <tr key={user._id}>
+                                        <td>{index + 1}</td>
+                                        <td>{user.name}</td>
+                                        <td>{user.email}</td>
+                                        <td>
+                                            {/*<button className='btn btn-secondary btn-sm'>*/}
+                                            {/*    {user.role}*/}
+                                            {/*</button>*/}
+                                        </td>
 
-                                    <td>
-                                        <button className='btn btn-primary btn-sm'>
-                                            ویرایش
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button className='btn btn-danger btn-sm'
-                                                onClick={() => handleBanUser(user._id)}>
-                                            بن
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button className='btn btn-danger btn-sm'
-                                                onClick={() => handleDeleteUser(user._id)}>
-                                            حذف
-                                        </button>
-                                    </td>
-                                </tr>)
-                            }
-                            </tbody>
-                        </Table>
-                    }
-                </DataBox>
+                                        <td>
+                                            <button className='btn btn-primary btn-sm'>
+                                                ویرایش
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button className='btn btn-danger btn-sm'
+                                                    onClick={() => handleBanUser(user.id)}>
+                                                بن
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button className='btn btn-danger btn-sm'
+                                                    onClick={() => handleDeleteUser(user.id)}>
+                                                حذف
+                                            </button>
+                                        </td>
+                                    </tr>)
+                                }
+                                </tbody>
+                            </Table>
+                        }
+                    </DataBox>
+                }
             </div>
         </>
     )
