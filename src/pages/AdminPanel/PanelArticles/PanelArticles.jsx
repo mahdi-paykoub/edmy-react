@@ -47,7 +47,6 @@ export default function PanelArticles() {
 
 
     const onSubmit = (data) => {
-        // if (articleCover || editorArticleBody) {
         let formData = new FormData()
         formData.append('title', data.title)
         formData.append('description', data.description)
@@ -90,7 +89,6 @@ export default function PanelArticles() {
                     buttons: 'باشه'
                 })
             })
-
     }
 
 

@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import Topbar from '../../Components/Topbar/Topbar'
-// import MyNavbar from '../../Components/MyNavbar/MyNavbar'
+import MyNavbar from '../../Components/MyNavbar/MyNavbar'
 import Landing from '../../Components/Landing/Landing'
 // import PopularCourses from '../../Components/PopularCourses/PopularCourses'
 import FeaturedCourses from '../../Components/FeaturedCourses/FeaturedCourses'
@@ -18,7 +18,7 @@ export default function Index() {
     return (
         <>
             <Topbar/>
-            {/* <MyNavbar/> */}
+            <MyNavbar/>
             <Landing/>
             {/* <PopularCourses/> */}
             <FeaturedCourses/>

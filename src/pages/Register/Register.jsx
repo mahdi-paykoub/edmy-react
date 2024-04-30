@@ -12,7 +12,7 @@ import {Link, resolvePath, useNavigate} from 'react-router-dom'
 import {useForm} from "react-hook-form";
 // import {DevTool} from "@hookform/devtools";
 import {formValidation} from '../../utils/Validations'
-// import {AuthContext} from "../../Context/AuthContext";
+import {AuthContext} from "../../Context/AuthContext";
 import swal from 'sweetalert';
 
 
@@ -23,7 +23,7 @@ export default function Register() {
     const {errors} = formState
     const navigate = useNavigate()
 
-    // const authContext = useContext(AuthContext)
+    const authContext = useContext(AuthContext)
 
     const onSubmit = (data) => {
         let formData = new FormData()
@@ -46,7 +46,7 @@ export default function Register() {
                 } else return response.json();
             })
             .then(response => {
-                // authContext.login(response.accessToken, response.user)
+                authContext.login(response.appends.token, {})
                 swal({
                     title: "ثبت نام با موفقیت انجام شد",
                     icon: "success",

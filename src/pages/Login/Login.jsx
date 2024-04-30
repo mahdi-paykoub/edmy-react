@@ -11,7 +11,7 @@ import CommomBtn from '../../Components/CommonBtn/CommomBtn';
 import {Link, useNavigate} from 'react-router-dom'
 import {useForm} from "react-hook-form";
 import swal from "sweetalert";
-import {DevTool} from "@hookform/devtools";
+// import {DevTool} from "@hookform/devtools";
 import {formValidation} from "../../utils/Validations";
 import {AuthContext} from "../../Context/AuthContext";
 
@@ -24,23 +24,39 @@ export default function Login() {
     const navigate = useNavigate()
 
     const onSubmit = (data) => {
-        fetch(`${baseUrl}/auth/login`,
+        let formData = new FormData()
+        formData.append('email', data.email)
+        formData.append('password', data.password)
+
+        fetch(`${baseUrl}login`,
             {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
+                body: formData
             })
-            .then(response => response.json())
             .then(response => {
-                authContext.login(response.accessToken ,{})
+                    if (!response.ok) {
+                        return response.json().then(error => {
+                            throw new Error(error.message[0]);
+                        })
+                    } else return response.json();
+                }
+            )
+            .then(response => {
+                authContext.login(response.appends.token,{})
                 swal({
-                    title: "شما با موفقیت لاگین شدید",
+                    title: response.message,
                     icon: "success",
                     buttons: 'پنل کاربری'
                 }).then(response => {
-                    navigate('/dashboard')
+                    // navigate('/dashboard')
                 })
+            }).catch(err => {
+            swal({
+                title: err.message,
+                icon: "error",
+                buttons: 'باشه'
             })
+        })
     }
     return (
         <>
@@ -67,8 +83,8 @@ export default function Login() {
 
                         <form onSubmit={handleSubmit(onSubmit)} noValidate>
                             <div className='mb-30 mt-5'>
-                                <input type="text" className='custom-form-input' placeholder='نام کاربری'
-                                       {...register('identifier', formValidation('نام کاربری', true))}
+                                <input type="text" className='custom-form-input' placeholder='ایمیل'
+                                       {...register('email', formValidation('ایمیل'))}
                                 />
                                 <p className='mt-3 digi-red-color px-2 fw600'>
                                     {errors.identifier?.message}
@@ -76,7 +92,7 @@ export default function Login() {
                             </div>
                             <div className='mb-30'>
                                 <input type="password" className='custom-form-input' placeholder='رمز عبور'
-                                       {...register('password', formValidation('رمز عبور', true))}
+                                       {...register('password', formValidation('رمز عبور'))}
                                 />
                                 <p className='mt-3 digi-red-color px-2 fw600'>
                                     {errors.password?.message}
@@ -86,7 +102,7 @@ export default function Login() {
                                 <CommomBtn className="w-100" title="ورود"/>
                             </div>
                         </form>
-                        <DevTool control={control}/>
+                        {/*<DevTool control={control}/>*/}
                     </Col>
                     <Col xs={{order: 1}} lg={{span: 6, order: 2}}>
                         <img src="/images/register-img.png" className='mw-100 h-auto' alt=""/>

@@ -61,7 +61,7 @@ export default function MyNavbar() {
                     <Nav className="mx-auto">
                         <NavLink to="/"
                                  className={({isActive, isPending}) =>
-                                     `font-weight-bold mx-2 nav-link-padding ${isActive ? 'green-text-color' : 'text-dark'}`                                 }
+                                     `font-weight-bold mx-2 nav-link-padding ${isActive ? 'green-text-color' : 'text-dark'}`}
                                  end>
                             خانه
                         </NavLink>
@@ -73,7 +73,7 @@ export default function MyNavbar() {
                         </NavLink>
                         <NavLink to='/all-articles/1'
                                  className={({isActive, isPending}) =>
-                                     `font-weight-bold mx-2 nav-link-padding ${isActive ? 'green-text-color' : 'text-dark'}`                                 }>
+                                     `font-weight-bold mx-2 nav-link-padding ${isActive ? 'green-text-color' : 'text-dark'}`}>
                             مقالات
                         </NavLink>
                     </Nav>
@@ -103,10 +103,10 @@ export default function MyNavbar() {
                                         className='position-absolute
                                  py-4 bg-danger box-under-user-img-navbar br5 border bg-white text-dark'>
                                         <div className='px-4'>
-                                            <span className=''>{authContext.userInfo.username}</span>
+                                            <span className=''>{ authContext.userInfo.data.name}</span>
                                         </div>
                                         <div className='mt-2 mb-4 px-4'>
-                                            <span className='fs14'>{authContext.userInfo.email}</span>
+                                            <span className='fs14'>{ authContext.userInfo.data.email}</span>
                                         </div>
                                         <div className='border-top py-3'>
                                             <Link to='/dashboard'>
