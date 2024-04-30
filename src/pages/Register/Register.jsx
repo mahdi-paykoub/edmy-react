@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 import './style.css'
 import Topbar from '../../Components/Topbar/Topbar'
-import MyNavbar from '../../Components/MyNavbar/MyNavbar'
+// import MyNavbar from '../../Components/MyNavbar/MyNavbar'
 import SecondLanding from '../../Components/SecondLanding/SecondLanding'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -10,9 +10,9 @@ import Footer from '../../Components/Footer/Footer'
 import CommomBtn from '../../Components/CommonBtn/CommomBtn';
 import {Link, resolvePath, useNavigate} from 'react-router-dom'
 import {useForm} from "react-hook-form";
-import {DevTool} from "@hookform/devtools";
+// import {DevTool} from "@hookform/devtools";
 import {formValidation} from '../../utils/Validations'
-import {AuthContext} from "../../Context/AuthContext";
+// import {AuthContext} from "../../Context/AuthContext";
 import swal from 'sweetalert';
 
 
@@ -23,18 +23,30 @@ export default function Register() {
     const {errors} = formState
     const navigate = useNavigate()
 
-    const authContext = useContext(AuthContext)
+    // const authContext = useContext(AuthContext)
 
     const onSubmit = (data) => {
-        fetch(`${baseUrl}/auth/register`,
+        let formData = new FormData()
+        formData.append('name', data.name)
+        formData.append('email', data.email)
+        formData.append('password', data.password)
+        formData.append('password_confirmation', data.confirmPassword)
+
+        fetch(`${baseUrl}register`,
             {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
+                // headers: {'Content-Type': 'application/json'},
+                body: formData
             })
-            .then(response => response.json())
             .then(response => {
-                authContext.login(response.accessToken, response.user)
+                if (!response.ok) {
+                    return response.json().then(error => {
+                        throw new Error(error.message[0]);
+                    })
+                } else return response.json();
+            })
+            .then(response => {
+                // authContext.login(response.accessToken, response.user)
                 swal({
                     title: "ثبت نام با موفقیت انجام شد",
                     icon: "success",
@@ -43,12 +55,17 @@ export default function Register() {
                     navigate('/dashboard')
                     reset();
                 })
-
+            }).catch(err => {
+            swal({
+                title: err.message,
+                icon: "error",
+                buttons: 'باشه'
             })
+        })
     }
     return (<>
         <Topbar/>
-        <MyNavbar/>
+        {/*<MyNavbar/>*/}
         <SecondLanding title="ورود و ثبت نام"/>
         <Container className='mt-5 pt-md-5 pb-lg-5'>
             <Row className='align-items-center'>
@@ -65,7 +82,6 @@ export default function Register() {
                         <Link to='/register'>
                             <button className="r-l-btn dynamic-btn-cl">ثبت نام</button>
                         </Link>
-
                     </div>
                     <form onSubmit={handleSubmit(onSubmit)} noValidate>
                         <div className='mt-5 mb-30'>
@@ -77,14 +93,6 @@ export default function Register() {
                             </p>
                         </div>
                         <div className='mb-30'>
-                            <input type="text" className='custom-form-input' placeholder='نام کاربری'
-                                   {...register('username', formValidation('نام کاربری', true))}
-                            />
-                            <p className='mt-3 digi-red-color px-2 fw600'>
-                                {errors.username?.message}
-                            </p>
-                        </div>
-                        <div className='mb-30'>
                             <input type="text" className='custom-form-input' placeholder='ایمیل'
                                    {...register('email', formValidation('ایمیل', true, null, null,
                                        /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
@@ -92,16 +100,6 @@ export default function Register() {
                             />
                             <p className='mt-3 digi-red-color px-2 fw600'>
                                 {errors.email?.message}
-                            </p>
-                        </div>
-                        <div className='mb-30'>
-                            <input type="text" className='custom-form-input' placeholder='شماره تلفن'
-                                   {...register('phone', formValidation('شماره تلفن', true, null, null,
-                                       /(0|\+98)?([ ]|-|[()]){0,2}9[0|1|2|3|4]([ ]|-|[()]){0,2}(?:[0-9]([ ]|-|[()]){0,2}){8}/ig
-                                   ))}
-                            />
-                            <p className='mt-3 digi-red-color px-2 fw600'>
-                                {errors.phone?.message}
                             </p>
                         </div>
                         <div className='mb-30'>
@@ -124,8 +122,6 @@ export default function Register() {
                             <CommomBtn className="w-100" title="ثبت نام"/>
                         </div>
                     </form>
-                    <DevTool control={control}/>
-
                 </Col>
                 <Col xs={{order: 1}} lg={{span: 6, order: 2}}>
                     <img src="/images/register-img.png" className='mw-100 h-auto' alt=""/>
