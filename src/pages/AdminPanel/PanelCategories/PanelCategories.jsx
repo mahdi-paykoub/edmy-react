@@ -12,7 +12,7 @@ import FormBox from "../../../Components/AdminPanel/FormBox/FormBox";
 
 
 export default function PanelCategories() {
-    const [allCategories, setAllCategories] = useState([])
+    const [allCategories, setAllCategories] = useState(null)
     const baseUrl = process.env.REACT_APP_BASE_URL
     const form = useForm()
     const {register, control, handleSubmit, formState, reset} = form
@@ -20,7 +20,7 @@ export default function PanelCategories() {
     const userTokenLS = JSON.parse(localStorage.getItem('user'))
 
     function getCategories() {
-        fetch(`${baseUrl}/category`)
+        fetch(`${baseUrl}/admin/category`)
             .then(res => res.json())
             .then(res => {
                 setAllCategories(res)
@@ -33,21 +33,26 @@ export default function PanelCategories() {
 
 
     const onSubmit = (data) => {
-        fetch(`${baseUrl}/category`,
+        let formData = new FormData()
+        formData.append('title', data.title)
+        formData.append('slug', data.slug)
+        formData.append('parent', data.parent)
+
+        fetch(`${baseUrl}/admin/category`,
             {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${userTokenLS.token}`
-                },
-                body: JSON.stringify(data)
+                // headers: {
+                //     'Content-Type': 'application/json',
+                //     'Authorization': `Bearer ${userTokenLS.token}`
+                // },
+                body: formData
             })
             .then(response => {
-                if (response.status === 403) {
-                    return response.text().then(text => {
-                        throw new Error('شما اجازه افزودن را ندارید')
+                if (!response.ok) {
+                    return response.json().then(error => {
+                        throw new Error(error.message[0]);
                     })
-                }
+                } else return response.json();
             })
             .then(response => {
                 swal({
@@ -64,8 +69,6 @@ export default function PanelCategories() {
                     title: err.message,
                     icon: "error",
                     buttons: 'باشه'
-                }).then(response => {
-                    reset();
                 })
             })
     }
@@ -77,19 +80,19 @@ export default function PanelCategories() {
             buttons: ['خیر', 'بله']
         }).then(response => {
             if (response) {
-                fetch(`${baseUrl}/category/${id}`, {
+                fetch(`${baseUrl}/admin/category/${id}`, {
                     method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${userTokenLS.token}`
-                    }
+                    // headers: {
+                    //     'Content-Type': 'application/json',
+                    //     'Authorization': `Bearer ${userTokenLS.token}`
+                    // }
                 })
                     .then(response => {
                         if (!response.ok) {
-                            return response.text().then(text => {
-                                throw new Error('خطایی در حذف بوجود آمد')
+                            return response.json().then(error => {
+                                throw new Error(error.message[0]);
                             })
-                        }
+                        } else return response.json();
                     })
                     .then(res => {
                         swal({
@@ -117,7 +120,7 @@ export default function PanelCategories() {
                     <Row className='mt-4'>
 
                         <Col lg={6} className='mt-3'>
-                            <input type="text" className='form-control' placeholder='عنوان دسته '
+                            <input type="text" className='form-control' placeholder='عنوان دسته'
                                    {...register('title', formValidation('عنوان دسته بندی'))}
                             />
                             <p className='mt-3 digi-red-color px-2'>
@@ -126,10 +129,23 @@ export default function PanelCategories() {
                         </Col>
                         <Col lg={6} className='mt-3'>
                             <input type="text" className='form-control' placeholder='نامک'
-                                   {...register('name', formValidation('شورت نیم دسته بندی'))}
+                                   {...register('slug', formValidation('نامک دسته بندی'))}
                             />
                             <p className='mt-3 digi-red-color px-2'>
-                                {errors.name?.message}
+                                {errors.slug?.message}
+                            </p>
+                        </Col>
+                        <Col lg={6} className='mt-3'>
+                            <select name="" id="" className="form-control"
+                                    {...register('parent', formValidation('دسته بندی'))}
+                            >
+                                <option value="">دسته والد</option>
+                                {allCategories != null && allCategories.data.map(category =>
+                                    <option key={category.id} value={category.id}>{category.title}</option>
+                                )}
+                            </select>
+                            <p className='mt-3 digi-red-color px-2'>
+                                {errors.parent?.message}
                             </p>
                         </Col>
                         <div className='mt-2'>
@@ -141,41 +157,47 @@ export default function PanelCategories() {
                 </form>
             </FormBox>
             <div className='mt-4'>
-                <DataBox title='دسته بندی ها'>
-                    {allCategories.length === 0 ?
-                        <ErrorBox text='دسته بندی یافت نشد'/>
-                        :
-                        <Table className='box-child-table' hover>
-                            <thead>
-                            <tr>
-                                <th>شناسه</th>
-                                <th>نام دسته بندی</th>
-                                <th>نامک</th>
-                                <th>حذف</th>
-                                <th>ویرایش</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {allCategories.map((category, index) =>
-                                <tr key={category._id}>
-                                    <td>{index + 1}</td>
-                                    <td>{category.title}</td>
-                                    <td>{category.name}</td>
-                                    <td>
-                                        <button className='btn btn-danger'
-                                                onClick={() => handleDeleteCategory(category._id)}>
-                                            حذف
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button className='btn btn-success'>ویرایش</button>
-                                    </td>
+                {
+                    allCategories !== null &&
+
+                    <DataBox title='دسته بندی ها'>
+                        {allCategories.data.length === 0 ?
+                            <ErrorBox text='دسته بندی یافت نشد'/>
+                            :
+                            <Table className='box-child-table' hover>
+                                <thead>
+                                <tr>
+                                    <th>شناسه</th>
+                                    <th>نام دسته بندی</th>
+                                    <th>نامک</th>
+                                    <th>والد</th>
+                                    <th>حذف</th>
+                                    <th>ویرایش</th>
                                 </tr>
-                            )}
-                            </tbody>
-                        </Table>
-                    }
-                </DataBox>
+                                </thead>
+                                <tbody>
+                                {allCategories.data.map((category, index) =>
+                                    <tr key={category.id}>
+                                        <td>{index + 1}</td>
+                                        <td>{category.title}</td>
+                                        <td>{category.slug}</td>
+                                        <td></td>
+                                        <td>
+                                            <button className='btn btn-danger'
+                                                    onClick={() => handleDeleteCategory(category.id)}>
+                                                حذف
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button className='btn btn-success'>ویرایش</button>
+                                        </td>
+                                    </tr>
+                                )}
+                                </tbody>
+                            </Table>
+                        }
+                    </DataBox>
+                }
             </div>
 
         </>

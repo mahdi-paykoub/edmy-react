@@ -88,9 +88,6 @@ export default function PanelArticles() {
                     title: err.message,
                     icon: "error",
                     buttons: 'باشه'
-                }).then(response => {
-                    reset();
-                    // setEditorArticleBody('')
                 })
             })
 
@@ -129,7 +126,7 @@ export default function PanelArticles() {
                     })
                     .catch(err => {
                         swal({
-                            title: err.message,
+                            text: err.message,
                             icon: "error",
                             buttons: 'باشه'
                         })
@@ -138,12 +135,9 @@ export default function PanelArticles() {
         })
     }
 
-    const handleArticleDescription = (id) => {
-        var article = articles.data.find(function (article) {
-            return article.id === id
-        })
+    const handleArticleDescription = (description) => {
         swal({
-            title: article.description,
+            text: description,
             buttons: 'باشه'
         })
     }
@@ -155,7 +149,7 @@ export default function PanelArticles() {
                     <Row className='mt-4'>
                         <Col lg={6} className='mt-3'>
                             <input type="text" className='form-control' placeholder='عنوان مقاله'
-                                   {...register('title', formValidation('عنوان مقاله'))}
+                                   {...register('title', formValidation('عنوان مقاله' ,false))}
                             />
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.title?.message}
@@ -163,7 +157,7 @@ export default function PanelArticles() {
                         </Col>
                         <Col lg={6} className='mt-3'>
                             <input type="text" className='form-control' placeholder='نامک'
-                                   {...register('shortName', formValidation('نامک'))}
+                                   {...register('shortName', formValidation('نامک' ,false))}
                             />
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.shortName?.message}
@@ -261,7 +255,7 @@ export default function PanelArticles() {
                                             </td>
                                             <td>
                                                 <button className='btn btn-primary'
-                                                        onClick={() => handleArticleDescription(article.id)}>توضیحات
+                                                        onClick={() => handleArticleDescription(article.description)}>توضیحات
                                                     کوتاه
                                                 </button>
                                             </td>

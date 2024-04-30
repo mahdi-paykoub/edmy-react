@@ -20,7 +20,7 @@ export default function ContactUs() {
     const {errors} = formState
 
     const onSubmit = (data) => {
-        fetch(`${baseUrl}/contact`,
+        fetch(`${baseUrl}/contact-us`,
             {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},

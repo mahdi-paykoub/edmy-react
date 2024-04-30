@@ -1,6 +1,8 @@
 import Index from "./pages/Index/Index";
 import AdminPanel from "./pages/AdminPanel/AdminPanel";
 import PanelArticles from "./pages/AdminPanel/PanelArticles/PanelArticles";
+import PanelCategories from "./pages/AdminPanel/PanelCategories/PanelCategories";
+import PanelContactus from "./pages/AdminPanel/PanelContactus/PanelContactus";
 
 const routes = [
     {path: '/', element: <Index/>},
@@ -11,7 +13,7 @@ const routes = [
             // {path: "courses", element: <PanelCourses/>},
             // {path: "users", element: <PanelUsers/>},
             {path: "articles", element: <PanelArticles/>},
-            // {path: "categories", element: <PanelCategories/>},
+            {path: "categories", element: <PanelCategories/>},
             // {path: "newsletter", element: <PanelNewsletter/>},
             // {path: 'menus', element: <PanelMenus/>},
             // {path: 'session', element: <PanelSession/>},

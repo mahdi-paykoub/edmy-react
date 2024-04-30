@@ -6,11 +6,11 @@ import swal from "sweetalert";
 
 
 export default function PanelContactus() {
-    const [contacts, setContacts] = useState([])
+    const [contacts, setContacts] = useState(null)
     const baseUrl = process.env.REACT_APP_BASE_URL
     const userTokenLS = JSON.parse(localStorage.getItem('user'))
     const getContacts = () => {
-        fetch(`${baseUrl}/contact`)
+        fetch(`${baseUrl}/admin/contact-us`)
             .then(res => res.json())
             .then(res => {
                 console.log(res)
@@ -28,19 +28,19 @@ export default function PanelContactus() {
             buttons: ['خیر', 'بله']
         }).then(response => {
             if (response) {
-                fetch(`${baseUrl}/contact/${id}`, {
+                fetch(`${baseUrl}/admin/contact-us/${id}`, {
                     method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${userTokenLS.token}`
-                    }
+                    // headers: {
+                    //     'Content-Type': 'application/json',
+                    //     'Authorization': `Bearer ${userTokenLS.token}`
+                    // }
                 })
                     .then(response => {
                         if (!response.ok) {
-                            return response.text().then(text => {
-                                throw new Error('خطایی در حذف بوجود آمد')
+                            return response.json().then(error => {
+                                throw new Error(error.message[0]);
                             })
-                        }
+                        } else return response.json();
                     })
                     .then(res => {
                         swal({
@@ -64,57 +64,62 @@ export default function PanelContactus() {
 
     const handleShowContact = (message) => {
         swal({
-            text:message ,
-            buttons:'اوکی'
+            text: message,
+            buttons: 'اوکی'
         })
     }
     return (
         <>
-            <DataBox title='پیام ها'>
-                {contacts.length === 0 ?
-                    <ErrorBox text='دسته بندی یافت نشد'/> :
-                    <Table className='box-child-table' hover>
-                        <thead>
-                        <tr>
-                            <th>شناسه</th>
-                            <th>نام کاربر</th>
-                            <th>تلفن</th>
-                            <th>ایمیل</th>
-                            <th>نمایش</th>
-                            <th>حذف</th>
-                            <th>پاسخ</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+            {
+                contacts !== null &&
+                <DataBox title='پیام ها'>
+                    {contacts.data.length === 0 ?
+                        <ErrorBox text='پیامی یافت نشد'/> :
+                        <Table className='box-child-table' hover>
+                            <thead>
+                            <tr>
+                                <th>شناسه</th>
+                                <th>نام کاربر</th>
+                                <th>تلفن</th>
+                                <th>ایمیل</th>
+                                <th>نمایش</th>
+                                <th>حذف</th>
+                                <th>پاسخ</th>
+                            </tr>
+                            </thead>
+                            <tbody>
 
-                        {contacts.map((contact, index) =>
-                            <tr key={contact._id}>
-                                <td>{index + 1}</td>
-                                <td>{contact.name}</td>
-                                <td>{contact.phone}</td>
-                                <td>{contact.email}</td>
-                                <td>
-                                    <button className='btn btn-primary' onClick={() => handleShowContact(contact.body)}>
-                                        نمایش
-                                    </button>
-                                </td>
-                                <td>
-                                    <button className='btn btn-danger' onClick={() => handleDeleteContact(contact._id)}>
-                                        حذف
-                                    </button>
-                                </td>
-                                <td>
-                                    <button className='btn btn-success'>پاسخ</button>
-                                </td>
-                            </tr>)
-                        }
+                            {contacts.data.map((contact, index) =>
+                                <tr key={contact.id}>
+                                    <td>{index + 1}</td>
+                                    <td>{contact.name}</td>
+                                    <td>{contact.phone_number}</td>
+                                    <td>{contact.email}</td>
+                                    <td>
+                                        <button className='btn btn-primary'
+                                                onClick={() => handleShowContact(contact.body)}>
+                                            نمایش
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button className='btn btn-danger'
+                                                onClick={() => handleDeleteContact(contact.id)}>
+                                            حذف
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button className='btn btn-success'>پاسخ</button>
+                                    </td>
+                                </tr>)
+                            }
 
 
-                        </tbody>
-                    </Table>
-                }
+                            </tbody>
+                        </Table>
+                    }
 
-            </DataBox>
+                </DataBox>
+            }
         </>
     )
 }
