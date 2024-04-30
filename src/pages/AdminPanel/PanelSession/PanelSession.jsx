@@ -11,9 +11,8 @@ import swal from "sweetalert";
 import FormBox from "../../../Components/AdminPanel/FormBox/FormBox";
 
 export default function PanelSession() {
-    const [videoSession, setVideoSession] = useState(null)
     const [sessions, setSessions] = useState([])
-    const [courses, setCourses] = useState([])
+    const [courses, setCourses] = useState(null)
     const userTokenLS = JSON.parse(localStorage.getItem('user'))
     const form = useForm()
     const {register, control, handleSubmit, formState, reset} = form
@@ -21,7 +20,7 @@ export default function PanelSession() {
     const baseUrl = process.env.REACT_APP_BASE_URL
 
     const getCourses = () => {
-        fetch(`${baseUrl}/courses`)
+        fetch(`${baseUrl}admin/course`)
             .then(res => res.json())
             .then(res => {
                 setCourses(res)
@@ -31,61 +30,58 @@ export default function PanelSession() {
         getCourses()
     }, [])
 
-    const getSessions = () => {
-        fetch(`${baseUrl}/courses/sessions`)
-            .then(res => res.json())
-            .then(res => {
-                setSessions(res)
-            })
-    }
-    useEffect(() => {
-        getSessions()
-    }, [])
+    // const getSessions = () => {
+    //     fetch(`${baseUrl}admin/session`)
+    //         .then(res => res.json())
+    //         .then(res => {
+    //             setSessions(res)
+    //         })
+    // }
+    // useEffect(() => {
+    //     getSessions()
+    // }, [])
 
 
     const onSubmit = (data) => {
-        if (videoSession) {
-            let formData = new FormData()
-            formData.append('title', data.title)
-            formData.append('time', data.time)
-            formData.append('video', videoSession)
-            formData.append('free', data.free)
+        let formData = new FormData()
+        formData.append('title', data.title)
+        formData.append('time', data.time)
+        formData.append('video', data.video[0])
+        formData.append('free', data.free)
+        formData.append('course_id', data.course_id)
 
-            fetch(`${baseUrl}/courses/${data.course}/sessions`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${userTokenLS.token}`
-                    },
-                    body: formData
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.text().then(text => {
-                            throw new Error('خطایی در ثبت بوجود آمد')
-                        })
-                    }
-                })
-                .then(response => {
-                    swal({
-                        title: "جلسه با موفقیت افزوده شد",
-                        icon: "success",
-                        buttons: 'باشه'
-                    }).then(response => {
-                        getSessions();
-                        reset();
+        fetch(`${baseUrl}admin/session`,
+            {
+                method: 'POST',
+                // headers: {
+                //     'Authorization': `Bearer ${userTokenLS.token}`
+                // },
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(error => {
+                        throw new Error(error.message[0]);
                     })
+                } else return response.json();
+            })
+            .then(response => {
+                swal({
+                    title: "جلسه با موفقیت افزوده شد",
+                    icon: "success",
+                    buttons: 'باشه'
+                }).then(response => {
+                    reset();
                 })
-                .catch(err => {
-                    swal({
-                        title: err.message,
-                        icon: "error",
-                        buttons: 'باشه'
-                    }).then(response => {
-                        reset();
-                    })
+            })
+            .catch(err => {
+                swal({
+                    title: err.message,
+                    icon: "error",
+                    buttons: 'باشه'
                 })
-        }
+            })
+
     }
 
     const handleDeleteSession = (id) => {
@@ -95,17 +91,17 @@ export default function PanelSession() {
             buttons: ['خیر', 'بله']
         }).then(response => {
             if (response) {
-                fetch(`${baseUrl}/courses/sessions/${id}`, {
+                fetch(`${baseUrl}admin/session/${id}`, {
                     method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${userTokenLS.token}`
-                    }
+                    // headers: {
+                    //     'Content-Type': 'application/json',
+                    //     'Authorization': `Bearer ${userTokenLS.token}`
+                    // }
                 })
                     .then(response => {
                         if (!response.ok) {
-                            return response.text().then(text => {
-                                throw new Error('خطایی در حذف بوجود آمد')
+                            return response.json().then(error => {
+                                throw new Error(error.message[0]);
                             })
                         }
                     })
@@ -116,7 +112,6 @@ export default function PanelSession() {
                             buttons: 'باشه'
                         }).then(response => {
                             reset();
-                            getSessions();
                         })
                     })
                     .catch(err => {
@@ -124,8 +119,6 @@ export default function PanelSession() {
                             title: err.message,
                             icon: "error",
                             buttons: 'باشه'
-                        }).then(response => {
-                            reset();
                         })
                     })
             }
@@ -156,16 +149,15 @@ export default function PanelSession() {
                         </Col>
                         <Col lg={6} className='mt-3'>
                             <select className='form-control'
-                                    {...register('course', formValidation('دوره'))}>
+                                    {...register('course_id', formValidation('دوره'))}>
                                 <option value="">
                                     دوره مورد نظر را انتخاب نمایید
                                 </option>
-                                {courses.map(course => <option key={course._id}
-                                                               value={course._id}>{course.name}</option>)}
-
+                                {courses !== null && courses.data.map(course => <option key={course.id}
+                                                                                        value={course.id}>{course.name}</option>)}
                             </select>
                             <p className='mt-3 digi-red-color px-2'>
-                                {errors.course?.message}
+                                {errors.course_id?.message}
                             </p>
                         </Col>
                         <Col lg={6} className='mt-3'>
@@ -174,8 +166,8 @@ export default function PanelSession() {
                                 <option value="">
                                     انتخاب نمایید
                                 </option>
-                                <option value={1}>رایگان</option>
-                                <option value={0}>پولی</option>
+                                <option value="free">رایگان</option>
+                                <option value='nonFree'>پولی</option>
                             </select>
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.free?.message}
@@ -184,7 +176,11 @@ export default function PanelSession() {
                         <Col lg={12} className='mt-3'>
                             <label htmlFor="" className='mb-2'>ویدیو جلسه</label>
                             <input type="file" className='form-control'
-                                   onChange={(e) => setVideoSession(e.target.files[0])}/>
+                                   {...register('video', formValidation('ویدیو'))}
+                            />
+                            <p className='mt-3 digi-red-color px-2'>
+                                {errors.video?.message}
+                            </p>
                         </Col>
                         <div className='mt-3'>
                             <button className='btn btn-primary'>ثبت جلسه</button>
@@ -192,43 +188,43 @@ export default function PanelSession() {
                     </Row>
                 </form>
             </FormBox>
-            <div className='mt-5 mb-5 pb-5'>
-                <DataBox title='جلسات دوره ها'>
-                    {sessions.length === 0 ?
-                        <ErrorBox text='دسته بندی یافت نشد'/> :
-                        <Table className='box-child-table' hover>
-                            <thead>
-                            <tr>
-                                <th>شناسه</th>
-                                <th>عنوان جلسه</th>
-                                <th>وضعیت</th>
-                                <th>دوره</th>
-                                <th>حذف</th>
-                            </tr>
-                            </thead>
-                            <tbody>
+            {/*<div className='mt-5 mb-5 pb-5'>*/}
+            {/*    <DataBox title='جلسات دوره ها'>*/}
+            {/*        {sessions.length === 0 ?*/}
+            {/*            <ErrorBox text='دسته بندی یافت نشد'/> :*/}
+            {/*            <Table className='box-child-table' hover>*/}
+            {/*                <thead>*/}
+            {/*                <tr>*/}
+            {/*                    <th>شناسه</th>*/}
+            {/*                    <th>عنوان جلسه</th>*/}
+            {/*                    <th>وضعیت</th>*/}
+            {/*                    <th>دوره</th>*/}
+            {/*                    <th>حذف</th>*/}
+            {/*                </tr>*/}
+            {/*                </thead>*/}
+            {/*                <tbody>*/}
 
-                            {sessions.map((session, index) =>
-                                <tr key={session._id}>
-                                    <td>{index + 1}</td>
-                                    <td>{session.title}</td>
-                                    <td>{
-                                        session.free === 1 ? 'رایگان' : 'پولی'
-                                    }</td>
-                                    <td>{session.course.name}</td>
-                                    <td>
-                                        <button className='btn btn-danger'
-                                                onClick={() => handleDeleteSession(session._id)}>
-                                            حذف
-                                        </button>
-                                    </td>
-                                </tr>)
-                            }
-                            </tbody>
-                        </Table>
-                    }
-                </DataBox>
-            </div>
+            {/*                {sessions.map((session, index) =>*/}
+            {/*                    <tr key={session._id}>*/}
+            {/*                        <td>{index + 1}</td>*/}
+            {/*                        <td>{session.title}</td>*/}
+            {/*                        <td>{*/}
+            {/*                            session.free === 1 ? 'رایگان' : 'پولی'*/}
+            {/*                        }</td>*/}
+            {/*                        <td>{session.course.name}</td>*/}
+            {/*                        <td>*/}
+            {/*                            <button className='btn btn-danger'*/}
+            {/*                                    onClick={() => handleDeleteSession(session._id)}>*/}
+            {/*                                حذف*/}
+            {/*                            </button>*/}
+            {/*                        </td>*/}
+            {/*                    </tr>)*/}
+            {/*                }*/}
+            {/*                </tbody>*/}
+            {/*            </Table>*/}
+            {/*        }*/}
+            {/*    </DataBox>*/}
+            {/*</div>*/}
         </>
     )
 }
