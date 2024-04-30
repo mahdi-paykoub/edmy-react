@@ -6,13 +6,14 @@ import PanelContactus from "./pages/AdminPanel/PanelContactus/PanelContactus";
 import PanelUsers from "./pages/AdminPanel/PanelUsers/PanelUsers";
 import PanelCourses from "./pages/AdminPanel/PanelCourses/PanelCourses";
 import PanelSession from "./pages/AdminPanel/PanelSession/PanelSession";
+import PanelIndex from "./pages/AdminPanel/PanelIndex/PanelIndex";
 
 const routes = [
     {path: '/', element: <Index/>},
     {
         path: '/admin-panel/*', element: <AdminPanel/>,
         children: [
-            // {path: "", element: <PanelIndex/>},
+            {path: "", element: <PanelIndex/>},
             {path: "courses", element: <PanelCourses/>},
             {path: "users", element: <PanelUsers/>},
             {path: "articles", element: <PanelArticles/>},
@@ -20,7 +21,7 @@ const routes = [
             // {path: "newsletter", element: <PanelNewsletter/>},
             // {path: 'menus', element: <PanelMenus/>},
             {path: 'session', element: <PanelSession/>},
-            // {path: 'contact-us', element: <PanelContactus/>},
+            {path: 'contact-us', element: <PanelContactus/>},
             // {path: 'orders', element: <PanelOrders/>},
         ]
     },

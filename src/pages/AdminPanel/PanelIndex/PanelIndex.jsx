@@ -6,7 +6,7 @@ export default function PanelIndex() {
 
     return (
         <>
-          index
+          <h3>خوش آمدید</h3>
         </>
     )
 }

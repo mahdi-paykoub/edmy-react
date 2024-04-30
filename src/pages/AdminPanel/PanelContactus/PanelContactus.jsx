@@ -10,10 +10,9 @@ export default function PanelContactus() {
     const baseUrl = process.env.REACT_APP_BASE_URL
     const userTokenLS = JSON.parse(localStorage.getItem('user'))
     const getContacts = () => {
-        fetch(`${baseUrl}/admin/contact-us`)
+        fetch(`${baseUrl}admin/contact-us`)
             .then(res => res.json())
             .then(res => {
-                console.log(res)
                 setContacts(res)
             })
     }
@@ -28,7 +27,7 @@ export default function PanelContactus() {
             buttons: ['خیر', 'بله']
         }).then(response => {
             if (response) {
-                fetch(`${baseUrl}/admin/contact-us/${id}`, {
+                fetch(`${baseUrl}admin/contact-us/${id}`, {
                     method: 'DELETE',
                     // headers: {
                     //     'Content-Type': 'application/json',
