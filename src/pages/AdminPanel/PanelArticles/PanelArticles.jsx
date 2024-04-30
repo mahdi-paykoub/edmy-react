@@ -149,7 +149,7 @@ export default function PanelArticles() {
                     <Row className='mt-4'>
                         <Col lg={6} className='mt-3'>
                             <input type="text" className='form-control' placeholder='عنوان مقاله'
-                                   {...register('title', formValidation('عنوان مقاله' ,false))}
+                                   {...register('title', formValidation('عنوان مقاله'))}
                             />
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.title?.message}
@@ -157,7 +157,7 @@ export default function PanelArticles() {
                         </Col>
                         <Col lg={6} className='mt-3'>
                             <input type="text" className='form-control' placeholder='نامک'
-                                   {...register('shortName', formValidation('نامک' ,false))}
+                                   {...register('shortName', formValidation('نامک'))}
                             />
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.shortName?.message}
