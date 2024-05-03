@@ -14,11 +14,11 @@ import Pagination from '../../Components/Pagination/Pagination'
 
 
 export default function AllCourses() {
-    const [allCourses, setAllCourses] = useState([])
+    const [allCourses, setAllCourses] = useState(null)
     const baseUrl = process.env.REACT_APP_BASE_URL
 
     useEffect(() => {
-        fetch(`${baseUrl}/courses`)
+        fetch(`${baseUrl}course/all`)
             .then(res => res.json())
             .then(res => {
                 setAllCourses(res)
@@ -58,16 +58,22 @@ export default function AllCourses() {
                         </div>
                     </Col>
                 </Row>
-                <Row className='mt-3'>
-                    {
-
-                        allCourses.map((course) =>
-                            <CourseCard key={course._id} {...course}/>
-                        )
-                    }
-                </Row>
+                {
+                    allCourses !== null &&
+                    <Row className='mt-3'>
+                        {
+                            allCourses.data.length === 0 ?
+                                <h3 className="fw-bold my-5">خالـــی</h3> :
+                                allCourses.data.map((course) =>
+                                    <>
+                                        <CourseCard key={course.id} {...course}/>
+                                        <Pagination page={true}/>
+                                    </>
+                                )
+                        }
+                    </Row>
+                }
             </Container>
-            <Pagination page={true}/>
             <Footer className='mt-4 mt-md-5'/>
         </>
     )

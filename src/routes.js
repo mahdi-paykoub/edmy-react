@@ -10,6 +10,7 @@ import PanelIndex from "./pages/AdminPanel/PanelIndex/PanelIndex";
 import ContactUs from "./pages/ContactUs/ContactUs";
 import Register from "./pages/Register/Register"
 import Login from "./pages/Login/Login"
+import AllCourses from "./pages/AllCourses/AllCourses"
 
 
 const routes = [
@@ -17,6 +18,7 @@ const routes = [
     {path: '/contact-us', element: <ContactUs/>},
     {path: '/register', element: <Register/>},
     {path: '/login', element: <Login/>},
+    {path: '/all-courses', element: <AllCourses/>},
 
     {
         path: '/admin-panel/*', element: <AdminPanel/>,

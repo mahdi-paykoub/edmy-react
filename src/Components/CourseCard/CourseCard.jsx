@@ -7,14 +7,15 @@ import Toman from '../Toman/Toman'
 import {Link} from "react-router-dom";
 import {Shimmer} from 'react-shimmer'
 
-export default function CourseCard({name, description, shortName, cover, price}) {
+export default function CourseCard({name, description, slug, image, price}) {
     const [imageLoader, setImageLoader] = useState(false)
     return (
         <>
             <Col className='mt-3' md={6} lg={3}>
                 <Card className='border-0 position-relative main-card bg-transparent'>
                     <Card.Img onLoad={() => setImageLoader(true)} className='course-card-image' variant="top"
-                              src={`${process.env.REACT_APP_COURSE_IMG}/${cover}`}/>
+                              src={process.env.REACT_APP_BASE_URL + image}
+                              />
                     <Card.Body>
                         <div className='font-weight-bold lh1-7'>{name}
                         </div>
@@ -39,7 +40,7 @@ export default function CourseCard({name, description, shortName, cover, price})
                                     <p className='fs12 lh1-8 text-justify desc-text'>{description}</p>
                                 </div>
                                 <div className='mt-4'>
-                                    <Link to={`/course/${shortName}`}
+                                    <Link to={`/course/${slug}`}
                                           className='fs14 text-dark more-detail-btn font-weight-bold'>مشاهده
                                         جزئیات</Link>
                                 </div>
