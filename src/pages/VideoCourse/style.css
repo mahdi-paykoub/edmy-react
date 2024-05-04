@@ -1,4 +1,5 @@
 .scrollable-lessons-list {
-    height: 950px;
-    overflow-y: scroll;
+    max-height: 800px;
+    overflow-y: auto;
+    height: fit-content;
 }

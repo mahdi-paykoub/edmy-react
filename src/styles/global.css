@@ -82,6 +82,9 @@ body {
     .fs32 {
         font-size: 25px;
     }
+    .session-video-height{
+        height: 250px;
+    }
 }
 
 @media only screen and (min-width: 576px) {
@@ -112,12 +115,17 @@ body {
     .fs32 {
         font-size: 25px;
     }
-
+    .session-video-height{
+        height: 280px;
+    }
 }
 
 @media only screen and (min-width: 768px) {
     .fs32 {
         font-size: 32px;
+    }
+    .session-video-height{
+        height: 400px;
     }
 }
 
@@ -148,6 +156,9 @@ body {
 
     .fs27 {
         font-size: 1.6rem;
+    }
+    .session-video-height{
+        height: 550px;
     }
 }
 

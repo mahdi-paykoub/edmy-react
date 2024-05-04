@@ -38,14 +38,14 @@ export default function AllArticles() {
                         <Col xl={9}>
                             {
                                 allArticles.data.length === 0 ?
-                                   <EmptyBox title="مقاله ای یافت نشد."/> :
+                                    <EmptyBox title="مقاله ای یافت نشد."/> :
                                     allArticles.data.map(article =>
                                         <>
                                             <ArticleCard4 key={article.id} {...article}/>
-                                            <Pagination page={true}/>
                                         </>
-                                    )}
-
+                                    )
+                            }
+                            <Pagination page={true}/>
                         </Col>
                         <Col xl={3}>
                             <ArticleSidebar/>

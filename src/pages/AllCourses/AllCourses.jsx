@@ -11,6 +11,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import {BiSearch} from 'react-icons/bi';
 import Pagination from '../../Components/Pagination/Pagination'
+import EmptyBox from "../../Components/EmptyBox/EmptyBox";
 
 
 export default function AllCourses() {
@@ -63,7 +64,7 @@ export default function AllCourses() {
                     <Row className='mt-3'>
                         {
                             allCourses.data.length === 0 ?
-                                <h3 className="fw-bold my-5">خالـــی</h3> :
+                                <EmptyBox title="هیچ دوره ای یافت نشد." cssClass="my-5"/> :
                                 allCourses.data.map((course) =>
                                     <>
                                         <CourseCard key={course.id} {...course}/>

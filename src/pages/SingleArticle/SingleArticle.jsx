@@ -16,24 +16,24 @@ import CommentsBox from "../../Components/CommentsBox/CommentsBox";
 import SendComment from "../../Components/SendComment/SendComment";
 import {useForm} from "react-hook-form";
 import {useParams} from "react-router-dom";
+import * as DOMPurify from 'dompurify';
 
 
 export default function SingleArticle() {
-    const [articleInfo, setArticleInfo] = useState()
-    const articleName = useParams().articleName
+    const [articleInfo, setArticleInfo] = useState(null)
+    const articleSlug = useParams().articleSlug
 
     const baseUrl = process.env.REACT_APP_BASE_URL
     useEffect(() => {
-        fetch(`${baseUrl}/articles/${articleName}`)
+        fetch(`${baseUrl}article/${articleSlug}`)
             .then(response => response.json())
             .then(response => {
-                console.log(response)
-                setArticleInfo(response)
+                setArticleInfo(response.data)
             })
     }, [])
 
     return (<>
-        {articleInfo ?
+        {articleInfo !== null &&
             <>
                 <Topbar/>
                 <MyNavbar/>
@@ -43,7 +43,8 @@ export default function SingleArticle() {
                 <Container className='mt-5 pb-5'>
                     <Row>
                         <Col lg={8} className='mt-md-5'>
-                            <img src={`${process.env.REACT_APP_COURSE_IMG}/${articleInfo.cover}`} className='w-100 br10 single-article-img'
+                            <img src={`${process.env.REACT_APP_BASE_URL}${articleInfo.image}`}
+                                 className='w-100 br10 single-article-img'
                                  alt=""/>
                             <div className='mt-4 d-flex align-items-center'>
                                 <img src="/images/wqsnxv0pfdwl2abdakf5.jpg"
@@ -55,30 +56,14 @@ export default function SingleArticle() {
 
                                 <BsCalendarDate className='fs20 me-4 porple-text-color2'/>
                                 <span
-                                    className='ffv fs14 me-2 porple-text-color2'>{articleInfo.createdAt.slice(0, 10)}</span>
+                                    className='ffv fs14 me-2 porple-text-color2'>{articleInfo.created_at.slice(0, 10)}</span>
                             </div>
                             <div>
                                 <h2 className='fw800 purple-text-color mt-4 lh2 fs-title-article'>
                                     {articleInfo.title}
                                 </h2>
-                                <div className='text-secondary text-justify lh2 fs18'>
-                                    <p>
-                                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                        گرافیک
-                                        است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای
-                                        شرایط
-                                        فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.
-                                        کتابهای
-                                        زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می
-                                        طلبد تا با
-                                        نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و
-                                        فرهنگ پیشرو
-                                        در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در
-                                        ارائه
-                                        راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای
-                                        اصلی و
-                                        جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
-                                    </p>
+                                <div className='text-secondary text-justify lh2 fs18'
+                                     dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(articleInfo.body)}}>
 
                                 </div>
 
@@ -182,6 +167,6 @@ export default function SingleArticle() {
 
                 <Footer className='pt-5 mt-5'/>
             </>
-            : null}
+        }
     </>)
 }

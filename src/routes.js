@@ -13,6 +13,8 @@ import Login from "./pages/Login/Login"
 import AllCourses from "./pages/AllCourses/AllCourses"
 import SingleCourse from "./pages/SingleCourse/SingleCourse"
 import AllArticles from "./pages/AllArticles/AllArticles";
+import SingleArticle from "./pages/SingleArticle/SingleArticle";
+import VideoCourse from "./pages/VideoCourse/VideoCourse";
 
 
 const routes = [
@@ -23,6 +25,8 @@ const routes = [
     {path: '/all-courses', element: <AllCourses/>},
     {path: '/course/:courseSlug', element: <SingleCourse/>},
     {path: '/all-articles', element: <AllArticles/>},
+    {path: '/article/:articleSlug', element: <SingleArticle/>},
+    {path: '/course/:courseSlug/:id', element: <VideoCourse/>},
 
     {
         path: '/admin-panel/*', element: <AdminPanel/>,
@@ -43,7 +47,6 @@ const routes = [
 
 export default routes
 
-// import VideoCourse from "./pages/VideoCourse/VideoCourse";
 // import UserPanel from "./pages/UserPanel/UserPanel";
 // import UserInfo from "./pages/UserPanel/UserInfo/UserInfo";
 // import UserImg from "./pages/UserPanel/UserImg/UserImg";
@@ -56,7 +59,6 @@ export default routes
 // import SendTicket from "./pages/UserDashboard/SendTicket/SendTicket";
 // import TicketDetail from "./pages/UserDashboard/TicketDetail/TicketDetail";
 // import AllArticles from "./pages/AllArticles/AllArticles";
-// import SingleArticle from "./pages/SingleArticle/SingleArticle";
 // import ContactUs from "./pages/ContactUs/ContactUs";
 // import AboutUs from "./pages/AboutUs/AboutUs";
 // import Search from "./pages/Search/Search";
@@ -77,9 +79,7 @@ export default routes
 //
 //
 // const routes = [
-//     {path: '/course/:courseName/:id', element: <VideoCourse/>},
 //     {path: '/cart', element: <ShopCart/>},
-//     {path: '/article/:articleName', element: <SingleArticle/>},
 //     {path: '/search/:searchedValue', element: <Search/>},
 //     {path: '/contact-us', element: <ContactUs/>},
 //     {path: '/about-us', element: <AboutUs/>},
