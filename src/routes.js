@@ -12,6 +12,7 @@ import Register from "./pages/Register/Register"
 import Login from "./pages/Login/Login"
 import AllCourses from "./pages/AllCourses/AllCourses"
 import SingleCourse from "./pages/SingleCourse/SingleCourse"
+import AllArticles from "./pages/AllArticles/AllArticles";
 
 
 const routes = [
@@ -20,7 +21,8 @@ const routes = [
     {path: '/register', element: <Register/>},
     {path: '/login', element: <Login/>},
     {path: '/all-courses', element: <AllCourses/>},
-   {path: '/course/:courseSlug', element: <SingleCourse/>},
+    {path: '/course/:courseSlug', element: <SingleCourse/>},
+    {path: '/all-articles', element: <AllArticles/>},
 
     {
         path: '/admin-panel/*', element: <AdminPanel/>,
@@ -41,10 +43,6 @@ const routes = [
 
 export default routes
 
-// import Index from "./pages/Index/Index"
-// import Login from "./pages/Login/Login"
-// import AllCourses from "./pages/AllCourses/AllCourses"
-// import SingleCourse from "./pages/SingleCourse/SingleCourse"
 // import VideoCourse from "./pages/VideoCourse/VideoCourse";
 // import UserPanel from "./pages/UserPanel/UserPanel";
 // import UserInfo from "./pages/UserPanel/UserInfo/UserInfo";
@@ -79,10 +77,8 @@ export default routes
 //
 //
 // const routes = [
-//     {path: '/course/:courseName', element: <SingleCourse/>},
 //     {path: '/course/:courseName/:id', element: <VideoCourse/>},
 //     {path: '/cart', element: <ShopCart/>},
-//     {path: '/all-articles/:page', element: <AllArticles/>},
 //     {path: '/article/:articleName', element: <SingleArticle/>},
 //     {path: '/search/:searchedValue', element: <Search/>},
 //     {path: '/contact-us', element: <ContactUs/>},

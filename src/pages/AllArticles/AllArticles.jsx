@@ -11,14 +11,15 @@ import Col from 'react-bootstrap/Col';
 import Pagination from '../../Components/Pagination/Pagination'
 import ArticleCard4 from "../../Components/ArticleCard4/ArticleCard4";
 import ArticleSidebar from "../../Components/ArticleSidebar/ArticleSidebar";
+import EmptyBox from '../../Components/EmptyBox/EmptyBox'
 
 
 export default function AllArticles() {
-    const [allArticles, setAllArticles] = useState([])
+    const [allArticles, setAllArticles] = useState(null)
     const baseUrl = process.env.REACT_APP_BASE_URL
 
     useEffect(() => {
-        fetch(`${baseUrl}/articles`)
+        fetch(`${baseUrl}article/all`)
             .then(res => res.json())
             .then(res => {
                 setAllArticles(res)
@@ -30,20 +31,30 @@ export default function AllArticles() {
             <MyNavbar/>
             <SecondLanding title="همه مقالات"/>
 
-                    <Container className='mt-5 pt-md-5'>
-                        <Row>
-                            <Col xl={9}>
-                                {allArticles.map(article =>
-                                    <ArticleCard4 key={article._id} {...article}/>
-                                )}
-                                <Pagination page={true}/>
-                            </Col>
-                            <Col xl={3}>
-                                <ArticleSidebar/>
-                            </Col>
+            {
+                allArticles !== null &&
+                <Container className='mt-5 pt-md-5'>
+                    <Row>
+                        <Col xl={9}>
+                            {
+                                allArticles.data.length === 0 ?
+                                   <EmptyBox title="مقاله ای یافت نشد."/> :
+                                    allArticles.data.map(article =>
+                                        <>
+                                            <ArticleCard4 key={article.id} {...article}/>
+                                            <Pagination page={true}/>
+                                        </>
+                                    )}
 
-                        </Row>
-                    </Container>
+                        </Col>
+                        <Col xl={3}>
+                            <ArticleSidebar/>
+                        </Col>
+
+                    </Row>
+                </Container>
+            }
+
             <Footer className='mt-4 mt-md-5'/>
         </>
     )

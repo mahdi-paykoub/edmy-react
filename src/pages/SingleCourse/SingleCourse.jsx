@@ -274,9 +274,9 @@ export default function SingleCourse() {
                                 <div className='porple-text-color2 fw800 fs18'>
 
                                     {Number(course.data.price).toLocaleString()}
-                                    <del className='del text-secondary fs14 ms-2 text-secondary'>
-                                        {Number(965000).toLocaleString()}
-                                    </del>
+                                    {/*<del className='del text-secondary fs14 ms-2 text-secondary'>*/}
+                                    {/*    {Number(965000).toLocaleString()}*/}
+                                    {/*</del>*/}
                                     <Toman className="me-2 porple-text-color2" w={16} h={18}/>
 
                                 </div>
