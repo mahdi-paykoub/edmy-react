@@ -11,6 +11,7 @@ import ContactUs from "./pages/ContactUs/ContactUs";
 import Register from "./pages/Register/Register"
 import Login from "./pages/Login/Login"
 import AllCourses from "./pages/AllCourses/AllCourses"
+import SingleCourse from "./pages/SingleCourse/SingleCourse"
 
 
 const routes = [
@@ -19,6 +20,7 @@ const routes = [
     {path: '/register', element: <Register/>},
     {path: '/login', element: <Login/>},
     {path: '/all-courses', element: <AllCourses/>},
+   {path: '/course/:courseSlug', element: <SingleCourse/>},
 
     {
         path: '/admin-panel/*', element: <AdminPanel/>,
@@ -77,9 +79,6 @@ export default routes
 //
 //
 // const routes = [
-//     {path: '/', element: <Index/>},
-//     {path: '/login', element: <Login/>},
-//     {path: '/all-courses', element: <AllCourses/>},
 //     {path: '/course/:courseName', element: <SingleCourse/>},
 //     {path: '/course/:courseName/:id', element: <VideoCourse/>},
 //     {path: '/cart', element: <ShopCart/>},
@@ -107,21 +106,6 @@ export default routes
 //             {path: 'send-ticket', element: <SendTicket/>},
 //             {path: 'ticket-detail', element: <TicketDetail/>},
 //             {path: 'transaction', element: <UserTransaction/>},
-//         ]
-//     },
-//     {
-//         path: '/admin-panel/*', element: <AdminPanel/>,
-//         children: [
-//             {path: "", element: <PanelIndex/>},
-//             {path: "courses", element: <PanelCourses/>},
-//             {path: "users", element: <PanelUsers/>},
-//             {path: "articles", element: <PanelArticles/>},
-//             {path: "categories", element: <PanelCategories/>},
-//             {path: "newsletter", element: <PanelNewsletter/>},
-//             {path: 'menus', element: <PanelMenus/>},
-//             {path: 'session', element: <PanelSession/>},
-//             {path: 'contact-us', element: <PanelContactus/>},
-//             {path: 'orders', element: <PanelOrders/>},
 //         ]
 //     },
 // ]
