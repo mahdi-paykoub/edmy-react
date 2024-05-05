@@ -15,6 +15,7 @@ import SingleCourse from "./pages/SingleCourse/SingleCourse"
 import AllArticles from "./pages/AllArticles/AllArticles";
 import SingleArticle from "./pages/SingleArticle/SingleArticle";
 import VideoCourse from "./pages/VideoCourse/VideoCourse";
+import Search from "./pages/Search/Search";
 
 
 const routes = [
@@ -27,6 +28,7 @@ const routes = [
     {path: '/all-articles', element: <AllArticles/>},
     {path: '/article/:articleSlug', element: <SingleArticle/>},
     {path: '/course/:courseSlug/:id', element: <VideoCourse/>},
+    {path: '/search/:searchedValue', element: <Search/>},
 
     {
         path: '/admin-panel/*', element: <AdminPanel/>,

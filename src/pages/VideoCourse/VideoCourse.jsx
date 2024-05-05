@@ -58,8 +58,6 @@ export default function VideoCourse() {
                                             sessions.data.length === 0 ?
                                                 <div>جلسه ای یافت نشد</div> :
                                                 sessions.data.map((session, index) =>
-                                                    //active class : bg-body-secondary
-                                                    //last class :  border-bottom-0
                                                     <div
                                                         className={`${session.id === Number(sessionId) ? 'bg-body-secondary' : ''} border-bottom p-4 ${sessions.data.length === index + 1 ? 'border-bottom-0' : ''}`}>
                                                         <a href={`/course/${courseSlug}/${session.id}`}>
