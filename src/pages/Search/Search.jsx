@@ -84,25 +84,32 @@ export default function Search() {
                     switchCase === 'course' ?
                         courseResult !== null &&
                             courseResult.data.length !== 0 ?
-                            courseResult.data.map(course =>
-                                <>
-                                    <Row className='mt-3' key={course.id}>
-                                        <CourseCard  {...course} />
-                                    </Row>
-                                    <Pagination page={true} />
-                                </>
-                            ) :
+                            <>
+                                <Row className='mt-3'>
+                                    {
+                                        courseResult.data.map(course =>
+                                            <CourseCard key={course.id} {...course} />
+                                        )
+                                    }
+                                </Row>
+                                <Pagination page={true} />
+                            </>
+                            :
                             <EmptyBox cssClass='my-5' title='متاسفانه دوره ای یافت نشد.'></EmptyBox>
                         :
                         articleResult.data.length !== 0 ?
-                            articleResult.data.map(article =>
-                                <>
-                                    <Row>
-                                        <ArticleCard5 key={article.id} {...article} />
-                                    </Row>
-                                    <Pagination page={true} />
-                                </>
-                            ) :
+
+                            <>
+                                <Row>
+                                    {
+                                        articleResult.data.map(article =>
+                                            <ArticleCard5 {...article} key={article.id} />
+                                        )
+                                    }
+                                </Row>
+                                <Pagination page={true} />
+                            </>
+                            :
                             <EmptyBox cssClass='my-5' title='متاسفانه مقاله ای یافت نشد.'></EmptyBox>
                 }
             </Container>
