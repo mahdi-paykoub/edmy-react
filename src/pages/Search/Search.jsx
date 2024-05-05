@@ -100,7 +100,6 @@ export default function Search() {
                                 <EmptyBox cssClass='my-5' title='متاسفانه دوره ای یافت نشد.' />
                             :
                             articleResult.data.length !== 0 ?
-
                                 <>
                                     <Row>
                                         {

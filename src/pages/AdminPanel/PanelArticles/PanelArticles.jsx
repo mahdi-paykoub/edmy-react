@@ -16,7 +16,6 @@ export default function PanelArticles() {
     const [articles, setArticles] = useState(null)
     const [allCategories, setAllCategories] = useState(null)
     const [editorArticleBody, setEditorArticleBody] = useState('')
-    const [articleCover, setArticleCover] = useState(null)
     // const userTokenLS = JSON.parse(localStorage.getItem('user'))
     const baseUrl = process.env.REACT_APP_BASE_URL
 

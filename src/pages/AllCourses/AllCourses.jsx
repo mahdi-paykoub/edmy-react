@@ -68,10 +68,10 @@ export default function AllCourses() {
                                 allCourses.data.map((course) =>
                                     <>
                                         <CourseCard key={course.id} {...course}/>
-                                        <Pagination page={true}/>
                                     </>
                                 )
                         }
+                        <Pagination page={true}/>
                     </Row>
                 }
             </Container>
