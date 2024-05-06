@@ -18,8 +18,6 @@ import VideoCourse from "./pages/VideoCourse/VideoCourse";
 import Search from "./pages/Search/Search";
 import Category from "./pages/Category/Category";
 import UserPanel from "./pages/UserPanel/UserPanel";
-import UserInfo from "./pages/UserPanel/UserInfo/UserInfo";
-import UserImg from "./pages/UserPanel/UserImg/UserImg";
 import IndexDashboard from "./pages/UserDashboard/IndexDashboard/IndexDashboard";
 import Tickets from "./pages/UserDashboard/Tickets/Tickets";
 import UserCourses from "./pages/UserDashboard/UserCourses/UserCourses";
@@ -58,13 +56,7 @@ const routes = [
         ]
     },
     // user panel
-    {
-        path: '/my-account/*', element: <UserPanel />,
-        children: [
-            { path: '', element: <UserInfo /> },
-            { path: 'profile-img', element: <UserImg /> },
-        ]
-    },
+    { path: '/my-account/edit-account', element: <UserPanel />,},
     {
         path: '/dashboard/*', element: <UserDashboard />,
         children: [
