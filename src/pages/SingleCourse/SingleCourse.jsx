@@ -39,16 +39,17 @@ import { AuthContext } from "../../Context/AuthContext";
 export default function SingleCourse() {
     const [offShow, setOffShow] = useState(false)
     const [course, setCourse] = useState(null);
+    const [comments, setComments] = useState(null);
     const [commentSendShow, setCommentSendShow] = useState(false)
     const [open, setOpen] = useState(false);
     const [parentID, setParentID] = useState(0);
     const userTokenLS = JSON.parse(localStorage.getItem('user'))
 
     const authContext = useContext(AuthContext)
-    console.log(authContext);
     const baseUrl = process.env.REACT_APP_BASE_URL
     const courseSlug = useParams().courseSlug
 
+    console.log(authContext);
 
     const form = useForm()
     const { register, control, handleSubmit, formState, reset } = form
@@ -60,7 +61,7 @@ export default function SingleCourse() {
             let formData = new FormData()
             formData.append('comment', data.comment)
             formData.append('parent_id', parentID)
-            formData.append('commentable_id', course.data.id)
+            formData.append('commentable_id', course.id)
             formData.append('commentable_type', 'App\\Models\\Course')
             formData.append('rate', data.rate)
 
@@ -84,11 +85,13 @@ export default function SingleCourse() {
                         title: response.message,
                         icon: "success",
                         buttons: 'باشه'
+                    }).then(res =>{
+                        reset()
                     })
                 })
                 .catch(err => {
                     swal({
-                        title: err.message,
+                        title: 'مشکلی در ثبت بوجود آمد.',
                         icon: "error",
                         buttons: 'باشه'
                     })
@@ -102,7 +105,8 @@ export default function SingleCourse() {
         fetch(`${baseUrl}course/${courseSlug}`)
             .then(res => res.json())
             .then(res => {
-                setCourse(res)
+                setCourse(res.data)
+                setComments(res.appends.comments)
             })
     }, [])
 
@@ -110,7 +114,7 @@ export default function SingleCourse() {
     return (<>
         <Topbar />
         <MyNavbar />
-        <SecondLanding title={course !== null && course.data.name} />
+        <SecondLanding title={course !== null && course.name} />
 
         {
             course !== null &&
@@ -118,7 +122,7 @@ export default function SingleCourse() {
                 <Row>
                     <Col xs={{ order: 2 }} lg={{ span: 8, order: 1 }} className='px-md-4'>
                         <h2 className='fw800 lh1-7 mt-5 mt-md-0'>
-                            {course.data.name}
+                            {course.name}
                         </h2>
                         <div className='course-info-top d-flex mt-4 position-relative'>
                             <div className='fs14'>نام دسته بندی</div>
@@ -128,7 +132,7 @@ export default function SingleCourse() {
                             </div>
                             <div className='mt-2 fs14 me-5 text-secondary position-relative'>
                                 تاریخ آخرین آپدیت:
-                                <span className='text-dark me-2' dir="ltr">{course.data.updated_at.substring(0, 10)}</span>
+                                <span className='text-dark me-2' dir="ltr">{course.updated_at.substring(0, 10)}</span>
                             </div>
                         </div>
                         <div className='d-flex mt-4 align-items-center'>
@@ -165,7 +169,7 @@ export default function SingleCourse() {
                             <div className="mt-3">
                                 <p className='desc-color'>
                                     <div>
-                                        {course.data.description}
+                                        {course.description}
                                     </div>
                                 </p>
                             </div>
@@ -267,7 +271,7 @@ export default function SingleCourse() {
                                         <div className='pt-4 border-top d-flex align-items-center'>
                                             <img src="/images/wqsnxv0pfdwl2abdakf5.jpg"
                                                 className='commenter-user-img border-green rounded-circle' alt="" />
-                                            <span className='text-secondary m-2'>نام کابری</span>
+                                            <span className='text-secondary m-2'>{authContext.userInfo.data.name}</span>
                                         </div>
 
                                         <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -282,10 +286,12 @@ export default function SingleCourse() {
                                                 <option value="4">4</option>
                                                 <option value="5">5</option>
                                             </select>
-                                            <textarea className="w-100 custom-form-input comment-area bg-white mt-4"
+                                            <p className='text-danger fs14'>{errors.rate?.message}</p>
+                                            <textarea className="w-100 custom-form-input comment-area bg-white mt-3"
                                                 placeholder="دیدگاهتان را اضافه کنید"
                                                 {...register('comment', formValidation('دیدگاه'))}
                                             ></textarea>
+                                            <p className='text-danger fs14'>{errors.comment?.message}</p>
                                             <div className='text-start mt-3' type='submit'>
                                                 <button className='btn send-comment-btn text-white'>ثبت دیدگاه</button>
                                             </div>
@@ -293,26 +299,37 @@ export default function SingleCourse() {
                                     </div>
                                 }
                                 {/*comment box*/}
-                                <div className='comments-box mt-5 br5 bg-white'>
-                                    <div className='d-flex justify-content-between align-items-center py-4 px-3'>
-                                        <div>
-                                            <img src="/images/client-3.jpg" className='rounded-circle commenter-img' alt="" />
-                                            <span className='fw800 fs15 me-2 text-secondary'>نام و نام خوانوادگی</span>
-                                        </div>
-                                        <div>
-                                            <button className='fs13 btn btn-secondary'>
-                                                پاسخ
-                                                <FiCornerUpLeft className='fs18 me-1' />
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div className='border-top pb-4 text-secondary px-3'>
-                                        <p className='mt-4 pt-3'>سلام وقتتون بخیر
-                                            این دوره دقیقا با چه نسخه ای از لاراول ضبط شده؟</p>
-                                    </div>
-                                </div>
+                                {
+                                    comments !== null &&
+                                        comments.length === 0 ?
+                                        <div className='alert alert-secondary fs14 mt-4'>هنوز دیدگاهی ثبت نشده است</div>
+                                        :
+                                        comments.map(comment =>
+                                            <div className='comments-box mt-4 br5 bg-white'>
+                                                <div className='d-flex justify-content-between align-items-center py-4 px-3'>
+                                                    <div>
+                                                        <img src="/images/client-3.jpg" className='rounded-circle commenter-img' alt="" />
+                                                        <span className='fw800 fs15 me-2 text-secondary'>{comment.user.name}</span>
+                                                    </div>
+                                                    <div>
+                                                        <button className='fs13 btn btn-secondary'>
+                                                            پاسخ
+                                                            <FiCornerUpLeft className='fs18 me-1' />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div className='border-top pb-4 text-secondary px-3'>
+                                                    <p className='mt-4 pt-3'>{comment.comment}</p>
+                                                </div>
+                                            </div>
+                                        )
+
+
+
+                                }
+
                                 {/*answer comment box*/}
-                                <div className='comments-box me-3 me-md-5 mt-3 br5 bg-white'>
+                                {/* <div className='comments-box me-3 me-md-5 mt-3 br5 bg-white'>
                                     <div className='d-flex justify-content-between align-items-center py-4 px-3'>
                                         <div>
                                             <img src="/images/client-3.jpg" className='rounded-circle commenter-img' alt="" />
@@ -329,7 +346,7 @@ export default function SingleCourse() {
                                         <p className='mt-4 pt-3'>سلام وقتتون بخیر
                                             این دوره دقیقا با چه نسخه ای از لاراول ضبط شده؟</p>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <Pagination page={false} />
 
@@ -344,7 +361,7 @@ export default function SingleCourse() {
                         <div className="box-shadow-course-infos">
                             <div>
                                 <img
-                                    src={baseUrl + course.data.image}
+                                    src={baseUrl + course.image}
                                     className='single-main-img mw-100 h-auto'
                                     alt="" />
                             </div>
@@ -354,7 +371,7 @@ export default function SingleCourse() {
                                 </div>
                                 <div className='porple-text-color2 fw800 fs18'>
 
-                                    {Number(course.data.price).toLocaleString()}
+                                    {Number(course.price).toLocaleString()}
                                     {/*<del className='del text-secondary fs14 ms-2 text-secondary'>*/}
                                     {/*    {Number(965000).toLocaleString()}*/}
                                     {/*</del>*/}
@@ -386,7 +403,7 @@ export default function SingleCourse() {
                                     <span className='me-2 text-secondary -ver-2'>وضعیت دوره</span>
                                 </div>
                                 <div>
-                                    <span className='fs13'>{course.data.status}</span>
+                                    <span className='fs13'>{course.status}</span>
                                 </div>
                             </div>
                             <div className='d-flex justify-content-between  fs14  border-padd-b px-4'>
