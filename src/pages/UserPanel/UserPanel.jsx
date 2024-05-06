@@ -30,10 +30,8 @@ export default function UserPanel() {
         let formData = new FormData()
         formData.append('name', data.name)
         formData.append('email', data.email)
-        formData.append('image', data.image[0])
         formData.append('_method', 'PATCH')
-
-
+        formData.append('image', data.image[0])
 
         fetch(`${baseUrl}user-info/update`,
             {
@@ -46,7 +44,7 @@ export default function UserPanel() {
             .then(response => {
                 if (!response.ok) {
                     return response.json().then(error => {
-                        throw new Error(error.message);
+                        throw new Error(error.message[0]);
                     })
                 } else return response.json();
             })
@@ -65,6 +63,46 @@ export default function UserPanel() {
                 })
             })
     }
+
+    
+
+    const handlepasswordSubmit = (data) => {
+        let formData = new FormData()
+        formData.append('old_password', data.old_password)
+        formData.append('new_password', data.new_password)
+        formData.append('_method', 'PATCH')
+
+        fetch(`${baseUrl}change/password`,
+            {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${userTokenLS.token}`
+                },
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(error => {
+                        throw new Error();
+                    })
+                } else return response.json();
+            })
+            .then(response => {
+                swal({
+                    title: response.message,
+                    icon: "success",
+                    buttons: 'باشه'
+                })
+            })
+            .catch(err => {
+                swal({
+                    title: 'رمز عبور وارد شده صحیح نیست.',
+                    icon: "error",
+                    buttons: 'باشه'
+                })
+            })
+    }
+
     return (<>
         <Topbar />
         <MyNavbar />
@@ -86,7 +124,8 @@ export default function UserPanel() {
                         <Row>
                             <Col lg={6}>
                                 <div className='mb-4'>
-                                    <img src="/images/avatar.jpg" className='mw-100 h-auto br5 border p-1' alt="" />
+                                    {/* /images/avatar.jpg */}
+                                    <img width={210} height={210} src={authContext.userInfo.data.image !== null ? baseUrl + authContext.userInfo.data.image : '/images/avatar.jpg'} className='mw-100 h-auto br5 border p-1 object-cover' alt="" />
                                 </div>
 
                             </Col>
@@ -125,22 +164,27 @@ export default function UserPanel() {
                         </form>
                     </Col>
                     <Col lg='4' className='mt-4 mt-lg-0 px-4'>
-                        <Row className='py-4 br10' style={{ background: '#f2f0ef' }}>
-                            <Col lg={12} className='mt-4'>
-                                <div className=''>رمز عبور فعلی</div>
-                                <input type="text" className='custom-form-input mt-3 bg-white'
-                                    placeholder='رمز فعلی را وارد نمایید' />
-                            </Col>
-                            <Col lg={12} className='mt-4'>
-                                <div className=''>رمز عبور جدید</div>
-                                <input type="text" className='custom-form-input mt-3 bg-white'
-                                    placeholder='رمز جدید را وارد نمایید' />
-                            </Col>
-                            <div className='text-start mt-5'>
-                                <CommomBtn title='تغییر رمز' />
-                            </div>
-                        </Row>
-
+                        <form onSubmit={handleSubmit(handlepasswordSubmit)} noValidate>
+                            <Row className='py-4 br10' style={{ background: '#f2f0ef' }}>
+                                <Col lg={12} className='mt-4'>
+                                    <div className=''>رمز عبور فعلی</div>
+                                    <input type="text" className='custom-form-input mt-3 bg-white'
+                                        placeholder='رمز فعلی را وارد نمایید' 
+                                        {...register('old_password', formValidation('رمز فعلی'))} />
+                                        <p className='mt-1 text-danger fs14'>{errors.old_password?.message}</p>
+                                </Col>
+                                <Col lg={12} className='mt-4'>
+                                    <div className=''>رمز عبور جدید</div>
+                                    <input type="text" className='custom-form-input mt-3 bg-white'
+                                        placeholder='رمز جدید را وارد نمایید' 
+                                        {...register('new_password', formValidation('رمز جدید'))} />
+                                        <p className='mt-1 text-danger fs14'>{errors.new_password?.message}</p>
+                                </Col>
+                                <div className='text-start mt-5'>
+                                    <CommomBtn title='تغییر رمز' />
+                                </div>
+                            </Row>
+                        </form>
                     </Col>
                 </Row>
 
