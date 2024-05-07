@@ -34,6 +34,7 @@ import { useForm } from "react-hook-form";
 import swal from "sweetalert";
 import { formValidation } from "../../utils/Validations";
 import { AuthContext } from "../../Context/AuthContext";
+import { CartContext } from "../../Context/CartContext";
 
 
 export default function SingleCourse() {
@@ -46,10 +47,11 @@ export default function SingleCourse() {
     const userTokenLS = JSON.parse(localStorage.getItem('user'))
 
     const authContext = useContext(AuthContext)
+    const cartContext = useContext(CartContext)
+
     const baseUrl = process.env.REACT_APP_BASE_URL
     const courseSlug = useParams().courseSlug
 
-    console.log(authContext);
 
     const form = useForm()
     const { register, control, handleSubmit, formState, reset } = form
@@ -85,7 +87,7 @@ export default function SingleCourse() {
                         title: response.message,
                         icon: "success",
                         buttons: 'باشه'
-                    }).then(res =>{
+                    }).then(res => {
                         reset()
                     })
                 })
@@ -111,6 +113,11 @@ export default function SingleCourse() {
     }, [])
 
 
+    function handleAddToCart() {
+        cartContext.addToCart(course.id);
+        console.log(cartContext.courseIds);
+    }
+    console.log(cartContext.courseIds);
     return (<>
         <Topbar />
         <MyNavbar />
@@ -454,9 +461,18 @@ export default function SingleCourse() {
                                 </button>
                             </div>}
 
-                            <div className='mt-4 px-4'>
-                                <CommonBtn title="افزودن به سبد خرید" className="w-100" />
-                            </div>
+                            {
+                                cartContext.isInCart(course.id) ?
+                                    <div className='mt-4 px-4'>
+                                        <CommonBtn title="حذف از سبد خرید" className="w-100" />
+                                    </div>
+
+                                    :
+                                    <div className='mt-4 px-4' onClick={(e) => handleAddToCart()}>
+                                        <CommonBtn title="افزودن به سبد خرید" className="w-100" />
+                                    </div>
+                            }
+
                             <div className='px-4'>
                                 <button className='buy-btn-single-course'>
                                     خرید مستقیم دوره

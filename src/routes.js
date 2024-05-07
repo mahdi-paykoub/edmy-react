@@ -39,7 +39,7 @@ const routes = [
     { path: '/course/:courseSlug/:id', element: <VideoCourse /> },
     { path: '/search/:searchedValue', element: <Search /> },
     { path: '/category/:categorySlug', element: <Category /> },
-    // {path: '/cart', element: <ShopCart/>},
+    {path: '/cart', element: <ShopCart/>},
 
     //admin panel
     {

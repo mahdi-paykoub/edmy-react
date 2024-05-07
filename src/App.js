@@ -1,14 +1,17 @@
-import {json, useNavigate, useRoutes} from 'react-router-dom'
+import { json, useNavigate, useRoutes } from 'react-router-dom'
 import './App.css';
 import routes from './routes'
-import {AuthContext} from "./Context/AuthContext";
-import {useEffect, useState} from "react";
+import { AuthContext } from "./Context/AuthContext";
+import { CartContext } from "./Context/CartContext";
+import { useEffect, useState } from "react";
 import swal from "sweetalert";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [token, setToken] = useState(null)
     const [userInfo, setUserInfo] = useState(null)
+
+    const [courseIds, setCourseIds] = useState([])
 
     const baseUrl = process.env.REACT_APP_BASE_URL;
     const navigate = useNavigate()
@@ -24,24 +27,27 @@ function App() {
                 }
             })
                 .then(response => {
-                        if (!response.ok) {
-                            return response.json().then(error => {
-                                throw new Error('توکن معتبر نیست');
-                            })
-                        } else return response.json();
-                    }
+                    if (!response.ok) {
+                        return response.json().then(error => {
+                            throw new Error('توکن معتبر نیست');
+                        })
+                    } else return response.json();
+                }
                 )
                 .then(res => {
                     setIsLoggedIn(true)
                     setUserInfo(res)
                     setToken(userTokenLS.token)
                 }).catch(err => {
-            })
+                })
         }
     }, [token])
 
+
+
+
     function login(token) {
-        localStorage.setItem('user', JSON.stringify({token}))
+        localStorage.setItem('user', JSON.stringify({ token }))
         setToken(token)
     }
 
@@ -56,8 +62,8 @@ function App() {
                     Authorization: `Bearer ${userTokenLS.token}`
                 }
             }).then(response => {
-                    return response.json();
-                }
+                return response.json();
+            }
             )
                 .then(res => {
                     localStorage.removeItem('user')
@@ -66,12 +72,32 @@ function App() {
                     setIsLoggedIn(false)
                     navigate('/')
                 }).catch(err => {
-            })
+                })
         }
 
 
     }
 
+
+    function addToCart(courseId) {
+        if (!isInCart(courseId)) {
+            setUserInfo(courseIds.push(courseId))
+        }
+    }
+    function removeFromCart(courseId) {
+        let newCourseIds = courseIds.filter((id) => {
+            return id != courseId
+        })
+
+        setUserInfo(newCourseIds)
+    }
+
+    function isInCart(courseId){
+        if (courseIds.includes(courseId)) {
+            return true;
+        }
+        return false;
+    }
     const router = useRoutes(routes)
 
     return (
@@ -83,7 +109,14 @@ function App() {
                 login: login,
                 logout: logout
             }}>
-                {router}
+                <CartContext.Provider value={{
+                    courseIds: courseIds,
+                    addToCart: addToCart,
+                    removeFromCart: removeFromCart,
+                    isInCart: isInCart,
+                }}>
+                    {router}
+                </CartContext.Provider>
             </AuthContext.Provider>
         </>
     );
