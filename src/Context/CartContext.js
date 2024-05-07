@@ -4,4 +4,5 @@ export const CartContext = createContext({
     courseIds: [],
     addToCart:()=>{},
     removeFromCart:()=>{},
+    isInCart:()=>{},
 })

@@ -29,7 +29,7 @@ import { BiLogoFacebook } from "react-icons/bi";
 import { ImTwitter } from "react-icons/im";
 import SimilarCourses from "../../Components/SimilarCourses/SimilarCourses";
 import { BsChevronLeft } from 'react-icons/bs';
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import swal from "sweetalert";
 import { formValidation } from "../../utils/Validations";
@@ -115,10 +115,12 @@ export default function SingleCourse() {
 
     function handleAddToCart() {
         cartContext.addToCart(course.id);
-        console.log(cartContext.courseIds);
     }
-    console.log(cartContext.courseIds);
+    function handleremoveFromCart() {
+        cartContext.removeFromCart(course.id);
+    }
     return (<>
+
         <Topbar />
         <MyNavbar />
         <SecondLanding title={course !== null && course.name} />
@@ -463,20 +465,21 @@ export default function SingleCourse() {
 
                             {
                                 cartContext.isInCart(course.id) ?
-                                    <div className='mt-4 px-4'>
-                                        <CommonBtn title="حذف از سبد خرید" className="w-100" />
+                                    <div className='mt-4 px-4' onClick={(e) => handleremoveFromCart()}>
+                                        <CommonBtn title="حذف از سبد خرید" className="w-100 fs15" />
                                     </div>
-
                                     :
-                                    <div className='mt-4 px-4' onClick={(e) => handleAddToCart()}>
-                                        <CommonBtn title="افزودن به سبد خرید" className="w-100" />
+                                    <div div className='mt-4 px-4' onClick={(e) => handleAddToCart()}>
+                                        <CommonBtn title="افزودن به سبد خرید" className="w-100 fs15" />
                                     </div>
                             }
-
                             <div className='px-4'>
-                                <button className='buy-btn-single-course'>
-                                    خرید مستقیم دوره
-                                </button>
+                                <Link to='/cart'>
+                                    <button className='buy-btn-single-course fs15'>
+                                        مشاهده سبد خرید
+                                    </button>
+                                </Link>
+
                             </div>
                             <div className='text-center text-secondary pb-5 mt-2'>
                                 30-روز ضمانت بازگشت وجه
@@ -484,7 +487,7 @@ export default function SingleCourse() {
                         </div>
                     </Col>
                 </Row>
-            </Container>
+            </Container >
         }
 
 

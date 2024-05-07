@@ -78,26 +78,26 @@ function App() {
 
     }
 
-
-    function addToCart(courseId) {
-        if (!isInCart(courseId)) {
-            setUserInfo(courseIds.push(courseId))
-        }
-    }
-    function removeFromCart(courseId) {
-        let newCourseIds = courseIds.filter((id) => {
-            return id != courseId
-        })
-
-        setUserInfo(newCourseIds)
-    }
-
-    function isInCart(courseId){
+    function isInCart(courseId) {
         if (courseIds.includes(courseId)) {
             return true;
         }
         return false;
     }
+    function addToCart(courseId) {
+        if (!courseIds.includes(courseId)) {
+            setCourseIds(oldArray =>
+                [...oldArray, courseId]
+            );
+        }
+    }
+    function removeFromCart(courseId) {
+        setCourseIds(oldValues => {
+            return oldValues.filter(id => id !== courseId)
+        })
+    }
+
+
     const router = useRoutes(routes)
 
     return (
