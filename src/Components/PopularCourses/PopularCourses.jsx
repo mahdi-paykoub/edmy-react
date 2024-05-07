@@ -27,7 +27,6 @@ export default function PopularCourses() {
                     {popularCourses.map((popularCourse, index) =>
                         <CourseCard key={popularCourse._id} {...popularCourse}/>
                     )}
-
                 </Row>
             </Container>
         </>

@@ -25,6 +25,7 @@ import UserTransaction from "./pages/UserDashboard/UserTransaction/UserTransacti
 import SendTicket from "./pages/UserDashboard/SendTicket/SendTicket";
 import TicketDetail from "./pages/UserDashboard/TicketDetail/TicketDetail";
 import UserDashboard from "./pages/UserDashboard/UserDashboard";
+import ShopCart from "./pages/ShopCart/ShopCart";
 
 const routes = [
     { path: '/', element: <Index /> },
@@ -38,6 +39,7 @@ const routes = [
     { path: '/course/:courseSlug/:id', element: <VideoCourse /> },
     { path: '/search/:searchedValue', element: <Search /> },
     { path: '/category/:categorySlug', element: <Category /> },
+    // {path: '/cart', element: <ShopCart/>},
 
     //admin panel
     {

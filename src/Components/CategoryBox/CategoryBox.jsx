@@ -9,13 +9,14 @@ import {BiLeftArrowAlt} from 'react-icons/bi';
 import {Link} from "react-router-dom";
 
 export default function CategoryBox() {
-    const [categories, setCategories] = useState([])
+    const [categories, setCategories] = useState(null)
     const baseUrl = process.env.REACT_APP_BASE_URL
 
     function getCategories() {
-        fetch(`${baseUrl}/category`)
+        fetch(`${baseUrl}category/all`)
             .then(res => res.json())
             .then(res => {
+                console.log(res);
                 setCategories(res)
             })
     }
@@ -27,11 +28,13 @@ export default function CategoryBox() {
     return (
         <>
             <TitleBox title='دسته های برتر' desc='دسته بندی های برتر را مشاهده کنید'/>
-            <Container className=''>
+            {
+                categories !== null && 
+                <Container className=''>
                 <Row>
-                    {categories.slice(0,12).map((category)=>
+                    {categories.data.slice(0,12).map((category)=>
                         <Col md={6} lg={3} key={category._id}>
-                            <Link to={`/category/${category.name}`}>
+                            <Link to={`/category/${category.slug}`}>
                                 <div
                                     className='w-100 box-cat-main position-relative py-4 px-3 d-flex justify-content-between br5 text-dark'>
                                     <div className=''>
@@ -55,6 +58,8 @@ export default function CategoryBox() {
                     </div>
                 </Row>
             </Container>
+            }
+          
 
         </>
     )

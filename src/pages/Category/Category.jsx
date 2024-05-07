@@ -86,7 +86,7 @@ export default function Category() {
                                 <Row className='mt-3'>
                                     {
                                         courses.data.length === 0 ?
-                                            <EmptyBox title="در این دسته بندی دوره ای وجود ندارد." />
+                                            <EmptyBox cssClass='my-5' title="در این دسته بندی دوره ای وجود ندارد." />
                                             :
                                             courses.data.map((course) =>
                                                 <CourseCard {...course} />
