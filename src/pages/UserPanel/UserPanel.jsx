@@ -18,7 +18,6 @@ export default function UserPanel() {
     const authContext = useContext(AuthContext)
     const baseUrl = process.env.REACT_APP_BASE_URL
     const userTokenLS = JSON.parse(localStorage.getItem('user'))
-    console.log(userTokenLS.token);
 
     const form = useForm()
     const { register, control, handleSubmit, formState, reset } = form
@@ -31,7 +30,11 @@ export default function UserPanel() {
         formData.append('name', data.name)
         formData.append('email', data.email)
         formData.append('_method', 'PATCH')
-        formData.append('image', data.image[0])
+        if (data.image.length !== 0) {
+            formData.append('image', data.image[0])
+        }
+
+
 
         fetch(`${baseUrl}user-info/update`,
             {
@@ -64,8 +67,14 @@ export default function UserPanel() {
             })
     }
 
-    
 
+    const {
+        register: register2,
+        formState: { errors: errors2 },
+        handleSubmit: handleSubmit2,
+    } = useForm({
+        mode: "onBlur",
+    });
     const handlepasswordSubmit = (data) => {
         let formData = new FormData()
         formData.append('old_password', data.old_password)
@@ -164,21 +173,21 @@ export default function UserPanel() {
                         </form>
                     </Col>
                     <Col lg='4' className='mt-4 mt-lg-0 px-4'>
-                        <form onSubmit={handleSubmit(handlepasswordSubmit)} noValidate>
+                        <form onSubmit={handleSubmit2(handlepasswordSubmit)} noValidate>
                             <Row className='py-4 br10' style={{ background: '#f2f0ef' }}>
                                 <Col lg={12} className='mt-4'>
                                     <div className=''>رمز عبور فعلی</div>
                                     <input type="text" className='custom-form-input mt-3 bg-white'
-                                        placeholder='رمز فعلی را وارد نمایید' 
-                                        {...register('old_password', formValidation('رمز فعلی'))} />
-                                        <p className='mt-1 text-danger fs14'>{errors.old_password?.message}</p>
+                                        placeholder='رمز فعلی را وارد نمایید'
+                                        {...register2('old_password', formValidation('رمز فعلی'))} />
+                                    <p className='mt-1 text-danger fs14'>{errors2.old_password?.message}</p>
                                 </Col>
                                 <Col lg={12} className='mt-4'>
                                     <div className=''>رمز عبور جدید</div>
                                     <input type="text" className='custom-form-input mt-3 bg-white'
-                                        placeholder='رمز جدید را وارد نمایید' 
-                                        {...register('new_password', formValidation('رمز جدید'))} />
-                                        <p className='mt-1 text-danger fs14'>{errors.new_password?.message}</p>
+                                        placeholder='رمز جدید را وارد نمایید'
+                                        {...register2('new_password', formValidation('رمز جدید'))} />
+                                    <p className='mt-1 text-danger fs14'>{errors2.new_password?.message}</p>
                                 </Col>
                                 <div className='text-start mt-5'>
                                     <CommomBtn title='تغییر رمز' />
