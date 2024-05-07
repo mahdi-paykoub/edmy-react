@@ -109,7 +109,7 @@ function App() {
 
     function getCartItems() {
         const cartItems = courseIds.map((id) => {
-            return courses.filter(course => course.id === id)
+            return courses.filter(course => course.id === id)[0]
         })
         return cartItems;
     }
