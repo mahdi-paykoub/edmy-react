@@ -10,6 +10,7 @@ function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [token, setToken] = useState(null)
     const [userInfo, setUserInfo] = useState(null)
+    const [courses, setCourses] = useState(null)
 
     const [courseIds, setCourseIds] = useState([])
 
@@ -44,6 +45,15 @@ function App() {
     }, [token])
 
 
+
+    useEffect(() => {
+        fetch(`${baseUrl}course/all`)
+            .then(response => {
+                return response.json();
+            }).then(res => {
+                setCourses(res.data);
+            })
+    }, [])
 
 
     function login(token) {
@@ -97,6 +107,13 @@ function App() {
         })
     }
 
+    function getCartItems() {
+        const cartItems = courseIds.map((id) => {
+            return courses.filter(course => course.id === id)
+        })
+        return cartItems;
+    }
+
 
     const router = useRoutes(routes)
 
@@ -114,6 +131,7 @@ function App() {
                     addToCart: addToCart,
                     removeFromCart: removeFromCart,
                     isInCart: isInCart,
+                    getCartItems: getCartItems,
                 }}>
                     {router}
                 </CartContext.Provider>

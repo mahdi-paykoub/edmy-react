@@ -5,4 +5,5 @@ export const CartContext = createContext({
     addToCart:()=>{},
     removeFromCart:()=>{},
     isInCart:()=>{},
+    getCartItems:()=>{},
 })
