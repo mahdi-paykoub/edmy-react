@@ -10,8 +10,8 @@ import StudentsComments from '../../Components/StudentsComments/StudentsComments
 import SupportUs from '../../Components/SupportUs/SupportUs'
 import BecomeTeacherBox from '../../Components/BecomeTeacherBox/BecomeTeacherBox'
 import BecomeMemberBox from '../../Components/BecomeMemberBox/BecomeMemberBox'
-// import Footer from '../../Components/Footer/Footer'
-// import ArticleBox from "../../Components/ArticleBox/ArticleBox";
+import Footer from '../../Components/Footer/Footer'
+import ArticleBox from "../../Components/ArticleBox/ArticleBox";
 import CategoryBox from "../../Components/CategoryBox/CategoryBox";
 
 export default function Index() {
@@ -29,8 +29,8 @@ export default function Index() {
             <SupportUs/>
             <BecomeTeacherBox/>
             <BecomeMemberBox/>
-            {/* <ArticleBox/> */}
-            {/* <Footer className='mt-4 mt-md-5'/> */}
+            <ArticleBox/>
+            <Footer className='mt-4 mt-md-5'/>
         </>
     )
 }

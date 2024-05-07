@@ -30,7 +30,7 @@ export default function ArticleBox() {
 
 
     useEffect(() => {
-        fetch(`${baseUrl}/articles`)
+        fetch(`${baseUrl}article/all`)
             .then(response => response.json())
             .then(response => {
                 setArticles(response)
@@ -67,9 +67,9 @@ export default function ArticleBox() {
                     modules={[FreeMode]}
                     className="mySwiper"
                 >
-                    {articles ?
-                        articles.slice(0, 5).map((article) =>
-                            <SwiperSlide key={article._id} className='text-center'>
+                    {articles !== null ?
+                        articles.data.slice(0, 5).map((article) =>
+                            <SwiperSlide key={article._id}>
                                 <ArticleCard {...article}/>
                             </SwiperSlide>
                         )
