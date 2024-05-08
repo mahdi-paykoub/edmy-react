@@ -27,6 +27,8 @@ import TicketDetail from "./pages/UserDashboard/TicketDetail/TicketDetail";
 import UserDashboard from "./pages/UserDashboard/UserDashboard";
 import ShopCart from "./pages/ShopCart/ShopCart";
 import Page404 from "./pages/404/Page404";
+import FAQ from "./pages/FAQ/FAQ";
+import AboutUs from "./pages/AboutUs/AboutUs";
 
 const routes = [
     { path: '/', element: <Index /> },
@@ -40,8 +42,10 @@ const routes = [
     { path: '/course/:courseSlug/:id', element: <VideoCourse /> },
     { path: '/search/:searchedValue', element: <Search /> },
     { path: '/category/:categorySlug', element: <Category /> },
-    {path: '/cart', element: <ShopCart/>},
-    {path: '/404', element: <Page404/>},
+    { path: '/cart', element: <ShopCart /> },
+    { path: '/404', element: <Page404 /> },
+    { path: '/faq', element: <FAQ /> },
+    { path: '/about-us', element: <AboutUs /> },
 
     //admin panel
     {
@@ -60,7 +64,7 @@ const routes = [
         ]
     },
     // user panel
-    { path: '/my-account/edit-account', element: <UserPanel />,},
+    { path: '/my-account/edit-account', element: <UserPanel />, },
     {
         path: '/dashboard/*', element: <UserDashboard />,
         children: [
@@ -108,12 +112,6 @@ export default routes
 //
 //
 // const routes = [
-//     {path: '/cart', element: <ShopCart/>},
-//     {path: '/search/:searchedValue', element: <Search/>},
-//     {path: '/contact-us', element: <ContactUs/>},
-//     {path: '/about-us', element: <AboutUs/>},
-//     {path: '/faq', element: <FAQ/>},
-//     {path: '/category/:categoryName', element: <Category/>},
 // ]
 //
 // export default routes
