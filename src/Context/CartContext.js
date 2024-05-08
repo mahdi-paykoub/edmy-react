@@ -6,4 +6,5 @@ export const CartContext = createContext({
     removeFromCart:()=>{},
     isInCart:()=>{},
     getCartItems:()=>{},
+    getTotalPrice:()=>{},
 })

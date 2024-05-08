@@ -110,7 +110,7 @@ function App() {
         setCourseIds(oldValues => {
             return oldValues.filter(id => id !== courseId)
         })
-        const new_ids = courseIds.filter(id=>
+        const new_ids = courseIds.filter(id =>
             id !== courseId
         )
         localStorage.setItem('cart', JSON.stringify(new_ids))
@@ -122,6 +122,9 @@ function App() {
             return courses.filter(course => course.id === id)[0]
         })
         return cartItems;
+    }
+    function getTotalPrice() {
+       return getCartItems().reduce((acc, item) => acc + item.price, 0)
     }
 
 
@@ -142,6 +145,7 @@ function App() {
                     removeFromCart: removeFromCart,
                     isInCart: isInCart,
                     getCartItems: getCartItems,
+                    getTotalPrice: getTotalPrice,
                 }}>
                     {router}
                 </CartContext.Provider>

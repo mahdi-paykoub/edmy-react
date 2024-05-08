@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom'
 
 export default function ShopCart() {
     const cartContext = useContext(CartContext)
-
+    const cartItems = cartContext.getCartItems()
     return (
         <>
             <Topbar />
@@ -25,13 +25,13 @@ export default function ShopCart() {
             <Container className='pb-5'>
 
 
-                {cartContext.getCartItems().length !== 0 ?
+                {cartItems.length !== 0 ?
                     <Row>
-                        <div className='mt-5 mb-4'>1 دوره در سبد خرید شما
+                        <div className='mt-5 mb-4'>{cartItems.length} دوره در سبد خرید شما
                         </div>
                         <Col lg={8}>
                             {
-                                cartContext.getCartItems().map((item, index) =>
+                                cartItems.map((item, index) =>
                                     <div className={`${index !== 0 ? 'mt-4' : ''} `} key={item.id}>
                                         <CourseCard2 {...item} />
                                     </div>
@@ -44,7 +44,7 @@ export default function ShopCart() {
                                     <div className='fw800 fs20'>مجموع</div>
                                     <div>
                                         <span className='fw800 fs20 porple-text-color2'>
-                                            {Number(1958000).toLocaleString()}
+                                            {Number(cartContext.getTotalPrice()).toLocaleString()}
                                         </span>
                                         <Toman w="22" h='22' className="porple-text-color2 me-2" />
                                     </div>
