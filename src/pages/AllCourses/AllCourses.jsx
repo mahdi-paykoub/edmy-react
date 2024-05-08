@@ -16,7 +16,8 @@ import EmptyBox from "../../Components/EmptyBox/EmptyBox";
 
 export default function AllCourses() {
     const [allCourses, setAllCourses] = useState(null)
-    const [searchValue, setSearcgValue] = useState('')
+    const [searchValue, setSearchValue] = useState('')
+    const [orderValue, setOrderValue] = useState('')
     const [searchItems, setSearchItems] = useState(null)
     const baseUrl = process.env.REACT_APP_BASE_URL
 
@@ -24,14 +25,51 @@ export default function AllCourses() {
         fetch(`${baseUrl}course/all`)
             .then(res => res.json())
             .then(res => {
-                setAllCourses(res)
-                setSearchItems(res)
+                setSearchItems(res.data.reverse())
+                setAllCourses(res.data)
             })
     }, [])
 
+    const handleCourseOrder = (value) => {
+        setOrderValue(value)
+        switch (value) {
+            case 'newest':
+                {
+                    setSearchItems(allCourses)
+                    break;
+                }
+
+            case 'presell':
+                {
+                    const orderedCourses = allCourses.filter(course => course.status === 'presell')
+                    setSearchItems(orderedCourses)
+                    break;
+                }
+            case 'completed':
+                {
+                    const orderedCourses = allCourses.filter(course => course.status === 'completed')
+                    setSearchItems(orderedCourses)
+                    break;
+                }
+            case 'money':
+                {
+                    const orderedCourses = allCourses.filter(course => course.is_free === 0)
+                    setSearchItems(orderedCourses)
+                    break;
+                }
+            case 'free':
+                {
+                    const orderedCourses = allCourses.filter(course => course.is_free === 1)
+                    setSearchItems(orderedCourses)
+                    break;
+                }
+            default:
+                break;
+        }
+    }
     const handleSearchedCourese = (value) => {
-        setSearcgValue(value)
-        const searchedCourses = { data: allCourses.data.filter(course => course.name.includes(value)) }
+        setSearchValue(value)
+        const searchedCourses = allCourses.filter(course => course.name.includes(value))
         setSearchItems(searchedCourses)
     }
     return (
@@ -45,24 +83,32 @@ export default function AllCourses() {
                 <Row>
                     <Col lg={6}>
                         <div className='text-secondary px-4 text-center text-lg-end mt-3'>
-                            ما 14 دوره برای شما پیدا کردیم
+                            ما
+                            <span className='px-1 purple-text-color'>{
+                                searchItems !== null &&
+                                searchItems.length
+                            }
+                            </span>
+                            برای شما پیدا کردیم
+
                         </div>
                     </Col>
                     <Col lg={6} className='text-start mt-3 mt-lg-0'>
                         <div className='d-md-flex d-block'>
                             <div className='w-100 position-relative'>
                                 <input type="text" className='custom-form-input w85-100 mt-3 mt-md-0'
-                                    placeholder='جستجوی دوره' onChange={(e) => handleSearchedCourese(e.target.value)} value={searchValue}/>
+                                    placeholder='جستجوی دوره' onChange={(e) => handleSearchedCourese(e.target.value)} value={searchValue} />
                                 <button className='serch-course-btn border-0 position-absolute fs20'>
                                     <BiSearch />
                                 </button>
                             </div>
-                            <select name="" id=""
+                            <select name="" id="" onChange={(e) => handleCourseOrder(e.target.value)}
                                 className='custom-form-input select-sort-course me-md-2 text-dark mt-3 mt-md-0 fs14 w60-100'>
-                                <option value="" className=''>مرتب سازی</option>
-                                <option value="">جدیدترین</option>
-                                <option value="">گرانترین</option>
-                                <option value="">ارزانترین</option>
+                                <option value="newest">جدیدترین دوره‌ها</option>
+                                <option value="money">دوره‌های پولی</option>
+                                <option value="free">دوره‌های رایگان</option>
+                                <option value="presell">دوره‌های پیشفروش</option>
+                                <option value="completed">دوره‌های تکمیل شده</option>
                             </select>
                         </div>
                     </Col>
@@ -71,9 +117,9 @@ export default function AllCourses() {
                     searchItems !== null &&
                     <Row className='mt-3'>
                         {
-                            searchItems.data.length === 0 ?
+                            searchItems.length === 0 ?
                                 <EmptyBox title="هیچ دوره ای یافت نشد." cssClass="my-5" /> :
-                                searchItems.data.map((course) =>
+                                searchItems.map((course) =>
                                     <>
                                         <CourseCard key={course.id} {...course} />
                                     </>
