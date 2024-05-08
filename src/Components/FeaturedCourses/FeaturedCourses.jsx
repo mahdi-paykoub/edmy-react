@@ -18,8 +18,11 @@ export default function FeaturedCourses({ courses }) {
           <Container className='mt-5'>
             <Row>
               {
-                courses.data.reverse().slice(0,4).map((course) =>
-                  <CourseCard {...course} />
+                courses.data.reverse().slice(0, 4).map((course) => {
+                  if (course.status !== 'presell') {
+                    return <CourseCard {...course} />
+                  }
+                }
                 )
               }
             </Row>
@@ -32,12 +35,11 @@ export default function FeaturedCourses({ courses }) {
           <Container className='mt-5'>
             <Row>
               {
-                courses.data.map((course) => {
-                  if (course.status === 'presel') {
-                    <CourseCard {...course} />
+                courses.data.reverse().slice(0, 4).map((course) => {
+                  if (course.status === 'presell') {
+                    return <CourseCard {...course} />
                   }
                 }
-
                 )
               }
             </Row>
