@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, { useEffect, useState } from 'react'
 import Topbar from '../../Components/Topbar/Topbar'
 import MyNavbar from '../../Components/MyNavbar/MyNavbar'
 import Landing from '../../Components/Landing/Landing'
@@ -15,22 +15,33 @@ import ArticleBox from "../../Components/ArticleBox/ArticleBox";
 import CategoryBox from "../../Components/CategoryBox/CategoryBox";
 
 export default function Index() {
+    const [courses, setCourses] = useState(null)
+    const baseUrl = process.env.REACT_APP_BASE_URL
+
+    useEffect(() => {
+        fetch(`${baseUrl}course/all`)
+            .then(response => response.json())
+            .then(response => {
+                setCourses(response)
+            })
+    }, [])
+
     return (
         <>
-            <Topbar/>
-            <MyNavbar/>
-            <Landing/>
+            <Topbar />
+            <MyNavbar />
+            <Landing />
             {/* <PopularCourses/> */}
-            <FeaturedCourses/>
-            <CategoryBox/>
-            <IntroductionBox img='/images/transform-img.png'/>
-            <WhyUs/>
-            <StudentsComments/>
-            <SupportUs/>
-            <BecomeTeacherBox/>
-            <BecomeMemberBox/>
-            <ArticleBox/>
-            <Footer className='mt-4 mt-md-5'/>
+            <FeaturedCourses courses={courses}/>
+            <CategoryBox />
+            <IntroductionBox img='/images/transform-img.png' />
+            <WhyUs />
+            <StudentsComments />
+            <SupportUs />
+            <BecomeTeacherBox />
+            <BecomeMemberBox />
+            <ArticleBox />
+            <Footer className='mt-4 mt-md-5' />
         </>
     )
 }

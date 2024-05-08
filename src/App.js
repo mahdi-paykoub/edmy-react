@@ -11,14 +11,9 @@ function App() {
     const [token, setToken] = useState(null)
     const [userInfo, setUserInfo] = useState(null)
     const [courses, setCourses] = useState(null)
-
     const [courseIds, setCourseIds] = useState([])
-
     const baseUrl = process.env.REACT_APP_BASE_URL;
     const navigate = useNavigate()
-
-    console.log(JSON.parse(localStorage.getItem('cart')));
-
     useEffect(() => {
         const userTokenLS = JSON.parse(localStorage.getItem('user'))
         if (userTokenLS) {
@@ -46,7 +41,6 @@ function App() {
         }
     }, [token])
 
-
     useEffect(() => {
         const cart = JSON.parse(localStorage.getItem('cart'))
         const cartItems = cart === null ? [] : cart;
@@ -58,7 +52,6 @@ function App() {
                 setCourseIds(cartItems);
             })
     }, [])
-
 
     function login(token) {
         localStorage.setItem('user', JSON.stringify({ token }))

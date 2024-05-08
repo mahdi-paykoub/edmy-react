@@ -79,39 +79,3 @@ const routes = [
 ]
 
 export default routes
-
-// import UserPanel from "./pages/UserPanel/UserPanel";
-// import UserInfo from "./pages/UserPanel/UserInfo/UserInfo";
-// import UserImg from "./pages/UserPanel/UserImg/UserImg";
-// import ShopCart from "./pages/ShopCart/ShopCart";
-// import UserDashboard from "./pages/UserDashboard/UserDashboard";
-// import IndexDashboard from "./pages/UserDashboard/IndexDashboard/IndexDashboard";
-// import Tickets from "./pages/UserDashboard/Tickets/Tickets";
-// import UserCourses from "./pages/UserDashboard/UserCourses/UserCourses";
-// import UserTransaction from "./pages/UserDashboard/UserTransaction/UserTransaction";
-// import SendTicket from "./pages/UserDashboard/SendTicket/SendTicket";
-// import TicketDetail from "./pages/UserDashboard/TicketDetail/TicketDetail";
-// import AllArticles from "./pages/AllArticles/AllArticles";
-// import ContactUs from "./pages/ContactUs/ContactUs";
-// import AboutUs from "./pages/AboutUs/AboutUs";
-// import Search from "./pages/Search/Search";
-// import FAQ from "./pages/FAQ/FAQ";
-// import Page404 from "./pages/404/Page404";
-// import Category from "./pages/Category/Category";
-// import AdminPanel from "./pages/AdminPanel/AdminPanel";
-// import PanelCourses from "./pages/AdminPanel/PanelCourses/PanelCourses";
-// import PanelUsers from "./pages/AdminPanel/PanelUsers/PanelUsers";
-// import PanelArticles from "./pages/AdminPanel/PanelArticles/PanelArticles";
-// import PanelIndex from "./pages/AdminPanel/PanelIndex/PanelIndex";
-// import PanelCategories from "./pages/AdminPanel/PanelCategories/PanelCategories";
-// import PanelNewsletter from "./pages/AdminPanel/PanelNewsletter/PanelNewsletter";
-// import PanelMenus from "./pages/AdminPanel/PanelMenus/PanelMenus";
-// import PanelSession from "./pages/AdminPanel/PanelSession/PanelSession";
-// import PanelContactus from "./pages/AdminPanel/PanelContactus/PanelContactus";
-// import PanelOrders from "./pages/AdminPanel/PanelOrders/PanelOrders";
-//
-//
-// const routes = [
-// ]
-//
-// export default routes

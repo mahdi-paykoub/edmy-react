@@ -16,7 +16,6 @@ export default function CategoryBox() {
         fetch(`${baseUrl}category/all`)
             .then(res => res.json())
             .then(res => {
-                console.log(res);
                 setCategories(res)
             })
     }
