@@ -26,6 +26,7 @@ import SendTicket from "./pages/UserDashboard/SendTicket/SendTicket";
 import TicketDetail from "./pages/UserDashboard/TicketDetail/TicketDetail";
 import UserDashboard from "./pages/UserDashboard/UserDashboard";
 import ShopCart from "./pages/ShopCart/ShopCart";
+import Page404 from "./pages/404/Page404";
 
 const routes = [
     { path: '/', element: <Index /> },
@@ -40,6 +41,7 @@ const routes = [
     { path: '/search/:searchedValue', element: <Search /> },
     { path: '/category/:categorySlug', element: <Category /> },
     {path: '/cart', element: <ShopCart/>},
+    {path: '/404', element: <Page404/>},
 
     //admin panel
     {
@@ -110,7 +112,6 @@ export default routes
 //     {path: '/search/:searchedValue', element: <Search/>},
 //     {path: '/contact-us', element: <ContactUs/>},
 //     {path: '/about-us', element: <AboutUs/>},
-//     {path: '/404', element: <Page404/>},
 //     {path: '/faq', element: <FAQ/>},
 //     {path: '/category/:categoryName', element: <Category/>},
 // ]
