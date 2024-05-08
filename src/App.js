@@ -17,12 +17,14 @@ function App() {
     const baseUrl = process.env.REACT_APP_BASE_URL;
     const navigate = useNavigate()
 
+    console.log(JSON.parse(localStorage.getItem('cart')));
+
     useEffect(() => {
         const userTokenLS = JSON.parse(localStorage.getItem('user'))
         if (userTokenLS) {
             fetch(`${baseUrl}me`, {
                 headers: {
-                    'Accept': 'application/vnd.api+json',
+                    Accept: 'application/vnd.api+json',
                     'Content-Type': 'application/vnd.api+json',
                     Authorization: `Bearer ${userTokenLS.token}`
                 }
@@ -45,13 +47,15 @@ function App() {
     }, [token])
 
 
-
     useEffect(() => {
+        const cart = JSON.parse(localStorage.getItem('cart'))
+        const cartItems = cart === null ? [] : cart;
         fetch(`${baseUrl}course/all`)
             .then(response => {
                 return response.json();
             }).then(res => {
                 setCourses(res.data);
+                setCourseIds(cartItems);
             })
     }, [])
 
@@ -98,13 +102,19 @@ function App() {
         if (!courseIds.includes(courseId)) {
             setCourseIds(oldArray =>
                 [...oldArray, courseId]
-            );
+            )
+            localStorage.setItem('cart', JSON.stringify([...courseIds, courseId]))
         }
     }
     function removeFromCart(courseId) {
         setCourseIds(oldValues => {
             return oldValues.filter(id => id !== courseId)
         })
+        const new_ids = courseIds.filter(id=>
+            id !== courseId
+        )
+        localStorage.setItem('cart', JSON.stringify(new_ids))
+
     }
 
     function getCartItems() {

@@ -30,17 +30,13 @@ export default function ShopCart() {
                         <div className='mt-5 mb-4'>1 دوره در سبد خرید شما
                         </div>
                         <Col lg={8}>
-
-                            {console.log(cartContext.getCartItems())}
-
                             {
-                                cartContext.getCartItems().map(item =>
-                                    <div className='mt-4 pt-2' key={item.id}>
-                                        <CourseCard2 {...item}/>
+                                cartContext.getCartItems().map((item, index) =>
+                                    <div className={`${index !== 0 ? 'mt-4' : ''} `} key={item.id}>
+                                        <CourseCard2 {...item} />
                                     </div>
                                 )
                             }
-
                         </Col>
                         <Col lg={4}>
                             <div className='total-price-box bg-white br5 mt-4 mt-md-0'>
