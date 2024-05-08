@@ -30,36 +30,36 @@ export default function AllCourses() {
             })
     }, [])
 
-    const handleCourseOrder = (value) => {
-        setOrderValue(value)
-        switch (value) {
+    const searchedAndOrderedItems = (order, search) => {
+        switch (order) {
             case 'newest':
                 {
-                    setSearchItems(allCourses)
+                    const orderedCourses = allCourses.filter(course => (course.name.includes(search)))
+                    setSearchItems(orderedCourses)
                     break;
                 }
 
             case 'presell':
                 {
-                    const orderedCourses = allCourses.filter(course => course.status === 'presell')
+                    const orderedCourses = allCourses.filter(course => (course.status === 'presell' && course.name.includes(search)))
                     setSearchItems(orderedCourses)
                     break;
                 }
             case 'completed':
                 {
-                    const orderedCourses = allCourses.filter(course => course.status === 'completed')
+                    const orderedCourses = allCourses.filter(course => (course.status === 'completed' && course.name.includes(search)))
                     setSearchItems(orderedCourses)
                     break;
                 }
             case 'money':
                 {
-                    const orderedCourses = allCourses.filter(course => course.is_free === 0)
+                    const orderedCourses = allCourses.filter(course => (course.is_free === 0 && course.name.includes(search)))
                     setSearchItems(orderedCourses)
                     break;
                 }
             case 'free':
                 {
-                    const orderedCourses = allCourses.filter(course => course.is_free === 1)
+                    const orderedCourses = allCourses.filter(course => (course.is_free === 1 && course.name.includes(search)))
                     setSearchItems(orderedCourses)
                     break;
                 }
@@ -67,10 +67,15 @@ export default function AllCourses() {
                 break;
         }
     }
-    const handleSearchedCourese = (value) => {
-        setSearchValue(value)
-        const searchedCourses = allCourses.filter(course => course.name.includes(value))
-        setSearchItems(searchedCourses)
+
+
+    const handleCourseOrder = (order) => {
+        setOrderValue(order)
+        searchedAndOrderedItems(order, searchValue)
+    }
+    const handleSearchedCourese = (search) => {
+        setSearchValue(search)
+        searchedAndOrderedItems(orderValue, search)
     }
     return (
         <>
@@ -97,7 +102,7 @@ export default function AllCourses() {
                         <div className='d-md-flex d-block'>
                             <div className='w-100 position-relative'>
                                 <input type="text" className='custom-form-input w85-100 mt-3 mt-md-0'
-                                    placeholder='جستجوی دوره' onChange={(e) => handleSearchedCourese(e.target.value)} value={searchValue} />
+                                    placeholder='جستجوی دوره...' onChange={(e) => handleSearchedCourese(e.target.value)} value={searchValue} />
                                 <button className='serch-course-btn border-0 position-absolute fs20'>
                                     <BiSearch />
                                 </button>
