@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import './style.css'
 import Topbar from '../../Components/Topbar/Topbar'
 import MyNavbar from '../../Components/MyNavbar/MyNavbar'
@@ -9,13 +9,15 @@ import TitleBox from '../../Components/TitleBox/TitleBox'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import {BiSearch} from 'react-icons/bi';
+import { BiSearch } from 'react-icons/bi';
 import Pagination from '../../Components/Pagination/Pagination'
 import EmptyBox from "../../Components/EmptyBox/EmptyBox";
 
 
 export default function AllCourses() {
     const [allCourses, setAllCourses] = useState(null)
+    const [searchValue, setSearcgValue] = useState('')
+    const [searchItems, setSearchItems] = useState(null)
     const baseUrl = process.env.REACT_APP_BASE_URL
 
     useEffect(() => {
@@ -23,15 +25,21 @@ export default function AllCourses() {
             .then(res => res.json())
             .then(res => {
                 setAllCourses(res)
+                setSearchItems(res)
             })
     }, [])
 
+    const handleSearchedCourese = (value) => {
+        setSearcgValue(value)
+        const searchedCourses = { data: allCourses.data.filter(course => course.name.includes(value)) }
+        setSearchItems(searchedCourses)
+    }
     return (
         <>
-            <Topbar/>
-            <MyNavbar/>
-            <SecondLanding title="همه دوره ها"/>
-            <TitleBox title="همه دوره ها" desc="با دوره های ما فرصت شغلی خود را گسترش دهید "/>
+            <Topbar />
+            <MyNavbar />
+            <SecondLanding title="همه دوره ها" />
+            <TitleBox title="همه دوره ها" desc="با دوره های ما فرصت شغلی خود را گسترش دهید " />
 
             <Container className='mt-4 mt-md-5 pt-lg-5 pb-md-5'>
                 <Row>
@@ -44,13 +52,13 @@ export default function AllCourses() {
                         <div className='d-md-flex d-block'>
                             <div className='w-100 position-relative'>
                                 <input type="text" className='custom-form-input w85-100 mt-3 mt-md-0'
-                                       placeholder='جستجوی دوره'/>
+                                    placeholder='جستجوی دوره' onChange={(e) => handleSearchedCourese(e.target.value)} value={searchValue}/>
                                 <button className='serch-course-btn border-0 position-absolute fs20'>
-                                    <BiSearch/>
+                                    <BiSearch />
                                 </button>
                             </div>
                             <select name="" id=""
-                                    className='custom-form-input select-sort-course me-md-2 text-dark mt-3 mt-md-0 fs14 w60-100'>
+                                className='custom-form-input select-sort-course me-md-2 text-dark mt-3 mt-md-0 fs14 w60-100'>
                                 <option value="" className=''>مرتب سازی</option>
                                 <option value="">جدیدترین</option>
                                 <option value="">گرانترین</option>
@@ -60,22 +68,22 @@ export default function AllCourses() {
                     </Col>
                 </Row>
                 {
-                    allCourses !== null &&
+                    searchItems !== null &&
                     <Row className='mt-3'>
                         {
-                            allCourses.data.length === 0 ?
-                                <EmptyBox title="هیچ دوره ای یافت نشد." cssClass="my-5"/> :
-                                allCourses.data.map((course) =>
+                            searchItems.data.length === 0 ?
+                                <EmptyBox title="هیچ دوره ای یافت نشد." cssClass="my-5" /> :
+                                searchItems.data.map((course) =>
                                     <>
-                                        <CourseCard key={course.id} {...course}/>
+                                        <CourseCard key={course.id} {...course} />
                                     </>
                                 )
                         }
-                        <Pagination page={true}/>
+                        <Pagination page={true} />
                     </Row>
                 }
             </Container>
-            <Footer className='mt-4 mt-md-5'/>
+            <Footer className='mt-4 mt-md-5' />
         </>
     )
 }
