@@ -17,12 +17,13 @@ import EmptyBox from "../../Components/EmptyBox/EmptyBox";
 export default function AllCourses() {
     const [allCourses, setAllCourses] = useState(null)
     const [searchValue, setSearchValue] = useState('')
-    const [orderValue, setOrderValue] = useState('')
+    const [orderValue, setOrderValue] = useState('newest')
     const [searchItems, setSearchItems] = useState(null)
-    const [currentPage, setCurrentPage] = useState(1)
 
-    let pageSize = 2
-    let pageNumber
+    const [shownCourses, setShownCourses] = useState(null);
+
+
+    let coursePerPage = process.env.REACT_APP_COURSE_PER_PAGE
     const baseUrl = process.env.REACT_APP_BASE_URL
 
     useEffect(() => {
@@ -30,15 +31,9 @@ export default function AllCourses() {
             .then(res => res.json())
             .then(res => {
                 setAllCourses(res.data)
-                let endIndex = pageSize * currentPage
-                let startIndex = endIndex - pageSize
-                setSearchItems(res.data.reverse().slice(startIndex, endIndex))
+                setSearchItems(res.data.reverse())
             })
-    }, [currentPage])
-
-    if (allCourses !== null) {
-        pageNumber = Math.ceil(allCourses.length / pageSize)
-    }
+    }, [])
 
 
     const searchedAndOrderedItems = (order, search) => {
@@ -130,25 +125,34 @@ export default function AllCourses() {
                     </Col>
                 </Row>
                 {
-                    searchItems !== null &&
+                    shownCourses !== null &&
                     <Row className='mt-3'>
                         {
-                            searchItems.length === 0 ?
+                            shownCourses.length === 0 ?
                                 <EmptyBox title="هیچ دوره ای یافت نشد." cssClass="my-5" /> :
-                                searchItems.map((course) =>
+                                shownCourses.map((course) =>
                                     <>
                                         <CourseCard key={course.id} {...course} />
                                     </>
                                 )
                         }
-                        {console.log(pageNumber)}
-                        {
-                            // pageCount !== null &&
 
-                            <Pagination page={true} pageNumber={pageNumber} currentPage={currentPage} setCurrentPage={setCurrentPage} />
-                        }
+
+
                     </Row>
                 }
+
+                {
+                    searchItems !== null &&
+                    <Pagination
+                        hasPage={false}
+                        items={searchItems}
+                        itemsCount={2}
+                        pathname={`/all-courses`}
+                        setShownCourses={setShownCourses}
+                    />
+                }
+
             </Container>
             <Footer className='mt-4 mt-md-5' />
         </>

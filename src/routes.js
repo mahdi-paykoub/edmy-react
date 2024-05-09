@@ -35,7 +35,7 @@ const routes = [
     { path: '/contact-us', element: <ContactUs /> },
     { path: '/register', element: <Register /> },
     { path: '/login', element: <Login /> },
-    { path: '/all-courses', element: <AllCourses /> },
+    { path: '/all-courses/:page', element: <AllCourses /> },
     { path: '/course/:courseSlug', element: <SingleCourse /> },
     { path: '/all-articles', element: <AllArticles /> },
     { path: '/article/:articleSlug', element: <SingleArticle /> },
