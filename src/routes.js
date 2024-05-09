@@ -37,7 +37,7 @@ const routes = [
     { path: '/login', element: <Login /> },
     { path: '/all-courses/:page', element: <AllCourses /> },
     { path: '/course/:courseSlug', element: <SingleCourse /> },
-    { path: '/all-articles', element: <AllArticles /> },
+    { path: '/all-articles/:page', element: <AllArticles /> },
     { path: '/article/:articleSlug', element: <SingleArticle /> },
     { path: '/course/:courseSlug/:id', element: <VideoCourse /> },
     { path: '/search/:searchedValue', element: <Search /> },

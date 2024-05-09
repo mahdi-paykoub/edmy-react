@@ -14,7 +14,7 @@ export default function Pagination({
     pathname,
     setShownCourses,
 }) {
-    const [pagesCount, setPagesCount] = useState(null); // 3
+    const [pagesCount, setPagesCount] = useState(null);
     const { page } = useParams();
 
     useEffect(() => {

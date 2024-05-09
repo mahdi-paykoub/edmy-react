@@ -147,7 +147,7 @@ export default function AllCourses() {
                     <Pagination
                         hasPage={false}
                         items={searchItems}
-                        itemsCount={2}
+                        itemsCount={coursePerPage}
                         pathname={`/all-courses`}
                         setShownCourses={setShownCourses}
                     />

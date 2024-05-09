@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import './style.css'
 import Topbar from '../../Components/Topbar/Topbar'
 import MyNavbar from '../../Components/MyNavbar/MyNavbar'
@@ -16,46 +16,60 @@ import EmptyBox from '../../Components/EmptyBox/EmptyBox'
 
 export default function AllArticles() {
     const [allArticles, setAllArticles] = useState(null)
+    const [shownArticles, setShownArticles] = useState(null)
     const baseUrl = process.env.REACT_APP_BASE_URL
 
     useEffect(() => {
         fetch(`${baseUrl}article/all`)
             .then(res => res.json())
             .then(res => {
-                setAllArticles(res)
+                setAllArticles(res.data)
             })
     }, [])
     return (
         <>
-            <Topbar/>
-            <MyNavbar/>
-            <SecondLanding title="همه مقالات"/>
+            <Topbar />
+            <MyNavbar />
+            <SecondLanding title="همه مقالات" />
 
-            {
-                allArticles !== null &&
-                <Container className='mt-5 pt-md-5'>
-                    <Row>
-                        <Col xl={9}>
-                            {
-                                allArticles.data.length === 0 ?
-                                    <EmptyBox title="مقاله ای یافت نشد."/> :
-                                    allArticles.data.map(article =>
-                                        <>
-                                            <ArticleCard4 key={article.id} {...article}/>
-                                        </>
-                                    )
-                            }
-                            <Pagination page={true}/>
-                        </Col>
-                        <Col xl={3}>
-                            <ArticleSidebar/>
-                        </Col>
 
-                    </Row>
-                </Container>
-            }
 
-            <Footer className='mt-4 mt-md-5'/>
+            <Container className='mt-5 pt-md-5'>
+                <Row>
+                    <Col xl={9}>
+                        {
+                            shownArticles !== null &&
+                                shownArticles.length === 0
+                                ?
+                                <EmptyBox title="مقاله ای یافت نشد." /> :
+                                shownArticles !== null &&
+                                shownArticles.map(article =>
+                                    <>
+                                        <ArticleCard4 key={article.id} {...article} />
+                                    </>
+                                )
+                        }
+                        {
+                            allArticles !== null &&
+
+                            <Pagination
+                                hasPage={false}
+                                items={allArticles}
+                                itemsCount={3}
+                                pathname={`/all-articles`}
+                                setShownCourses={setShownArticles}
+                            />
+                        }
+                    </Col>
+                    <Col xl={3}>
+                        <ArticleSidebar />
+                    </Col>
+
+                </Row>
+            </Container>
+
+
+            <Footer className='mt-4 mt-md-5' />
         </>
     )
 }

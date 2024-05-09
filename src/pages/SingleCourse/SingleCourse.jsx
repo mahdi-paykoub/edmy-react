@@ -357,7 +357,7 @@ export default function SingleCourse() {
                                     </div>
                                 </div> */}
 
-                                <Pagination page={false} />
+                                {/* <Pagination page={false} /> */}
 
 
                             </div>

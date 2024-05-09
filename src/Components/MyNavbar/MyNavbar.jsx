@@ -66,7 +66,7 @@ export default function MyNavbar() {
                             end>
                             خانه
                         </NavLink>
-                        <NavLink to="/all-courses"
+                        <NavLink to="/all-courses/1"
                             className={({ isActive, isPending }) =>
                                 `font-weight-bold mx-2 nav-link-padding ${isActive ? 'green-text-color' : 'text-dark'}`
                             }>
