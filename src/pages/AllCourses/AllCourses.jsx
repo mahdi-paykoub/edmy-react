@@ -19,16 +19,27 @@ export default function AllCourses() {
     const [searchValue, setSearchValue] = useState('')
     const [orderValue, setOrderValue] = useState('')
     const [searchItems, setSearchItems] = useState(null)
+    const [currentPage, setCurrentPage] = useState(1)
+
+    let pageSize = 2
+    let pageNumber
     const baseUrl = process.env.REACT_APP_BASE_URL
 
     useEffect(() => {
         fetch(`${baseUrl}course/all`)
             .then(res => res.json())
             .then(res => {
-                setSearchItems(res.data.reverse())
                 setAllCourses(res.data)
+                let endIndex = pageSize * currentPage
+                let startIndex = endIndex - pageSize
+                setSearchItems(res.data.reverse().slice(startIndex, endIndex))
             })
-    }, [])
+    }, [currentPage])
+
+    if (allCourses !== null) {
+        pageNumber = Math.ceil(allCourses.length / pageSize)
+    }
+
 
     const searchedAndOrderedItems = (order, search) => {
         switch (order) {
@@ -130,7 +141,12 @@ export default function AllCourses() {
                                     </>
                                 )
                         }
-                        <Pagination page={true} />
+                        {console.log(pageNumber)}
+                        {
+                            // pageCount !== null &&
+
+                            <Pagination page={true} pageNumber={pageNumber} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                        }
                     </Row>
                 }
             </Container>
