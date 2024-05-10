@@ -23,9 +23,10 @@ export default function Search() {
     const [switchCase, setSwitchCase] = useState('course')
     const [searchValue, setSearchValue] = useState('')
     const [searchItems, setSearchItems] = useState(null)
+    const [shownCourses, setShownCourses] = useState(null);
 
 
-
+    let coursePerPage = process.env.REACT_APP_COURSE_PER_PAGE
     const baseUrl = process.env.REACT_APP_BASE_URL
     const { searchedValue } = useParams()
 
@@ -94,12 +95,12 @@ export default function Search() {
             <SecondLanding title={`جستجو برای : ${searchedValue}`} />
             <TitleBox title='جستجو' desc='عبارت جستجو شده را بین دوره ها و مقالات پیدا کنید' />
             {
-                (courseResult !== null && articleResult !== null) &&
+                searchItems !== null &&
                 <Container className='mt-4 mt-md-5 pt-lg-5 pb-md-5'>
                     <Row>
                         <Col lg={6}>
                             <div className='text-secondary px-4 text-center text-lg-end mt-3'>
-                                ما <span className='purple-text-color'> {switchCase === 'course' ? courseResult.length + ' دوره ' : articleResult.length + ' مقاله '}</span>
+                                {/* ما <span className='purple-text-color'> {switchCase === 'course' ? searchItems.length + ' دوره ' : searchItems.length + ' مقاله '}</span> */}
                                 برای شما پیدا کردیم
                             </div>
                         </Col>
@@ -122,34 +123,46 @@ export default function Search() {
                     </Row>
                     {
                         switchCase === 'course' ?
-                            searchItems !== null &&
-                                searchItems.length !== 0 ?
+                            shownCourses !== null &&
+                                shownCourses.length !== 0 ?
                                 <>
                                     <Row className='mt-3'>
                                         {
-                                            searchItems.map(course =>
+                                            shownCourses.map(course =>
                                                 <CourseCard key={course.id} {...course} />
                                             )
                                         }
                                     </Row>
-                                    {/* <Pagination page={true} /> */}
+
                                 </>
                                 :
                                 <EmptyBox cssClass='my-5' title='متاسفانه دوره ای یافت نشد.' />
                             :
-                            searchItems.length !== 0 ?
+                            shownCourses !== null &&
+                                shownCourses.length !== 0 ?
                                 <>
                                     <Row>
                                         {
-                                            searchItems.map(article =>
+                                            shownCourses.map(article =>
                                                 <ArticleCard5 {...article} key={article.id} />
                                             )
                                         }
                                     </Row>
-                                    {/* <Pagination page={true} /> */}
+
                                 </>
                                 :
                                 <EmptyBox cssClass='my-5' title='متاسفانه مقاله ای یافت نشد.' />
+
+                    }
+                    {
+                        searchItems !== null &&
+                        <Pagination
+                            hasPage={false}
+                            items={searchItems}
+                            itemsCount={3}
+                            pathname={`/search/${searchedValue}`}
+                            setShownCourses={setShownCourses}
+                        />
                     }
                 </Container>
             }

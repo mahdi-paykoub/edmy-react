@@ -40,7 +40,7 @@ const routes = [
     { path: '/all-articles/:page', element: <AllArticles /> },
     { path: '/article/:articleSlug', element: <SingleArticle /> },
     { path: '/course/:courseSlug/:id', element: <VideoCourse /> },
-    { path: '/search/:searchedValue', element: <Search /> },
+    { path: '/search/:searchedValue/:page', element: <Search /> },
     { path: '/category/:categorySlug', element: <Category /> },
     { path: '/cart', element: <ShopCart /> },
     { path: '/404', element: <Page404 /> },
