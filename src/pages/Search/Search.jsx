@@ -21,6 +21,11 @@ export default function Search() {
     const [articleResult, setArticleResult] = useState(null)
     const [courseResult, setCourseResult] = useState(null)
     const [switchCase, setSwitchCase] = useState('course')
+    const [searchValue, setSearchValue] = useState('')
+    const [searchItems, setSearchItems] = useState(null)
+
+
+
     const baseUrl = process.env.REACT_APP_BASE_URL
     const { searchedValue } = useParams()
 
@@ -28,7 +33,8 @@ export default function Search() {
         fetch(`${baseUrl}search/course/${searchedValue}`)
             .then(res => res.json())
             .then(res => {
-                setCourseResult(res)
+                setCourseResult(res.data)
+                setSearchItems(res.data.reverse())
             })
     }
 
@@ -36,7 +42,7 @@ export default function Search() {
         fetch(`${baseUrl}search/article/${searchedValue}`)
             .then(res => res.json())
             .then(res => {
-                setArticleResult(res)
+                setArticleResult(res.data)
             })
     }
 
@@ -46,7 +52,39 @@ export default function Search() {
     }, [])
 
 
+    const searchedAndOrderedItems = (order, search) => {
+        switch (order) {
+            case 'article':
+                {
+                    const orderedCourses = articleResult.filter(article => (article.title.includes(search)))
+                    setSearchItems(orderedCourses)
+                    break;
+                }
 
+            case 'course':
+                {
+                    const orderedCourses = courseResult.filter(course => course.name.includes(search))
+                    setSearchItems(orderedCourses)
+                    break;
+                }
+            default:
+                {
+                    const orderedCourses = courseResult.filter(course => course.name.includes(search))
+                    setSearchItems(orderedCourses)
+                    break;
+                }
+        }
+    }
+
+
+    const handleSearchedCourese = (search) => {
+        setSearchValue(search)
+        searchedAndOrderedItems(switchCase, search)
+    }
+    const handleSwitch = (order) => {
+        setSwitchCase(order)
+        searchedAndOrderedItems(order, searchValue)
+    }
 
 
     return (
@@ -61,7 +99,7 @@ export default function Search() {
                     <Row>
                         <Col lg={6}>
                             <div className='text-secondary px-4 text-center text-lg-end mt-3'>
-                                ما <span className='purple-text-color'> {switchCase === 'course' ? courseResult.data.length + ' دوره ' : articleResult.data.length + ' مقاله '}</span>
+                                ما <span className='purple-text-color'> {switchCase === 'course' ? courseResult.length + ' دوره ' : articleResult.length + ' مقاله '}</span>
                                 برای شما پیدا کردیم
                             </div>
                         </Col>
@@ -69,12 +107,12 @@ export default function Search() {
                             <div className='d-md-flex d-block'>
                                 <div className='w-100 position-relative'>
                                     <input type="text" className='custom-form-input w85-100 mt-3 mt-md-0'
-                                        placeholder='جستجو ... ' />
+                                        placeholder='جستجو ... ' onChange={(e) => handleSearchedCourese(e.target.value)} value={searchValue} />
                                     <button className='serch-course-btn border-0 position-absolute fs20'>
                                         <BiSearch />
                                     </button>
                                 </div>
-                                <select name="" id="" onChange={(e) => setSwitchCase(e.target.value)}
+                                <select name="" id="" onChange={(e) => handleSwitch(e.target.value)}
                                     className='custom-form-input select-sort-course me-md-2 text-dark mt-3 mt-md-0 fs14 w60-100'>
                                     <option value="course">دوره ها</option>
                                     <option value="article">مقالات</option>
@@ -84,31 +122,31 @@ export default function Search() {
                     </Row>
                     {
                         switchCase === 'course' ?
-                            courseResult !== null &&
-                                courseResult.data.length !== 0 ?
+                            searchItems !== null &&
+                                searchItems.length !== 0 ?
                                 <>
                                     <Row className='mt-3'>
                                         {
-                                            courseResult.data.map(course =>
+                                            searchItems.map(course =>
                                                 <CourseCard key={course.id} {...course} />
                                             )
                                         }
                                     </Row>
-                                    <Pagination page={true} />
+                                    {/* <Pagination page={true} /> */}
                                 </>
                                 :
                                 <EmptyBox cssClass='my-5' title='متاسفانه دوره ای یافت نشد.' />
                             :
-                            articleResult.data.length !== 0 ?
+                            searchItems.length !== 0 ?
                                 <>
                                     <Row>
                                         {
-                                            articleResult.data.map(article =>
+                                            searchItems.map(article =>
                                                 <ArticleCard5 {...article} key={article.id} />
                                             )
                                         }
                                     </Row>
-                                    <Pagination page={true} />
+                                    {/* <Pagination page={true} /> */}
                                 </>
                                 :
                                 <EmptyBox cssClass='my-5' title='متاسفانه مقاله ای یافت نشد.' />

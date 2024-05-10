@@ -26,36 +26,35 @@ export default function AllArticles() {
                 setAllArticles(res.data)
             })
     }, [])
+
+
     return (
         <>
             <Topbar />
             <MyNavbar />
             <SecondLanding title="همه مقالات" />
-
-
-
             <Container className='mt-5 pt-md-5'>
                 <Row>
                     <Col xl={9}>
                         {
-                            shownArticles !== null &&
+                            shownArticles !== null ?
                                 shownArticles.length === 0
-                                ?
-                                <EmptyBox title="مقاله ای یافت نشد." /> :
-                                shownArticles !== null &&
-                                shownArticles.map(article =>
-                                    <>
-                                        <ArticleCard4 key={article.id} {...article} />
-                                    </>
-                                )
+                                    ?
+                                    <EmptyBox title="مقاله ای یافت نشد." /> :
+
+                                    shownArticles.map(article =>
+                                        <>
+                                            <ArticleCard4 key={article.id} {...article} />
+                                        </>
+                                    )
+                                : ''
                         }
                         {
                             allArticles !== null &&
-
                             <Pagination
                                 hasPage={false}
                                 items={allArticles}
-                                itemsCount={3}
+                                itemsCount={15}
                                 pathname={`/all-articles`}
                                 setShownCourses={setShownArticles}
                             />

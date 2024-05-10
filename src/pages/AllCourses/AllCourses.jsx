@@ -70,7 +70,11 @@ export default function AllCourses() {
                     break;
                 }
             default:
-                break;
+                {
+                    const orderedCourses = allCourses.filter(course => (course.name.includes(search)))
+                    setSearchItems(orderedCourses)
+                    break;
+                }
         }
     }
 
