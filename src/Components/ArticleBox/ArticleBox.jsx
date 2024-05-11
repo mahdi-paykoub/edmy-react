@@ -68,7 +68,7 @@ export default function ArticleBox() {
                     className="mySwiper"
                 >
                     {articles !== null ?
-                        articles.data.slice(0, 5).map((article) =>
+                        articles.data.slice(0, 7).map((article) =>
                             <SwiperSlide key={article._id}>
                                 <ArticleCard {...article}/>
                             </SwiperSlide>

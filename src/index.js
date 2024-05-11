@@ -7,6 +7,7 @@ import './styles/fonts.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import './styles/global.css';
+import ScrollToTop from "./Components/ScrollToTop/ScrollToTop";
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -14,9 +15,10 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-  {/* <React.StrictMode> */}
+    {/* <React.StrictMode> */}
+    <ScrollToTop />
     <App />
-  {/* </React.StrictMode> */}
+    {/* </React.StrictMode> */}
   </BrowserRouter>
 );
 

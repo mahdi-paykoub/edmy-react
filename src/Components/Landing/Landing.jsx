@@ -12,7 +12,7 @@ export default function Landing() {
     const navigate = useNavigate()
     const handleSearch = () => {
         if (searchValue) {
-            navigate(`/search/${searchValue}`)
+            navigate(`/search/${searchValue}/1`)
         }
     }
     return (

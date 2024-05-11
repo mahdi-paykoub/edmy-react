@@ -16,8 +16,8 @@ export default function ArticleCard4({title, image, description, short_name ,cre
                                 className='fw800 fs20'>{title}</span>
                         </div>
                         <div className='mt-4 lh2'>
-                       <span className=''>
-                        {description}
+                       <span className='text-secondary fs15'>
+                        {description.slice(0,150)}...
                        </span>
                         </div>
                         <div className='mt-3'>

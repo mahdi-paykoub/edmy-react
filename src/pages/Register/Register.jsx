@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 import './style.css'
 import Topbar from '../../Components/Topbar/Topbar'
-// import MyNavbar from '../../Components/MyNavbar/MyNavbar'
+import MyNavbar from '../../Components/MyNavbar/MyNavbar'
 import SecondLanding from '../../Components/SecondLanding/SecondLanding'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -65,7 +65,7 @@ export default function Register() {
     }
     return (<>
         <Topbar/>
-        {/*<MyNavbar/>*/}
+        <MyNavbar/>
         <SecondLanding title="ورود و ثبت نام"/>
         <Container className='mt-5 pt-md-5 pb-lg-5'>
             <Row className='align-items-center'>

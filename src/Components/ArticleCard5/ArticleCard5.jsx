@@ -20,7 +20,7 @@ export default function ArticleCard5({ title, image, description, short_name, cr
                             </div>
                             <div className='mt-3'>
                                 <span className='text-dark lh1-7 fw600'>{title}</span>
-                                <p className='mt-2 text-secondary fs14 lh1-8'>{description}</p>
+                                <p className='mt-2 text-secondary fs14 lh1-8'>{description.slice(0,150)}...</p>
                             </div>
                             <div className='mt-4 border-top text-center pt-3 text-dark fs14'>
                                 مطالعه مقاله

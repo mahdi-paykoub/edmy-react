@@ -123,36 +123,39 @@ export default function Search() {
                     </Row>
                     {
                         switchCase === 'course' ?
-                            shownCourses !== null &&
-                                shownCourses.length !== 0 ?
-                                <>
-                                    <Row className='mt-3'>
-                                        {
-                                            shownCourses.map(course =>
-                                                <CourseCard key={course.id} {...course} />
-                                            )
-                                        }
-                                    </Row>
+                            <>
+                                {shownCourses !== null &&
+                                    shownCourses.length !== 0 ?
+                                    <>
+                                        <Row className='mt-3'>
+                                            {
+                                                shownCourses.map(course =>
+                                                    <CourseCard key={course.id} {...course} />
+                                                )
+                                            }
+                                        </Row>
 
-                                </>
-                                :
-                                <EmptyBox cssClass='my-5' title='متاسفانه دوره ای یافت نشد.' />
+                                    </>
+                                    :
+                                    <EmptyBox cssClass='my-5' title='متاسفانه دوره ای یافت نشد.' />}
+                            </>
                             :
-                            shownCourses !== null &&
-                                shownCourses.length !== 0 ?
-                                <>
-                                    <Row>
-                                        {
-                                            shownCourses.map(article =>
-                                                <ArticleCard5 {...article} key={article.id} />
-                                            )
-                                        }
-                                    </Row>
+                            <>
+                                {shownCourses !== null &&
+                                    shownCourses.length !== 0 ?
+                                    <>
+                                        <Row>
+                                            {
+                                                shownCourses.map(article =>
+                                                    <ArticleCard5 {...article} key={article.id} />
+                                                )
+                                            }
+                                        </Row>
 
-                                </>
-                                :
-                                <EmptyBox cssClass='my-5' title='متاسفانه مقاله ای یافت نشد.' />
-
+                                    </>
+                                    :
+                                    <EmptyBox cssClass='my-5' title='متاسفانه مقاله ای یافت نشد.' />}
+                            </>
                     }
                     {
                         searchItems !== null &&

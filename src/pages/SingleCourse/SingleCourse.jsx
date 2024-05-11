@@ -10,11 +10,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Toman from '../../Components/Toman/Toman'
 import { MdLiveTv } from 'react-icons/md';
-import { BiSolidBarChartAlt2 } from 'react-icons/bi';
-import { AiOutlineClockCircle } from 'react-icons/ai';
-import { PiNotebook } from 'react-icons/pi';
-import { TbSourceCode } from 'react-icons/tb';
-import { FiUsers } from 'react-icons/fi';
+import { FiClock } from "react-icons/fi";
+import { PiChalkboardTeacher } from "react-icons/pi";
 import { IoMdKey } from 'react-icons/io';
 import Image from 'react-bootstrap/Image';
 import { GoDotFill } from 'react-icons/go';
@@ -28,13 +25,16 @@ import { BsInstagram } from "react-icons/bs";
 import { BiLogoFacebook } from "react-icons/bi";
 import { ImTwitter } from "react-icons/im";
 import SimilarCourses from "../../Components/SimilarCourses/SimilarCourses";
-import { BsChevronLeft } from 'react-icons/bs';
 import { Link, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import swal from "sweetalert";
 import { formValidation } from "../../utils/Validations";
 import { AuthContext } from "../../Context/AuthContext";
 import { CartContext } from "../../Context/CartContext";
+import { BiSupport } from "react-icons/bi";
+import { PiStudentBold } from "react-icons/pi";
+import { TbCategoryPlus } from "react-icons/tb";
+import { MdInfoOutline } from "react-icons/md";
 
 
 export default function SingleCourse() {
@@ -119,6 +119,23 @@ export default function SingleCourse() {
     function handleremoveFromCart() {
         cartContext.removeFromCart(course.id);
     }
+    const courseStatus = () => {
+        switch (course.status) {
+            case 'presell':
+                return 'پیش فروش'
+                break;
+            case 'completed':
+                return 'تکمیل شده'
+                break;
+            case 'performing':
+                return 'درحال برگذاری'
+                break;
+            default:
+                break;
+        }
+    }
+
+
     return (<>
 
         <Topbar />
@@ -391,15 +408,15 @@ export default function SingleCourse() {
                             <div className='d-flex justify-content-between  fs14 border-padd-b px-4'>
                                 <div>
                                     <MdLiveTv className='fs20 porple-text-color2 ' />
-                                    <span className='me-2 text-secondary -ver-2'>کلاس انلاین</span>
+                                    <span className='me-2 text-secondary -ver-2'>نوع مشاهده</span>
                                 </div>
                                 <div>
-                                    <span className='fs13'>ندارد</span>
+                                    <span className='fs13'>قابل دانلود</span>
                                 </div>
                             </div>
                             <div className='d-flex justify-content-between  fs14  border-padd-b px-4'>
                                 <div>
-                                    <BiSolidBarChartAlt2 className='fs20 porple-text-color2 ' />
+                                    <TbCategoryPlus className='fs20 porple-text-color2 ' />
                                     <span className='me-2 text-secondary -ver-2'>دسته بندی</span>
                                 </div>
                                 <div>
@@ -408,34 +425,36 @@ export default function SingleCourse() {
                             </div>
                             <div className='d-flex justify-content-between  fs14  border-padd-b px-4'>
                                 <div>
-                                    <AiOutlineClockCircle className='fs20 porple-text-color2 ' />
+                                    <FiClock   className='fs20 porple-text-color2 ' />
+                                    <span className='me-2 text-secondary -ver-2'>مدت دوره</span>
+                                </div>
+                                <div>
+                                    <span className='fs13'>{courseStatus()}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className='d-flex justify-content-between  fs14  border-padd-b px-4'>
+                                <div>
+                                    <BiSupport  className='fs20 porple-text-color2 ' />
+                                    <span className='me-2 text-secondary -ver-2'>پشتیبانی</span>
+                                </div>
+                                <div>
+                                <span>{course.support}</span>
+                                </div>
+                            </div>
+                            <div className='d-flex justify-content-between  fs14  border-padd-b px-4'>
+                                <div>
+                                    <MdInfoOutline className='fs20 porple-text-color2 ' />
                                     <span className='me-2 text-secondary -ver-2'>وضعیت دوره</span>
                                 </div>
                                 <div>
-                                    <span className='fs13'>{course.status}</span>
+                                    <span className='fs13'>{courseStatus()}
+                                    </span>
                                 </div>
                             </div>
                             <div className='d-flex justify-content-between  fs14  border-padd-b px-4'>
                                 <div>
-                                    <PiNotebook className='fs20 porple-text-color2 ' />
-                                    <span className='me-2 text-secondary -ver-2'>سمینار</span>
-                                </div>
-                                <div>
-                                    <span>ندارد</span>
-                                </div>
-                            </div>
-                            <div className='d-flex justify-content-between  fs14  border-padd-b px-4'>
-                                <div>
-                                    <TbSourceCode className='fs20 porple-text-color2 ' />
-                                    <span className='me-2 text-secondary -ver-2'>منابع</span>
-                                </div>
-                                <div>
-                                    <span> ادمـی</span>
-                                </div>
-                            </div>
-                            <div className='d-flex justify-content-between  fs14  border-padd-b px-4'>
-                                <div>
-                                    <FiUsers className='fs20 porple-text-color2 ' />
+                                    <PiStudentBold  className='fs20 porple-text-color2 ' />
                                     <span className='me-2 text-secondary -ver-2'>تعداد دانشجویان </span>
                                 </div>
                                 <div>
@@ -449,6 +468,15 @@ export default function SingleCourse() {
                                 </div>
                                 <div>
                                     <span>همیشه</span>
+                                </div>
+                            </div>
+                            <div className='d-flex justify-content-between  fs14  border-padd-b px-4'>
+                                <div>
+                                    <PiChalkboardTeacher className='fs20 porple-text-color2 ' />
+                                    <span className='me-2 text-secondary -ver-2'>مدرس</span>
+                                </div>
+                                <div>
+                                    <span> </span>
                                 </div>
                             </div>
                             <div className='text-center mt-4 fw600'>
