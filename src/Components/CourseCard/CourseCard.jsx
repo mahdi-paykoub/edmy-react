@@ -37,7 +37,7 @@ export default function CourseCard({name, description, slug, image, price}) {
                             <div>
                                 <h3 className='fs15 lh1-8 ws2'>{name}</h3>
                                 <div className='mt-3'>
-                                    <p className='fs12 lh1-8 text-justify desc-text'>{description}</p>
+                                    <p className='fs12 lh2 text-justify desc-text'>{description.slice(0,130)}...</p>
                                 </div>
                                 <div className='mt-4'>
                                     <Link to={`/course/${slug}`}

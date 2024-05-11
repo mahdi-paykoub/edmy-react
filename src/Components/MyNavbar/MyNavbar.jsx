@@ -116,7 +116,7 @@ export default function MyNavbar() {
                                                     <span className='me-2 text-secondary fs15'>دانشبورد</span>
                                                 </div>
                                             </Link>
-                                            <Link to='/my-account'>
+                                            <Link to='/my-account/edit-account'>
                                                 <div className='px-4 my-2 py-2 on-hover-style'>
                                                     <AiOutlineSetting className='fs25icon text-secondary' />
 

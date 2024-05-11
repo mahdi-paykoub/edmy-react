@@ -39,7 +39,8 @@ import { MdInfoOutline } from "react-icons/md";
 
 export default function SingleCourse() {
     const [offShow, setOffShow] = useState(false)
-    const [course, setCourse] = useState(null);
+    const [course, setCourse] = useState(null)
+    const [courseCategory, setCourseCategory] = useState(null)
     const [comments, setComments] = useState(null);
     const [commentSendShow, setCommentSendShow] = useState(false)
     const [open, setOpen] = useState(false);
@@ -109,6 +110,7 @@ export default function SingleCourse() {
             .then(res => {
                 setCourse(res.data)
                 setComments(res.appends.comments)
+                setCourseCategory(res.appends.category)
             })
     }, [])
 
@@ -151,7 +153,13 @@ export default function SingleCourse() {
                             {course.name}
                         </h2>
                         <div className='course-info-top d-flex mt-4 position-relative'>
-                            <div className='fs14'>نام دسته بندی</div>
+
+                            <div className='fs14 mt-2'>
+                                <Link to={`/category/${course.slug}`} >
+                                    {courseCategory.title}
+                                </Link>
+                            </div>
+
                             <div className='mt-2 fs14 me-5 text-secondary position-relative'>
                                 <span className='text-dark fw600'>20</span> <span
                                     className='text-secondary'>دانشجو</span>
@@ -163,9 +171,11 @@ export default function SingleCourse() {
                         </div>
                         <div className='d-flex mt-4 align-items-center'>
 
-                            <Image src="/images/client-1.jpg" className='creator-img-course' roundedCircle />
-                            <span className='fs14 me-2'>تولید شده توسط</span>
-                            <span className='fs14 me-2 porple-text-color2 '>مهدی پایکوب</span>
+                            <Image src={course.user.image !== null ? baseUrl + course.user.image : '/images/avatar.jpg'} className='creator-img-course' roundedCircle />
+                            <span className='fs13 me-2'>مدرس‌دوره :</span>
+                            <span className='fs14 me-1 porple-text-color2 '>{
+                                course.user.name
+                            }</span>
                         </div>
 
                         <div className='mt-5'>
@@ -273,89 +283,87 @@ export default function SingleCourse() {
                         {/*guarantee*/}
 
                         {/*comment */}
-                        {
+                        <div className='mt-4 lh1-8 text-justify desc-box-course p-4 br5'>
 
-                            <div className='mt-4 lh1-8 text-justify desc-box-course p-4 br5'>
-
-                                <div className="fw800 fs20 porple-text-color2 justify-content-between d-flex">
-                                    <div className='mt-3'>
-                                        <GoDotFill className="ms-2" />
-                                        دیدگاه و پرسش
-                                    </div>
-                                    {
-                                        authContext.isLoggedIn === true &&
-                                        <div onClick={() => setCommentSendShow(!commentSendShow)}>
-                                            <CommonBtn title='افزودن دیدگاه' />
-                                        </div>
-                                    }
+                            <div className="fw800 fs20 porple-text-color2 justify-content-between d-flex">
+                                <div className='mt-3'>
+                                    <GoDotFill className="ms-2" />
+                                    دیدگاه و پرسش
                                 </div>
-                                {/*comment send*/}
                                 {
                                     authContext.isLoggedIn === true &&
-                                    commentSendShow &&
-                                    <div className='mt-5 border-bottom pb-5'>
-                                        <div className='pt-4 border-top d-flex align-items-center'>
-                                            <img src="/images/wqsnxv0pfdwl2abdakf5.jpg"
-                                                className='commenter-user-img border-green rounded-circle' alt="" />
-                                            <span className='text-secondary m-2'>{authContext.userInfo.data.name}</span>
-                                        </div>
-
-                                        <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                                            <select name="rate" id="" className='w-100 br5 bg-white mt-4 custom-form-input text-secondary'
-                                                {...register('rate', formValidation('امتیاز'))}>
-                                                <option value="">
-                                                    امتیاز را وارد کنید
-                                                </option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select>
-                                            <p className='text-danger fs14'>{errors.rate?.message}</p>
-                                            <textarea className="w-100 custom-form-input comment-area bg-white mt-3"
-                                                placeholder="دیدگاهتان را اضافه کنید"
-                                                {...register('comment', formValidation('دیدگاه'))}
-                                            ></textarea>
-                                            <p className='text-danger fs14'>{errors.comment?.message}</p>
-                                            <div className='text-start mt-3' type='submit'>
-                                                <button className='btn send-comment-btn text-white'>ثبت دیدگاه</button>
-                                            </div>
-                                        </form>
+                                    <div onClick={() => setCommentSendShow(!commentSendShow)}>
+                                        <CommonBtn title='افزودن دیدگاه' />
                                     </div>
                                 }
-                                {/*comment box*/}
-                                {
-                                    comments !== null &&
-                                        comments.length === 0 ?
-                                        <div className='alert alert-secondary fs14 mt-4'>هنوز دیدگاهی ثبت نشده است</div>
-                                        :
-                                        comments.map(comment =>
-                                            <div className='comments-box mt-4 br5 bg-white'>
-                                                <div className='d-flex justify-content-between align-items-center py-4 px-3'>
-                                                    <div>
-                                                        <img src="/images/client-3.jpg" className='rounded-circle commenter-img' alt="" />
-                                                        <span className='fw800 fs15 me-2 text-secondary'>{comment.user.name}</span>
-                                                    </div>
-                                                    <div>
-                                                        <button className='fs13 btn btn-secondary'>
-                                                            پاسخ
-                                                            <FiCornerUpLeft className='fs18 me-1' />
-                                                        </button>
-                                                    </div>
+                            </div>
+                            {/*comment send*/}
+                            {
+                                authContext.isLoggedIn === true &&
+                                commentSendShow &&
+                                <div className='mt-5 border-bottom pb-5'>
+                                    <div className='pt-4 border-top d-flex align-items-center'>
+                                        <img src="/images/wqsnxv0pfdwl2abdakf5.jpg"
+                                            className='commenter-user-img border-green rounded-circle' alt="" />
+                                        <span className='text-secondary m-2'>{authContext.userInfo.data.name}</span>
+                                    </div>
+
+                                    <form onSubmit={handleSubmit(onSubmit)} noValidate>
+                                        <select name="rate" id="" className='w-100 br5 bg-white mt-4 custom-form-input text-secondary'
+                                            {...register('rate', formValidation('امتیاز'))}>
+                                            <option value="">
+                                                امتیاز را وارد کنید
+                                            </option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                        <p className='text-danger fs14'>{errors.rate?.message}</p>
+                                        <textarea className="w-100 custom-form-input comment-area bg-white mt-3"
+                                            placeholder="دیدگاهتان را اضافه کنید"
+                                            {...register('comment', formValidation('دیدگاه'))}
+                                        ></textarea>
+                                        <p className='text-danger fs14'>{errors.comment?.message}</p>
+                                        <div className='text-start mt-3' type='submit'>
+                                            <button className='btn send-comment-btn text-white'>ثبت دیدگاه</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            }
+                            {/*comment box*/}
+                            {
+                                comments !== null &&
+                                    comments.length === 0 ?
+                                    <div className='alert alert-secondary fs14 mt-4'>هنوز دیدگاهی ثبت نشده است</div>
+                                    :
+                                    comments.map(comment =>
+                                        <div className='comments-box mt-4 br5 bg-white'>
+                                            <div className='d-flex justify-content-between align-items-center py-4 px-3'>
+                                                <div>
+                                                    <img src="/images/client-3.jpg" className='rounded-circle commenter-img' alt="" />
+                                                    <span className='fw800 fs15 me-2 text-secondary'>{comment.user.name}</span>
                                                 </div>
-                                                <div className='border-top pb-4 text-secondary px-3'>
-                                                    <p className='mt-4 pt-3'>{comment.comment}</p>
+                                                <div>
+                                                    <button className='fs13 btn btn-secondary'>
+                                                        پاسخ
+                                                        <FiCornerUpLeft className='fs18 me-1' />
+                                                    </button>
                                                 </div>
                                             </div>
-                                        )
+                                            <div className='border-top pb-4 text-secondary px-3'>
+                                                <p className='mt-4 pt-3'>{comment.comment}</p>
+                                            </div>
+                                        </div>
+                                    )
 
 
 
-                                }
+                            }
 
-                                {/*answer comment box*/}
-                                {/* <div className='comments-box me-3 me-md-5 mt-3 br5 bg-white'>
+                            {/*answer comment box*/}
+                            {/* <div className='comments-box me-3 me-md-5 mt-3 br5 bg-white'>
                                     <div className='d-flex justify-content-between align-items-center py-4 px-3'>
                                         <div>
                                             <img src="/images/client-3.jpg" className='rounded-circle commenter-img' alt="" />
@@ -374,11 +382,11 @@ export default function SingleCourse() {
                                     </div>
                                 </div> */}
 
-                                {/* <Pagination page={false} /> */}
+                            {/* <Pagination page={false} /> */}
 
 
-                            </div>
-                        }
+                        </div>
+
 
 
                     </Col>
@@ -420,12 +428,12 @@ export default function SingleCourse() {
                                     <span className='me-2 text-secondary -ver-2'>دسته بندی</span>
                                 </div>
                                 <div>
-                                    <span className='fs13'>آموزش برنامه نویسی</span>
+                                    <span className='fs13'>{courseCategory.title}</span>
                                 </div>
                             </div>
                             <div className='d-flex justify-content-between  fs14  border-padd-b px-4'>
                                 <div>
-                                    <FiClock   className='fs20 porple-text-color2 ' />
+                                    <FiClock className='fs20 porple-text-color2 ' />
                                     <span className='me-2 text-secondary -ver-2'>مدت دوره</span>
                                 </div>
                                 <div>
@@ -435,11 +443,11 @@ export default function SingleCourse() {
                             </div>
                             <div className='d-flex justify-content-between  fs14  border-padd-b px-4'>
                                 <div>
-                                    <BiSupport  className='fs20 porple-text-color2 ' />
+                                    <BiSupport className='fs20 porple-text-color2 ' />
                                     <span className='me-2 text-secondary -ver-2'>پشتیبانی</span>
                                 </div>
                                 <div>
-                                <span>{course.support}</span>
+                                    <span className='fs13'>{course.support}</span>
                                 </div>
                             </div>
                             <div className='d-flex justify-content-between  fs14  border-padd-b px-4'>
@@ -454,11 +462,11 @@ export default function SingleCourse() {
                             </div>
                             <div className='d-flex justify-content-between  fs14  border-padd-b px-4'>
                                 <div>
-                                    <PiStudentBold  className='fs20 porple-text-color2 ' />
+                                    <PiStudentBold className='fs20 porple-text-color2 ' />
                                     <span className='me-2 text-secondary -ver-2'>تعداد دانشجویان </span>
                                 </div>
                                 <div>
-                                    <span>325</span>
+                                    <span className='fs13'>325</span>
                                 </div>
                             </div>
                             <div className='d-flex justify-content-between  fs14  border-padd-b px-4'>
@@ -467,7 +475,7 @@ export default function SingleCourse() {
                                     <span className='me-2 text-secondary -ver-2'>مدت دسترسی</span>
                                 </div>
                                 <div>
-                                    <span>همیشه</span>
+                                    <span className='fs13'>همیشه</span>
                                 </div>
                             </div>
                             <div className='d-flex justify-content-between  fs14  border-padd-b px-4'>
@@ -476,7 +484,7 @@ export default function SingleCourse() {
                                     <span className='me-2 text-secondary -ver-2'>مدرس</span>
                                 </div>
                                 <div>
-                                    <span> </span>
+                                    <span className='fs13'>{course.user.name}</span>
                                 </div>
                             </div>
                             <div className='text-center mt-4 fw600'>
@@ -519,7 +527,7 @@ export default function SingleCourse() {
         }
 
 
-        <SimilarCourses />
+        {/* <SimilarCourses /> */}
 
 
         <Footer />
