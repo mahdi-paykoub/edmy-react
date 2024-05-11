@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import './style.css'
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import swal from "sweetalert";
-import {formValidation} from "../../../utils/Validations";
+import { formValidation } from "../../../utils/Validations";
 import DataBox from "../../../Components/AdminPanel/DataBox/DataBox";
 import Table from "react-bootstrap/Table";
 import ErrorBox from "../../../Components/AdminPanel/ErrorBox/ErrorBox";
@@ -18,8 +18,8 @@ export default function PanelCourses() {
 
     const baseUrl = process.env.REACT_APP_BASE_URL
     const form = useForm()
-    const {register, control, handleSubmit, formState, reset} = form
-    const {errors} = formState
+    const { register, control, handleSubmit, formState, reset } = form
+    const { errors } = formState
 
     const getCourses = () => {
         fetch(`${baseUrl}admin/course`)
@@ -49,13 +49,14 @@ export default function PanelCourses() {
         formData.append('support', data.support)
         formData.append('status', data.status)
         formData.append('image', data.image[0])
+        formData.append('is_free', data.is_free)
 
         fetch(`${baseUrl}admin/course`,
             {
                 method: 'POST',
-                // headers: {
-                //     'Authorization': `Bearer ${userTokenLS.token}`
-                // },
+                headers: {
+                    Authorization: `Bearer ${userTokenLS.token}`
+                },
                 body: formData
             })
             .then(response => {
@@ -130,7 +131,7 @@ export default function PanelCourses() {
                     <Row className='mt-4'>
                         <Col lg={6} className='mt-3'>
                             <input type="text" className='form-control' placeholder='نام دوره'
-                                   {...register('name', formValidation('نام دوره'))}
+                                {...register('name', formValidation('نام دوره'))}
                             />
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.name?.message}
@@ -138,7 +139,7 @@ export default function PanelCourses() {
                         </Col>
                         <Col lg={6} className='mt-3'>
                             <input type="text" className='form-control' placeholder='نامک'
-                                   {...register('shortName', formValidation('نامک'))}
+                                {...register('shortName', formValidation('نامک'))}
                             />
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.shortName?.message}
@@ -146,8 +147,8 @@ export default function PanelCourses() {
                         </Col>
                         <Col lg={6} className='mt-3'>
                             <input type="text" className='form-control' placeholder='قیمت دوره'
-                                   {...register('price', formValidation('قیمت دوره', true,
-                                       null, null, /^(0|[1-9]\d*)(\.\d+)?$/))}
+                                {...register('price', formValidation('قیمت دوره', true,
+                                    null, null, /^(0|[1-9]\d*)(\.\d+)?$/))}
                             />
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.price?.message}
@@ -155,7 +156,7 @@ export default function PanelCourses() {
                         </Col>
                         <Col lg={6} className='mt-3'>
                             <input type="text" className='form-control' placeholder='نحوه پشتیبانی دوره'
-                                   {...register('support', formValidation('نحوه پشتیبانی دوره'))}
+                                {...register('support', formValidation('نحوه پشتیبانی دوره'))}
                             />
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.support?.message}
@@ -163,10 +164,11 @@ export default function PanelCourses() {
                         </Col>
                         <Col lg={6} className='mt-3'>
                             <select name="" id="" className='form-control'
-                                    {...register('status', formValidation('وضعیت دوره'))}
+                                {...register('status', formValidation('وضعیت دوره'))}
                             >
-                                <option value="published">پیش فروش</option>
-                                <option value="presell">درحال برگذاری</option>
+                                <option value="completed">تکمیل شده</option>
+                                <option value="performing">درحال برگذاری</option>
+                                <option value="presell">پیش فروش</option>
                             </select>
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.status?.message}
@@ -174,11 +176,22 @@ export default function PanelCourses() {
                         </Col>
                         <Col lg={6} className='mt-3'>
                             <select name="" id="" className='form-control'
-                                    {...register('categoryID', formValidation('دسته بندی'))}
+                             {...register('is_free', formValidation('هزینه دوره'))}
+                            >
+                                <option value={0} selected={true}>رایگان</option>
+                                <option value={1}>پولی</option>
+                            </select>
+                            <p className='mt-3 digi-red-color px-2'>
+                                {errors.is_free?.message}
+                            </p>
+                        </Col>
+                        <Col lg={6} className='mt-3'>
+                            <select name="" id="" className='form-control'
+                                {...register('categoryID', formValidation('دسته بندی'))}
                             >
                                 <option value="">دسته بندی دوره را انتخاب نمایید</option>
                                 {categories !== null && categories.data.map(category => <option key={category.id}
-                                                                                                value={category.id}>{category.title} </option>)}
+                                    value={category.id}>{category.title} </option>)}
 
                             </select>
                             <p className='mt-3 digi-red-color px-2'>
@@ -186,9 +199,9 @@ export default function PanelCourses() {
                             </p>
                         </Col>
                         <Col lg={12} className='mt-3'>
-                        <textarea name="" id="" cols="30" rows="10" className='form-control' placeholder='توضیحات دوره'
-                                  {...register('description', formValidation('توضیحات دوره'))}
-                        ></textarea>
+                            <textarea name="" id="" cols="30" rows="10" className='form-control' placeholder='توضیحات دوره'
+                                {...register('description', formValidation('توضیحات دوره'))}
+                            ></textarea>
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.description?.message}
                             </p>
@@ -198,7 +211,7 @@ export default function PanelCourses() {
                                 تصویر دوره
                             </div>
                             <input type="file" className='mt-2 form-control'
-                                   {...register('image', formValidation('تصویر شاخص'))}
+                                {...register('image', formValidation('تصویر شاخص'))}
                             />
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.image?.message}
@@ -217,54 +230,54 @@ export default function PanelCourses() {
                     courses !== null &&
                     <DataBox title='دوره ها'>
                         {courses.data.length === 0 ?
-                            <ErrorBox text='دوره ای یافت نشد'/> :
+                            <ErrorBox text='دوره ای یافت نشد' /> :
                             <Table className='box-child-table' hover>
                                 <thead>
-                                <tr>
-                                    <th>تصویر شاخص</th>
-                                    <th>نام دوره</th>
-                                    <th>قیمت</th>
-                                    <th>وضعیت</th>
-                                    <th>نحوه پشتیبانی</th>
-                                    {/*<th>دسته بندی</th>*/}
-                                    <th>توضیحات</th>
-                                    <th>حذف</th>
-                                    <th>ویرایش</th>
-                                </tr>
+                                    <tr>
+                                        <th>تصویر شاخص</th>
+                                        <th>نام دوره</th>
+                                        <th>قیمت</th>
+                                        <th>وضعیت</th>
+                                        <th>نحوه پشتیبانی</th>
+                                        {/*<th>دسته بندی</th>*/}
+                                        <th>توضیحات</th>
+                                        <th>حذف</th>
+                                        <th>ویرایش</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
 
-                                {courses.data.map((course, index) =>
-                                    <tr key={course.id}>
-                                        <td>
-                                            <img width={120} className="br10 object-cover" src={baseUrl + course.image}
-                                                 alt=""/>
-                                        </td>
-                                        <td>{course.name}</td>
-                                        <td>{course.price === 0 ? 'رایگان' : course.price.toLocaleString()}</td>
-                                        <td>{
-                                            course.status === 'presell' ? 'پیش فروش' : 'در حال برگذاری'
-                                        }</td>
-                                        <td>{course.support}</td>
-                                        {/*<td>{*/}
-                                        {/*    course.category_id === null ? '' : course.category_id.title*/}
-                                        {/*}</td>*/}
-                                        <td>
-                                            <button className='btn btn-primary'>
-                                                نمایش
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button className='btn btn-danger'
+                                    {courses.data.map((course, index) =>
+                                        <tr key={course.id}>
+                                            <td>
+                                                <img width={120} className="br10 object-cover" src={baseUrl + course.image}
+                                                    alt="" />
+                                            </td>
+                                            <td>{course.name}</td>
+                                            <td>{course.price === 0 ? 'رایگان' : course.price.toLocaleString()}</td>
+                                            <td>{
+                                                course.status === 'presell' ? 'پیش فروش' : 'در حال برگذاری'
+                                            }</td>
+                                            <td>{course.support}</td>
+                                            {/*<td>{*/}
+                                            {/*    course.category_id === null ? '' : course.category_id.title*/}
+                                            {/*}</td>*/}
+                                            <td>
+                                                <button className='btn btn-primary'>
+                                                    نمایش
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button className='btn btn-danger'
                                                     onClick={() => handleDeleteCourse(course.id)}>
-                                                حذف
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button className='btn btn-success'>ویرایش</button>
-                                        </td>
-                                    </tr>)
-                                }
+                                                    حذف
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button className='btn btn-success'>ویرایش</button>
+                                            </td>
+                                        </tr>)
+                                    }
 
 
                                 </tbody>

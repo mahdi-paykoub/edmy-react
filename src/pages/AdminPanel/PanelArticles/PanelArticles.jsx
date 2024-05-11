@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import './style.css'
 import DataBox from "../../../Components/AdminPanel/DataBox/DataBox";
 import ErrorBox from "../../../Components/AdminPanel/ErrorBox/ErrorBox";
 import Table from "react-bootstrap/Table";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {formValidation} from "../../../utils/Validations";
-import {useForm} from "react-hook-form";
+import { formValidation } from "../../../utils/Validations";
+import { useForm } from "react-hook-form";
 import swal from "sweetalert";
-import {CKEditor} from "@ckeditor/ckeditor5-react";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import FormBox from "../../../Components/AdminPanel/FormBox/FormBox";
 
@@ -16,12 +16,12 @@ export default function PanelArticles() {
     const [articles, setArticles] = useState(null)
     const [allCategories, setAllCategories] = useState(null)
     const [editorArticleBody, setEditorArticleBody] = useState('')
-    // const userTokenLS = JSON.parse(localStorage.getItem('user'))
+    const userTokenLS = JSON.parse(localStorage.getItem('user'))
     const baseUrl = process.env.REACT_APP_BASE_URL
 
     const form = useForm()
-    const {register, control, handleSubmit, formState, reset} = form
-    const {errors} = formState
+    const { register, control, handleSubmit, formState, reset } = form
+    const { errors } = formState
 
     function getArticles() {
         fetch(`${baseUrl}admin/article`)
@@ -57,9 +57,9 @@ export default function PanelArticles() {
         fetch(`${baseUrl}admin/article`,
             {
                 method: 'POST',
-                // headers: {
-                //     'Authorization': `Bearer ${userTokenLS.token}`
-                // },
+                headers: {
+                    'Authorization': `Bearer ${userTokenLS.token}`
+                },
                 body: formData
             })
             .then(response => {
@@ -146,7 +146,7 @@ export default function PanelArticles() {
                     <Row className='mt-4'>
                         <Col lg={6} className='mt-3'>
                             <input type="text" className='form-control' placeholder='عنوان مقاله'
-                                   {...register('title', formValidation('عنوان مقاله'))}
+                                {...register('title', formValidation('عنوان مقاله'))}
                             />
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.title?.message}
@@ -154,7 +154,7 @@ export default function PanelArticles() {
                         </Col>
                         <Col lg={6} className='mt-3'>
                             <input type="text" className='form-control' placeholder='نامک'
-                                   {...register('shortName', formValidation('نامک'))}
+                                {...register('shortName', formValidation('نامک'))}
                             />
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.shortName?.message}
@@ -162,7 +162,7 @@ export default function PanelArticles() {
                         </Col>
                         <Col lg={6} className='mt-3'>
                             <input type="text" className='form-control' placeholder='توضیحات'
-                                   {...register('description', formValidation('توضیحات'))}
+                                {...register('description', formValidation('توضیحات'))}
                             />
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.description?.message}
@@ -170,7 +170,7 @@ export default function PanelArticles() {
                         </Col>
                         <Col lg={6} className='mt-3'>
                             <select name="" id="" className='form-control'
-                                    {...register('categoryID', formValidation('دسته بندی'))}
+                                {...register('categoryID', formValidation('دسته بندی'))}
                             >
                                 <option value="">
                                     دسته بندی را انتخاب نمایید
@@ -187,7 +187,7 @@ export default function PanelArticles() {
                         <Col lg={6} className='mt-3'>
                             <label htmlFor="" className='mb-2'>تصویر مقاله</label>
                             <input type="file" className='form-control' placeholder='تصویر شاخص'
-                                   {...register('image', formValidation('تصویر'))}
+                                {...register('image', formValidation('تصویر'))}
                             />
                             <p className='mt-3 digi-red-color px-2'>
                                 {errors.image?.message}
@@ -222,38 +222,38 @@ export default function PanelArticles() {
                     <DataBox title='مقالات'>
                         {
                             articles.data.length === 0 ?
-                                <ErrorBox text='مقاله ای یافت نشد'/>
+                                <ErrorBox text='مقاله ای یافت نشد' />
                                 :
                                 <Table className='box-child-table' hover>
                                     <thead>
-                                    <tr>
-                                        <th>شناسه</th>
-                                        <th>عنوان مقاله</th>
-                                        <th>نامک</th>
-                                        <th>حذف</th>
-                                        <th>نمایش</th>
-                                    </tr>
+                                        <tr>
+                                            <th>شناسه</th>
+                                            <th>عنوان مقاله</th>
+                                            <th>نامک</th>
+                                            <th>حذف</th>
+                                            <th>نمایش</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    {articles.data.map((article, index) =>
-                                        <tr key={article.id}>
-                                            <td>{index + 1}</td>
-                                            <td>{article.title}</td>
-                                            <td>{article.short_name}</td>
-                                            <td>
-                                                <button className='btn btn-danger'
+                                        {articles.data.map((article, index) =>
+                                            <tr key={article.id}>
+                                                <td>{index + 1}</td>
+                                                <td>{article.title}</td>
+                                                <td>{article.short_name}</td>
+                                                <td>
+                                                    <button className='btn btn-danger'
                                                         onClick={() => handleDeleteArticle(article.id)}>
-                                                    حذف
-                                                </button>
-                                            </td>
-                                            <td>
-                                                <button className='btn btn-primary'
+                                                        حذف
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button className='btn btn-primary'
                                                         onClick={() => handleArticleDescription(article.description)}>توضیحات
-                                                    کوتاه
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    )}
+                                                        کوتاه
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        )}
                                     </tbody>
                                 </Table>
                         }
