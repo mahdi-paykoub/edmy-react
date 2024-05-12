@@ -155,7 +155,7 @@ export default function SingleCourse() {
                         <div className='course-info-top d-flex mt-4 position-relative'>
 
                             <div className='fs14 mt-2'>
-                                <Link to={`/category/${course.slug}`} >
+                                <Link to={`/category/${courseCategory.slug}`} >
                                     {courseCategory.title}
                                 </Link>
                             </div>

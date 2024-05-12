@@ -6,20 +6,21 @@ import Col from 'react-bootstrap/Col';
 import ArticleCard3 from "../ArticleCard3/ArticleCard3";
 
 
-export default function SimilarArticles() {
+export default function SimilarArticles({ articles }) {
     return (<>
         <div className='mt-5 fw800 fs32' >پست های مشابه</div>
 
         <Row className='mt-4 border-bottom pb-5'>
-            <Col lg={4}>
-                <ArticleCard3/>
-            </Col>
-            <Col lg={4}>
-                <ArticleCard3/>
-            </Col>
-            <Col lg={4}>
-                <ArticleCard3/>
-            </Col>
+            {
+                articles !== null &&
+                articles.map(article =>
+                    <Col lg={4}>
+                        <ArticleCard3 {...article}/>
+                    </Col>
+                )
+
+            }
+
         </Row>
     </>)
 }

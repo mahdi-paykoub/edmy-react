@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card';
 import { AiOutlineFieldTime } from 'react-icons/ai';
 
 
-export default function ArticleCard3() {
+export default function ArticleCard3({title , description , image , short_name}) {
     return (<>
         <div className='similar-post-box bg-white br5 '>
             <Card className='border-0'>
